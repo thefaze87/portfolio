@@ -142,3 +142,15 @@ code[data-line-numbers-max-digits="2"] > [data-line]::before {
 code[data-line-numbers-max-digits="3"] > [data-line]::before {
   width: 3rem;
 }
+
+
+.signature img, .signature-dark img {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+.dark .signature img, .light .signature-dark img {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}

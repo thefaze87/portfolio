@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
+import Image from "next/image";
 import Markdown from "react-markdown";
 
 const BLUR_FADE_DELAY = 0.04;
@@ -199,6 +200,12 @@ export default function Page() {
         <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 16}>
             <div className="space-y-3">
+              <div className="signature flex items-center justify-center pb-4">
+                <Image alt="Signature" src="/signature.svg" width={170} height={109} /> 
+              </div>
+              <div className="signature-dark flex items-center justify-center pb-4">
+                <Image alt="Signature" src="/signature-dark.png" width={170} height={109} /> 
+              </div>
               <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
                 Contact
               </div>
@@ -212,10 +219,14 @@ export default function Page() {
                   className="text-blue-500 hover:underline"
                 >
                   with a direct question on twitter
-                </Link>{" "}
-                and I&apos;ll respond whenever I can. I will ignore all
-                soliciting.
-              </p>
+                </Link>{" "} or send me an email <Link
+                  href={DATA.contact.social.email.url}
+                  className="text-blue-500 hover:underline"
+                >
+                  to say hi, about a job, or if you have a project!
+                </Link>
+                and I&apos;ll respond whenever I can.</p>
+                <p className="text-sm mt-4">Made with 💙 in Tampa with React, Next.js, and latest standards.</p>
             </div>
           </BlurFade>
         </div>

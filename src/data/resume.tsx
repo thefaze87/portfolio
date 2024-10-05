@@ -10,7 +10,7 @@ export const DATA = {
   description:
     "Software Engineer turned entrepreneur, passionate about building innovative solutions and helping others succeed. I thrive in developing cutting-edge projects, from full-stack development to scalable systems.",
   summary:
-  "At the end of 2024, I wrapped up my role as a Sr. Software Engineer at [Scorpion](https://www.scoprion.co), where I specialized in Front-End Development and UX. I’m passionate about full-stack JavaScript development, scalable solutions, and exploring new innovations in AI and Web3. Currently, I’m providing freelance services while seeking my next challenge. My previous experience includes working with **Publix Supermarkets**, **Dave Ramsey**, and **Johns Hopkins All Children's Hospital**. In September, my wife and I launched [Level Tutoring](https://www.nextleveltutoring.net), focusing on 1st to 4th graders. Outside of coding, I’m actively engaging on platforms like Twitter, Facebook, and exploring my voice on Medium. Always eager to connect with like-minded individuals, whether through technology, education, or collaboration. Let’s create something amazing together!",
+  "At the end of 2024, I wrapped up my role as a Sr. Software Engineer at [Scorpion](https://www.scoprion.co), where I specialized in Front-End Development and UX. I’m passionate about full-stack JavaScript development, scalable solutions, and exploring new innovations in AI and Web3. Currently, I’m providing freelance services while seeking my next challenge. My previous experience includes working with **Publix Super Markets**, **Dave Ramsey**, and **Johns Hopkins All Children's Hospital**. In September, my wife and I launched [Next Level Tutoring](https://www.nextleveltutoring.net), focusing on 1st to 4th graders. Outside of coding, I’m actively engaging on platforms like Twitter, Facebook, and exploring my voice on Medium. Always eager to connect with like-minded individuals, whether through technology, education, or collaboration. Let’s create something amazing together!",
    avatarUrl: "/me.png",
   skills: [
     "React",
@@ -26,7 +26,9 @@ export const DATA = {
     "C++",
     "C# / .NET",
     "Java",
-    "PHP and Laraval",
+    "SQL, GraphQL, PostgresSQL, NoSQL",
+    "AWS, Azure, Cloud Soltuions",
+    "PHP, Laraval and CakePHP",
     "WordPress",
     "Click Funnels",
     "Digital Marketing",
@@ -37,8 +39,9 @@ export const DATA = {
     "Great Communicator",
     "Detailed oriented",
     "Team Player",
-    "Works well independently",
-    "Self-starter"
+    "Works Well Independently",
+    "Self-starter",
+    "UX Design"
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },

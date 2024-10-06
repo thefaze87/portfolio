@@ -130,9 +130,6 @@ export default function Page() {
                   favorites.
                 </p>
               </div>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-                <BlurFade delay={BLUR_FADE_DELAY * 12}></BlurFade>
-              </div>
             </div>
           </BlurFade>
         </div>

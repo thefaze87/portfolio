@@ -4,7 +4,7 @@ const nextConfig = {
   redirects: async () => [
     {
       source: '/:path*',
-      has: [{ type: 'host', value: 'markfasel.dev' }],
+      has: [{ type: 'header', key: 'host', value: 'markfasel.dev' }],
       destination: 'https://www.markfasel.dev/:path*',
       permanent: true
     }

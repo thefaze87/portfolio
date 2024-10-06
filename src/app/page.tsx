@@ -12,6 +12,7 @@ import Markdown from "react-markdown";
 import Image from "next/image";
 
 const BLUR_FADE_DELAY = 0.04;
+export const runtime = "edge";
 
 export default function Page() {
   return (

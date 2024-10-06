@@ -4,6 +4,7 @@ import BlurFadeText from "@/components/magicui/blur-fade-text";
 import { ProjectCard } from "@/components/project-card";
 import { ResumeCard } from "@/components/resume-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Blog from "@/components/Blog";
 import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
@@ -112,6 +113,33 @@ export default function Page() {
           </div>
         </div>
       </section>
+      <section id="blog">
+        <div className="space-y-12 w-full py-12">
+          <BlurFade delay={BLUR_FADE_DELAY * 11}>
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+                  Latest Thoughts
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Check out my Recent Posts
+                </h2>
+                <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  I&apos;ve worked on a variety of projects, from simple
+                  websites to complex web applications. Here are a few of my
+                  favorites.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
+              <BlurFade
+                delay={BLUR_FADE_DELAY * 12}
+              >
+              </BlurFade>
+          </div>
+            </div>
+          </BlurFade>
+        </div>
+        </section>
       <section id="projects">
         <div className="space-y-12 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>

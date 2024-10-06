@@ -116,7 +116,7 @@ export default function Page() {
       <section id="blog">
         <div className="space-y-12 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
                   Latest Thoughts
@@ -131,15 +131,12 @@ export default function Page() {
                 </p>
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-              <BlurFade
-                delay={BLUR_FADE_DELAY * 12}
-              >
-              </BlurFade>
-          </div>
+                <BlurFade delay={BLUR_FADE_DELAY * 12}></BlurFade>
+              </div>
             </div>
           </BlurFade>
         </div>
-        </section>
+      </section>
       <section id="projects">
         <div className="space-y-12 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
@@ -187,18 +184,26 @@ export default function Page() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
-                  Hackathons
+                  Projects and Work
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   I like building things
                 </h2>
                 <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  During my time in university, I attended{" "}
+                  {/* During my time in university, I attended{" "}
                   {DATA.hackathons.length}+ hackathons. People from around the
                   country would come together and build incredible things in 2-3
                   days. It was eye-opening to see the endless possibilities
                   brought to life by a group of motivated and passionate
-                  individuals.
+                  individuals. */}
+                  I’m constantly building, learning, and launching new projects.
+                  Recently, I’ve been developing an AI-powered app for marriage
+                  using React Native and TailwindCSS to help couples connect
+                  better. I love creating solutions, from tutoring platforms to
+                  bots for Fortnite updates. My journey is all about applying
+                  the latest tech, testing ideas, and bringing concepts to life.
+                  Each project is a chance to innovate and grow, pushing
+                  boundaries in web and mobile development.
                 </p>
               </div>
             </div>
@@ -226,13 +231,23 @@ export default function Page() {
       </section>
       <section id="contact">
         <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
-        <BlurFade delay={BLUR_FADE_DELAY * 16}>
+          <BlurFade delay={BLUR_FADE_DELAY * 16}>
             <div className="space-y-3">
               <div className="signature flex items-center justify-center pb-4">
-                <Image alt="Signature" src="/signature.svg" width={170} height={109} /> 
+                <Image
+                  alt="Signature"
+                  src="/signature.svg"
+                  width={170}
+                  height={109}
+                />
               </div>
               <div className="signature-dark flex items-center justify-center pb-4">
-                <Image alt="Signature" src="/signature-dark.png" width={170} height={109} /> 
+                <Image
+                  alt="Signature"
+                  src="/signature-dark.png"
+                  width={170}
+                  height={109}
+                />
               </div>
               <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
                 Contact
@@ -247,14 +262,19 @@ export default function Page() {
                   className="text-blue-500 hover:underline"
                 >
                   with a direct question on twitter
-                </Link>{" "} or send me an email <Link
+                </Link>{" "}
+                or send me an email{" "}
+                <Link
                   href={DATA.contact.social.email.url}
                   className="text-blue-500 hover:underline"
                 >
                   to say hi, about a job, or if you have a project!
                 </Link>
-                and I&apos;ll respond whenever I can.</p>
-                <p className="text-sm mt-4">Made with 💙 in Tampa with React, Next.js, and latest standards.</p>
+                and I&apos;ll respond whenever I can.
+              </p>
+              <p className="text-sm mt-4">
+                Made with 💙 in Tampa with React, Next.js, and latest standards.
+              </p>
             </div>
           </BlurFade>
         </div>

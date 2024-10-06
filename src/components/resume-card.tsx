@@ -101,7 +101,9 @@ export const ResumeCard = ({
               className="mt-2 text-xs sm:text-sm"
             >
               {description}
-              <p className="py-2 text-blue-500"><strong>{href}</strong></p>
+              <p className="py-2 text-blue-500">
+                <strong>{href}</strong>
+              </p>
             </motion.div>
           )}
         </div>

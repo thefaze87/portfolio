@@ -10,8 +10,8 @@ export const DATA = {
   description:
     "Software Engineer turned entrepreneur, passionate about building innovative solutions and helping others succeed. I thrive in developing cutting-edge projects, from full-stack development to scalable systems.",
   summary:
-  "At the end of 2024, I wrapped up my role as a Sr. Software Engineer at [Scorpion](https://www.scorpion.co), where I specialized in Front-End Development and UX. I’m passionate about full-stack JavaScript development, scalable solutions, and exploring new innovations in AI and Web3. Currently, I’m providing freelance services while seeking my next challenge. My previous experience includes working with **Publix Super Markets**, **Dave Ramsey**, and **Johns Hopkins All Children's Hospital**. In September, my wife and I launched [Next Level Tutoring](https://www.nextleveltutoring.net), focusing on 1st to 4th graders. Outside of coding, I’m actively engaging on platforms like X, Facebook, Instagram, and exploring my voice on Medium. I enjoy spending time with my family and playing video games, especially Fortnite! Always eager to connect with like-minded individuals, whether through technology, education, or collaboration. Let’s create something amazing together!",
-   avatarUrl: "/me.png",
+    "At the end of 2024, I wrapped up my role as a Sr. Software Engineer at [Scorpion](https://www.scorpion.co), where I specialized in Front-End Development and UX. I’m passionate about full-stack JavaScript development, scalable solutions, and exploring new innovations in AI and Web3. Currently, I’m providing freelance services while seeking my next challenge. My previous experience includes working with **Publix Super Markets**, **Dave Ramsey**, and **Johns Hopkins All Children's Hospital**. In September, my wife and I launched [Next Level Tutoring](https://www.nextleveltutoring.net), focusing on 1st to 4th graders. Outside of coding, I’m actively engaging on platforms like X, Facebook, Instagram, and exploring my voice on Medium. I enjoy spending time with my family and playing video games, especially Fortnite! Always eager to connect with like-minded individuals, whether through technology, education, or collaboration. Let’s create something amazing together!",
+  avatarUrl: "/me.png",
   skills: [
     "React",
     "Next.js",
@@ -35,7 +35,7 @@ export const DATA = {
     "Cloud Soltuions",
     "PHP",
     "Laraval",
-    "CakePHP", 
+    "CakePHP",
     "CodeIgniter",
     "Drupal",
     "WordPress",
@@ -53,30 +53,40 @@ export const DATA = {
     "Self-starter",
     "UX Design",
     "UI Engineering",
-    "UX Certified", 
+    "UX Certified",
     "B.S. Web Design & Development",
-    "M.S. Internet Marketing"
+    "M.S. Internet Marketing",
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
   contact: {
-    email: "hello@example.com",
-    tel: "+123456789",
+    email: "me@markfasel.dev",
+    tel: "+19419330998",
     social: {
       GitHub: {
         name: "GitHub",
         url: "https://github.com/thefaze87",
         icon: Icons.github,
-
+        navbar: true,
+      },
+      Dribbble: {
+        name: "Dribbble",
+        url: "https://dribbble.com/thefaze87",
+        icon: Icons.dribbble,
+        navbar: true,
+      },
+      Facebook: {
+        name: "GitHub",
+        url: "https://facebook.com/markfasel",
+        icon: Icons.facebook,
         navbar: true,
       },
       LinkedIn: {
         name: "LinkedIn",
         url: "https://www.linkedin.com/in/markfasel",
         icon: Icons.linkedin,
-
         navbar: true,
       },
       X: {
@@ -194,7 +204,7 @@ export const DATA = {
       logoUrl: "/nng.png",
       start: "2020",
       end: "2020",
-    }
+    },
   ],
   projects: [
     {
@@ -203,15 +213,15 @@ export const DATA = {
       dates: "Nov 2020 - Oct 2024",
       active: true,
       description:
-      "At Scorpion, I worked on internal sales and marketing tools with CSX and built enterprise solutions like the Enterprise Portal for franchise clients. I also created a responsive site for franchisees and developed a React billing app. My focus was on front-end development, adhering to ADA standards, and ensuring a seamless, accessible user experience across devices.",
+        "At Scorpion, I worked on internal sales and marketing tools with CSX and built enterprise solutions like the Enterprise Portal for franchise clients. I also created a responsive site for franchisees and developed a React billing app. My focus was on front-end development, adhering to ADA standards, and ensuring a seamless, accessible user experience across devices.",
       technologies: [
         "React",
         "Typescript",
         "JavaScript",
         "RxJS",
-        "HTML5", 
-        "CSS3", 
-        "SASS"        
+        "HTML5",
+        "CSS3",
+        "SASS",
       ],
       links: [
         {
@@ -231,18 +241,13 @@ export const DATA = {
       active: true,
       description:
         "I built a full design system and front-end framework using SCSS, CSS3, and modern web standards. Inspired by frameworks like Tailwind, and systems such as Gazelle from Dave Ramsey and IBM’s Carbon, I crafted scalable, responsive components that enhanced user experience and accessibility.",
-      technologies: [
-        "React",
-        "HTML5",
-        "CSS3",
-        "SASS"
-      ],
+      technologies: ["React", "HTML5", "CSS3", "SASS"],
       links: [
         {
           type: "Website",
           href: "https://scorpion.co",
           icon: <Icons.globe className="size-3" />,
-        }
+        },
       ],
       image: "",
       video: "https://cdn.magicui.design/bento-grid.mp4",
@@ -253,8 +258,8 @@ export const DATA = {
       dates: "2024",
       active: true,
       description:
-      "Developed a fully responsive online business in 96 hours as a challenge. Focused on business dev, AI/ChatGPT priming, social optimization, and building a website for (Next Level Tutoring)[https://www.nextleveltutoring.net]. Launched with TutorBoss funnel & ad strategy. Reach out to learn more!"
-,      technologies: [
+        "Developed a fully responsive online business in 96 hours as a challenge. Focused on business dev, AI/ChatGPT priming, social optimization, and building a website for (Next Level Tutoring)[https://www.nextleveltutoring.net]. Launched with TutorBoss funnel & ad strategy. Reach out to learn more!",
+      technologies: [
         "Custom WIX Development",
         "JavaScript",
         "CMS",
@@ -267,7 +272,7 @@ export const DATA = {
         "Funnel Development",
         "Social Media Marketing",
         "AI Integration",
-        "ChatGPT"
+        "ChatGPT",
       ],
       links: [
         {
@@ -279,7 +284,7 @@ export const DATA = {
           type: "Funnel",
           href: "https://youronlinetutor.net",
           icon: <Icons.globe className="size-3" />,
-        }
+        },
       ],
       image: "",
       video: "https://cdn.llm.report/openai-demo.mp4",
@@ -303,7 +308,7 @@ export const DATA = {
         "Netlify",
         "Heroku",
         "OAuth 2.0",
-        "Web3"
+        "Web3",
       ],
       links: [
         {

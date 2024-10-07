@@ -37,7 +37,7 @@ const MediumPosts: React.FC = () => {
             key={post.guid}
           >
             <a href={post.link} target="_blank" rel="noopener noreferrer">
-              <h3>{decode(post.title, { level: "all" })};</h3>
+              <h3>{decode(post.title, { level: "all" })}</h3>
               <p>
                 <small>{moment(post.pubDate).format("MMMM Do, YYYY")}</small>
               </p>

@@ -98,8 +98,8 @@ export const DATA = {
       },
       email: {
         name: "Send Email",
-        url: "mailto:markfasel@mgmail.com",
-        friendlyUrl: "markfasel@mgmail.com",
+        url: "mailto:me@markfasel.dev",
+        friendlyUrl: "me@markfasel.dev",
         icon: Icons.email,
         navbar: true,
       },
@@ -296,6 +296,38 @@ export const DATA = {
       active: true,
       description:
         "I’m creating a Fortnite bot for Discord and X that auto-posts item shop updates at reset times, keeping communities informed in real-time. It will expand to other platforms, offering creators a complete automated solution for shop updates and enhancing engagement.",
+      technologies: [
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Discord.js",
+        "TwitterAPI",
+        "TailwindCSS",
+        "Cron Jobs",
+        "MongoDB",
+        "Netlify",
+        "Heroku",
+        "OAuth 2.0",
+        "Web3",
+      ],
+      links: [
+        {
+          type: "Source (coming soon)",
+          href: "https://github.com/thefaze87",
+          icon: <Icons.github className="size-3" />,
+        },
+      ],
+      image: "",
+      video:
+        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/automatic-chat.mp4",
+    },
+    {
+      title: "DaveRamsey.com E-Commerce UX",
+      href: "https://github.com/thefaze87",
+      dates: "2023 - Present",
+      active: true,
+      description:
+        "I worked on converting legacy jQuery and Handlebars to React for Dave Ramsey’s e-commerce front end, ensuring secure, multi-domain integration. The checkout module, embedded via iframes, was styled dynamically to match each site’s design. It fit within the Gazelle design framework, which I helped develop, allowing customization and consistency across projects.",
       technologies: [
         "JavaScript",
         "React",

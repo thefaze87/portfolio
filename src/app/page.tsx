@@ -5,6 +5,7 @@ import { ProjectCard } from "@/components/project-card";
 import { ResumeCard } from "@/components/resume-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Blog from "@/components/Blog";
+import MediumPosts from "@/components/MediumPosts";
 import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
@@ -131,6 +132,9 @@ export default function Page() {
                 </p>
               </div>
             </div>
+          </BlurFade>
+          <BlurFade delay={BLUR_FADE_DELAY * 11}>
+            <MediumPosts />
           </BlurFade>
         </div>
       </section>

@@ -18,6 +18,11 @@ interface ResumeCardProps {
   badges?: readonly string[];
   period: string;
   description?: string;
+  links?: readonly {
+    icon: React.ReactNode;
+    type: string;
+    href: string;
+  }[];
 }
 export const ResumeCard = ({
   logoUrl,
@@ -28,6 +33,7 @@ export const ResumeCard = ({
   badges,
   period,
   description,
+  links,
 }: ResumeCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
 

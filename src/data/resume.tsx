@@ -118,6 +118,13 @@ export const DATA = {
       end: "2024",
       description:
         "Implemented the Bitcoin discreet log contract (DLC) protocol specifications as an open source Typescript SDK. Dockerized all microservices and setup production kubernetes cluster. Architected a data lake using AWS S3 and Athena for historical backtesting of bitcoin trading strategies. Built a mobile app using react native and typescript.",
+      links: [
+        {
+          type: "Website",
+          href: "https://scorpion.co",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
     },
     {
       company: "Publix Super Marketings",
@@ -130,6 +137,13 @@ export const DATA = {
       end: "2020",
       description:
         "Implemented a custom Kubernetes controller in Go to automate the deployment of MySQL and ProxySQL custom resources in order to enable 2,000+ internal developers to instantly deploy their app databases to production. Wrote several scripts in Go to automate MySQL database failovers while maintaining master-slave replication topologies and keeping Zookeeper nodes consistent with changes.",
+      links: [
+        {
+          type: "Website",
+          href: "https://publix.co",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
     },
     {
       company: "Differential",
@@ -142,6 +156,13 @@ export const DATA = {
       end: "2019",
       description:
         "Architected and wrote the entire MVP of the GeForce Now Cloud Gaming internal admin and A/B testing dashboard using React, Redux, TypeScript, and Python.",
+      links: [
+        {
+          type: "Website",
+          href: "https://differential.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
     },
     {
       company: "Ramsey Solutions (DaveRamsey.com)",
@@ -153,7 +174,14 @@ export const DATA = {
       start: "2018",
       end: "2019",
       description:
-        "Co-developed a prototype iOS app with another intern in Swift for the new Splunk Phantom security orchestration product (later publicly demoed and launched at .conf annual conference in Las Vegas). Implemented a realtime service for the iOS app in Django (Python) and C++; serialized data using protobufs transmitted over gRPC resulting in an approximate 500% increase in data throughput.",
+        "Built React and Front-end apps for our internal prodAt Dave Ramsey, I focused on front-end development, migrating legacy jQuery and Handlebars code to React while ensuring ADA compliance, security, and seamless cross-domain checkout functionality. I collaborated with backend teams using KonaKart integrations, contributed to the Gazelle design system, and supported custom styling across web properties. Additionally, I implemented clean coding practices, performed unit testing with JEST, and developed mobile solutions with React Native to ensure high-quality, maintainable, and scalable applications.​",
+      links: [
+        {
+          type: "Website",
+          href: "https://daveramsey.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
     },
     {
       company: "Johns Hopkins All Children's Hospital",
@@ -165,7 +193,14 @@ export const DATA = {
       start: "2014",
       end: "2018",
       description:
-        "Proposed and implemented an internal ruby API for sending/receiving commands to scooters over LTE networks. Developed a fully automated bike firmware update system to handle asynchronous firmware updates of over 100,000+ scooters worldwide, and provide progress reports in real-time using React, Ruby on Rails, PostgreSQL and AWS EC2 saving hundreds of developer hours.",
+        "At Johns Hopkins, as a Senior Software Developer, I managed the internal intranet and led the redesign of the main website, ensuring a seamless user experience. My work involved converting legacy systems, such as ColdFusion and Angular, into modern React front-ends integrated with C# backend APIs. I maintained and enhanced existing Angular applications while streamlining the migration process. Additionally, I collaborated with cross-functional teams to implement new features, optimize performance, and ensure security and scalability across all platforms, focusing on modernizing our tech stack and delivering efficient digital solutions.",
+      links: [
+        {
+          type: "Website",
+          href: "https://hopkinsallchildrens.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
     },
     {
       company: "LawLytics",
@@ -177,7 +212,14 @@ export const DATA = {
       start: "2012",
       end: "2014",
       description:
-        "Designed and implemented a robust password encryption and browser cookie storage system in Ruby on Rails. Leveraged the Yahoo finance API to develop the dividend.com equity screener",
+        "At LawLytics, I was initially a Senior Frontend Developer, working extensively with PHP, Ruby on Rails, and heavy vanilla JavaScript to build client-facing web applications and CMS solutions. I focused on developing responsive interfaces and optimizing usability. Over time, I was promoted to Creative Director, overseeing the entire creative process, UX design, and frontend development. In this role, I managed a team of developers and designers, ensuring the delivery of cohesive, engaging digital experiences while maintaining high standards for performance and design consistency across all projects.",
+      links: [
+        {
+          type: "Website",
+          href: "https://lawlytics.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
     },
   ],
   education: [

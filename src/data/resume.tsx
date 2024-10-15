@@ -361,19 +361,17 @@ export const DATA = {
       location: "Tampa, FL",
       description:
         "I am currently developing a fun date night idea generator using React Native and OpenAi and ChatGPT as well as tapping into Google Maps api to provide suggestions near by your location!",
-      image:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-western.png",
+      image: "/flash.png",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
     {
-      title: "Clue Finders Tour",
+      title: "Clue Finder Tour",
       dates: "2024-2025",
       location: "Tampa, FL",
       description:
         "Developing a React application for virtual tours / scavenger hunts that contains both a web and mobile component. This is another side project my wife and I have",
-      image:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-the-north.png",
+      image: "/clue-finder.png",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
@@ -384,8 +382,7 @@ export const DATA = {
       description:
         "Developed a fully responsive Wix site and implemented funnel marketing and launched a complete social media campaign for my wifes online tutoring business.",
       icon: "public",
-      image:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/firstnet.png",
+      image: "/nextlevel.png",
       links: [
         {
           title: "Website",
@@ -410,8 +407,7 @@ export const DATA = {
       location: "Remote",
       description:
         "Developed a full design system for Scorpion that focused on ensuring consistency for the user experience across our internal and client facing products. I built a custom framework that utilized Sass and Vanialla CSS and took inspiration from other frameworks like TailwindCss and Bootstrap as well as design systems such as Gazzelle by Dave Ramsey, Carbon by IBM and a few others! In addition, it focuses on an NPM package that can be deployed to all sites and used in the React, Angular, and custom sites. It also features custom UI components!",
-      image:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/developer-week.jpg",
+      image: "/code.png",
       links: [
         {
           title: "Github",
@@ -425,9 +421,8 @@ export const DATA = {
       dates: "October 2023 - Present",
       location: "Florida",
       description:
-        "I have been developing as a hobby an esports community and organization. The main app is being built with React and integrate several apis including, X, Twitch, and YouTube. I have built a discord server and currently building a python and react app for posting to X my support a creator code and Fortnite item shop image at the reset each day as well as to my discord server as a custom bot. It's been a fun side project and hobby.",
-      image:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-davis.png",
+        "I have been developing as a hobby an eSports (Guardian Gaming) community and organization. The main app is being built with React and integrate several apis including, X, Twitch, and YouTube. I have built a discord server and currently building a python and react app for posting to X my support a creator code and Fortnite item shop image at the reset each day as well as to my discord server as a custom bot. It's been a fun side project and hobby.",
+      image: "/guardian-gaming.png",
       win: "Best Data Hack",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2018/white.svg",
       links: [
@@ -459,8 +454,7 @@ export const DATA = {
       location: "Remote",
       description:
         "Developed a serverless architecture angular project that allows users to buy and sell construction equipment. The client wanted the architecture to utilize Amazon S3 and maintain a simple build. The entire site was done using Angular and latest standards at the time.",
-      image:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/eth-waterloo.png",
+      image: "/link.png",
       links: [
         {
           title: "Website",

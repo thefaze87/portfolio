@@ -36,7 +36,12 @@ const MediumPosts: React.FC = () => {
             className="text-gray-800 hover:text-gray-600 transition duration-200"
             key={post.guid}
           >
-            <a href={post.link} target="_blank" rel="noopener noreferrer">
+            <a
+              href={post.link}
+              target="_blank"
+              class="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+              rel="noopener noreferrer"
+            >
               <h3>{decode(post.title, { level: "all" })}</h3>
               <p>
                 <small>{moment(post.pubDate).format("MMMM Do, YYYY")}</small>

@@ -39,7 +39,7 @@ const MediumPosts: React.FC = () => {
             <a
               href={post.link}
               target="_blank"
-              class="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+              className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
               rel="noopener noreferrer"
             >
               <h3>{decode(post.title, { level: "all" })}</h3>

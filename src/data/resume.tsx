@@ -356,44 +356,60 @@ export const DATA = {
   ],
   hackathons: [
     {
-      title: "Hack Western 5",
-      dates: "November 23rd - 25th, 2018",
-      location: "London, Ontario",
+      title: "Date Night Idea React Native App",
+      dates: "Current",
+      location: "Tampa, FL",
       description:
-        "Developed a mobile application which delivered bedtime stories to children using augmented reality.",
+        "I am currently developing a fun date night idea generator using React Native and OpenAi and ChatGPT as well as tapping into Google Maps api to provide suggestions near by your location!",
       image:
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-western.png",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
     {
-      title: "Hack The North",
-      dates: "September 14th - 16th, 2018",
-      location: "Waterloo, Ontario",
+      title: "Clue Finders Tour",
+      dates: "2024-2025",
+      location: "Tampa, FL",
       description:
-        "Developed a mobile application which delivers university campus wide events in real time to all students.",
+        "Developing a React application for virtual tours / scavenger hunts that contains both a web and mobile component. This is another side project my wife and I have",
       image:
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-the-north.png",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
     {
-      title: "FirstNet Public Safety Hackathon",
-      dates: "March 23rd - 24th, 2018",
-      location: "San Francisco, California",
+      title: "Next Level Tutoring",
+      dates: "August 2024",
+      location: "Tampa, FL",
       description:
-        "Developed a mobile application which communcicates a victims medical data from inside an ambulance to doctors at hospital.",
+        "Developed a fully responsive Wix site and implemented funnel marketing and launched a complete social media campaign for my wifes online tutoring business.",
       icon: "public",
       image:
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/firstnet.png",
-      links: [],
+      links: [
+        {
+          title: "Website",
+          icon: <Icons.globe className="h-4 w-4" />,
+          href: "https://www.nextleveltutoring.net",
+        },
+        {
+          title: "Funnel",
+          icon: <Icons.globe className="h-4 w-4" />,
+          href: "https://www.youronlinetutor.net",
+        },
+        {
+          title: "Facebook",
+          icon: <Icons.globe className="h-4 w-4" />,
+          href: "https://www.facebook.com/nextleveltutor",
+        },
+      ],
     },
     {
-      title: "DeveloperWeek Hackathon",
-      dates: "February 3rd - 4th, 2018",
-      location: "San Francisco, California",
+      title: "Custom Design System and UI Framework",
+      dates: "2022-2024",
+      location: "Remote",
       description:
-        "Developed a web application which aggregates social media data regarding cryptocurrencies and predicts future prices.",
+        "Developed a full design system for Scorpion that focused on ensuring consistency for the user experience across our internal and client facing products. I built a custom framework that utilized Sass and Vanialla CSS and took inspiration from other frameworks like TailwindCss and Bootstrap as well as design systems such as Gazzelle by Dave Ramsey, Carbon by IBM and a few others! In addition, it focuses on an NPM package that can be deployed to all sites and used in the React, Angular, and custom sites. It also features custom UI components!",
       image:
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/developer-week.jpg",
       links: [
@@ -405,11 +421,11 @@ export const DATA = {
       ],
     },
     {
-      title: "HackDavis",
-      dates: "January 20th - 21st, 2018",
-      location: "Davis, California",
+      title: "Gaming eSports Community",
+      dates: "October 2023 - Present",
+      location: "Florida",
       description:
-        "Developed a mobile application which allocates a daily carbon emission allowance to users to move towards a sustainable environment.",
+        "I have been developing as a hobby an esports community and organization. The main app is being built with React and integrate several apis including, X, Twitch, and YouTube. I have built a discord server and currently building a python and react app for posting to X my support a creator code and Fortnite item shop image at the reset each day as well as to my discord server as a custom bot. It's been a fun side project and hobby.",
       image:
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-davis.png",
       win: "Best Data Hack",

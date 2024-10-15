@@ -263,7 +263,7 @@ export default function Page() {
                   href={DATA.contact.social.email.url}
                   className="text-blue-500 hover:underline"
                 >
-                  to say hi, about a job, or if you have a project!
+                  to say hi, about a job, or if you have a project{" "}
                 </Link>
                 and I&apos;ll respond whenever I can.
               </p>

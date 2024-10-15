@@ -8,7 +8,7 @@ export const DATA = {
   location: "Tampa Bay, FL",
   locationLink: "https://www.google.com/maps/place/tampa",
   description:
-    "Software Engineer turned entrepreneur, passionate about building innovative solutions and helping others succeed. I thrive in developing cutting-edge projects, from full-stack development to scalable systems.",
+    "Software Engineer, passionate about building innovative solutions and helping others succeed. I thrive in developing cutting-edge projects, from full-stack development to scalable systems.",
   summary:
     "At the end of 2024, I wrapped up my role as a Sr. Software Engineer at [Scorpion](https://www.scorpion.co), where I specialized in Front-End Development and UX. I’m passionate about full-stack JavaScript development, scalable solutions, and exploring new innovations in AI and Web3. Currently, I’m providing freelance services while seeking my next challenge. My previous experience includes working with **Publix Super Markets**, **Dave Ramsey**, and **Johns Hopkins All Children's Hospital**. In September, my wife and I launched [Next Level Tutoring](https://www.nextleveltutoring.net), focusing on 1st to 4th graders. Outside of coding, I’m actively engaging on platforms like X, Facebook, Instagram, and exploring my voice on Medium. I enjoy spending time with my family and playing video games, especially Fortnite! Always eager to connect with like-minded individuals, whether through technology, education, or collaboration. Let’s create something amazing together!",
   avatarUrl: "/me.png",

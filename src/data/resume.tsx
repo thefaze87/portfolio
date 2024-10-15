@@ -408,13 +408,7 @@ export const DATA = {
       description:
         "Developed a full design system for Scorpion that focused on ensuring consistency for the user experience across our internal and client facing products. I built a custom framework that utilized Sass and Vanialla CSS and took inspiration from other frameworks like TailwindCss and Bootstrap as well as design systems such as Gazzelle by Dave Ramsey, Carbon by IBM and a few others! In addition, it focuses on an NPM package that can be deployed to all sites and used in the React, Angular, and custom sites. It also features custom UI components!",
       image: "/code.png",
-      links: [
-        {
-          title: "Github",
-          icon: <Icons.github className="h-4 w-4" />,
-          href: "https://github.com/cryptotrends/cryptotrends",
-        },
-      ],
+      links: [],
     },
     {
       title: "Gaming eSports Community",
@@ -425,28 +419,7 @@ export const DATA = {
       image: "/guardian-gaming.png",
       win: "Best Data Hack",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2018/white.svg",
-      links: [
-        {
-          title: "Devpost",
-          icon: <Icons.globe className="h-4 w-4" />,
-          href: "https://devpost.com/software/my6footprint",
-        },
-        {
-          title: "ML",
-          icon: <Icons.github className="h-4 w-4" />,
-          href: "https://github.com/Wallet6/my6footprint-machine-learning",
-        },
-        {
-          title: "iOS",
-          icon: <Icons.github className="h-4 w-4" />,
-          href: "https://github.com/Wallet6/CarbonWallet",
-        },
-        {
-          title: "Server",
-          icon: <Icons.github className="h-4 w-4" />,
-          href: "https://github.com/Wallet6/wallet6-server",
-        },
-      ],
+      links: [],
     },
     {
       title: "Construction eLink",

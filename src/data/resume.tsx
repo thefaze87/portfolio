@@ -398,6 +398,28 @@ export const DATA = {
   ],
   hackathons: [
     {
+      title:
+        "Basic Rails App that Uses View Components, Stimulus Js, and Bootstrap",
+      dates: "Example",
+      location: "Tampa, FL",
+      description:
+        "Very Basic Example with a sample View Compomnent using Stimulus Js and uses hotwire (making Rails function and feel similar to React!)",
+      image: "/rails-icon.png",
+      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
+      links: [
+        {
+          title: "Website",
+          icon: <Icons.globe className="h-4 w-4" />,
+          href: "https://rails-stimulus-view-component-042eed8288e4.herokuapp.com/",
+        },
+        {
+          title: "Github",
+          icon: <Icons.github className="h-4 w-4" />,
+          href: "https://github.com/thefaze87/basic-bootstrap-view-componet-stimulus-rails-app",
+        },
+      ],
+    },
+    {
       title: "Date Night Idea React Native App",
       dates: "Current",
       location: "Tampa, FL",

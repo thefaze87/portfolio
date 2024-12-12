@@ -13,7 +13,7 @@
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/dillionverma/portfolio
+   git clone https://github.com/thefaze87/portfolio
    ```
 
 2. Move to the cloned directory
@@ -35,7 +35,3 @@
    ```
 
 5. Open the [Config file](./src/data/resume.tsx) and make changes
-
-# License
-
-Licensed under the [MIT license](https://github.com/dillionverma/portfolio/blob/main/LICENSE.md).

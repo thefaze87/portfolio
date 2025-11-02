@@ -9,29 +9,40 @@ export const DATA = {
   locationLink: "https://www.google.com/maps/place/tampa",
   description:
     "Solutions Architect & UX-Certified Developer. I help teams design scalable, purpose-driven systems that connect people and performance. With 20 years of experience across full-stack engineering, UX, and system design, I build software that doesn't just work — it empowers.",
-  summary: `I'm Mark Fasel — a Solutions Architect, developer, and UX-certified engineer with over 20 years of experience designing systems that connect technology, people, and purpose.
+  summary: `I'm **Mark Fasel** — a **Solutions Architect**, developer, and **UX-certified engineer** with over **20 years of experience** designing systems that connect technology, people, and purpose.
 
-Currently, I serve as a Solutions Architect at LIFE SURGE, where I lead systems architecture and product integration across CRM, marketing, events, and content platforms. My role bridges product vision with technical execution — designing scalable systems that empower teams, streamline operations, and advance the mission of building God's Kingdom through business and technology.
+## Current Work
 
-Before LIFE SURGE, I worked as a Senior Software Developer at Roghnu, specializing in data integrations, financial systems, and backend automation. I architected secure APIs, built data mapping interfaces, and developed real-time Sage Intacct workflows that streamlined financial operations and improved system reliability at scale.
+Currently, I serve as a **Solutions Architect at [LIFE SURGE](https://lifesurge.com)**, where I lead systems architecture and product integration across CRM, marketing, events, and content platforms. My role bridges product vision with technical execution — designing scalable systems that empower teams, streamline operations, and advance the mission of building God's Kingdom through business and technology.
 
-Earlier in my career, I held engineering and UX leadership roles at Scorpion, Publix Super Markets, Ramsey Solutions, and Johns Hopkins All Children's Hospital — where I helped modernize platforms, create design systems, and mentor developers to build cleaner, more maintainable software.
+## Experience
 
-Beyond my professional work, I'm building a suite of products at the intersection of AI and marketing, designed to help creators and teams simplify content creation, automation, and growth. I'm also developing Clue Finder Tours, a family-friendly adventure and city exploration platform inspired by scavenger hunts and storytelling experiences — similar to LetsRoam.com — bringing families and travelers together through interactive discovery.
+Before LIFE SURGE, I worked as a **Senior Software Developer at Roghnu**, specializing in data integrations, financial systems, and backend automation. I architected secure APIs, built data mapping interfaces, and developed real-time Sage Intacct workflows that streamlined financial operations and improved system reliability at scale.
 
-In 2024, my wife and I launched Next Level Tutoring, an online math tutoring business for 1st to 4th graders that helps students grow in confidence and skill.
+Earlier in my career, I held engineering and UX leadership roles at **Scorpion**, **Publix Super Markets**, **Ramsey Solutions**, and **Johns Hopkins All Children's Hospital** — where I helped modernize platforms, create design systems, and mentor developers to build cleaner, more maintainable software.
 
-I also offer coaching and mentorship for individuals and teams in:
-	•	Software Development & Architecture — designing scalable, maintainable systems
-	•	Leadership & Professional Growth — developing influence, communication, and confidence
-	•	LinkedIn & Personal Branding — building visibility and consistent engagement
-	•	Marketing & Strategic Growth — turning ideas into actionable, profitable strategies
+## Side Projects
 
-In addition to coaching, I write <a href="https://www.linkedin.com/newsletters/the-architect-s-journal-7390778369992392704/">The Architect's Journal</a> — a weekly newsletter where I share insights on system design, leadership, and the intersection of technology and purpose.
+Beyond my professional work, I'm building a suite of products at the intersection of **AI and marketing**, designed to help creators and teams simplify content creation, automation, and growth. I'm also developing **[Clue Finder Tours](https://cluefindertours.com)**, a family-friendly adventure and city exploration platform inspired by scavenger hunts and storytelling experiences — similar to LetsRoam.com — bringing families and travelers together through interactive discovery.
 
-Outside of work, I'm a husband, father, and lifelong learner — often found golfing with my son, supporting my daughter’s creativity, or exploring new ways to blend design, faith, and technology.
+In 2024, my wife and I launched **[Next Level Tutoring](https://nextleveltutoring.net)**, an online math tutoring business for 1st to 4th graders that helps students grow in confidence and skill.
 
-My mission: to build scalable, human-centered systems — and empower others to do the same — by combining clarity, creativity, and purpose in everything I create.`,
+## Coaching & Mentorship
+
+I offer coaching and mentorship for individuals and teams in:
+
+- **Software Development & Architecture** — designing scalable, maintainable systems
+- **Leadership & Professional Growth** — developing influence, communication, and confidence
+- **LinkedIn & Personal Branding** — building visibility and consistent engagement
+- **Marketing & Strategic Growth** — turning ideas into actionable, profitable strategies
+
+In addition to coaching, I write **[The Architect's Journal](https://www.linkedin.com/newsletters/the-architect-s-journal-7390778369992392704/)** — a weekly newsletter where I share insights on system design, leadership, and the intersection of technology and purpose.
+
+## Personal
+
+Outside of work, I'm a husband, father, and lifelong learner — often found golfing with my son, supporting my daughter's creativity, or exploring new ways to blend design, faith, and technology.
+
+> **My mission:** to build scalable, human-centered systems — and empower others to do the same — by combining clarity, creativity, and purpose in everything I create.`,
   avatarUrl: "/me-2.png",
   skills: [
     "React",

@@ -8,10 +8,31 @@ export const DATA = {
   location: "Tampa Bay, FL",
   locationLink: "https://www.google.com/maps/place/tampa",
   description:
-    "Software Engineer, passionate about building innovative solutions and helping others succeed. I thrive in developing cutting-edge projects, from full-stack development to scalable systems.",
-  summary:
-    "At the end of 2024, I wrapped up my role as a Sr. Software Engineer at [Scorpion](https://www.scorpion.co), where I specialized in Front-End Development and UX. I’m passionate about full-stack JavaScript development, scalable solutions, and exploring new innovations in AI and Web3. Currently, I’m providing freelance services while seeking my next challenge. My previous experience includes working with **Publix Super Markets**, **Dave Ramsey**, and **Johns Hopkins All Children's Hospital**. In September, my wife and I launched [Next Level Tutoring](https://www.nextleveltutoring.net), focusing on 1st to 4th graders. Outside of coding, I’m actively engaging on platforms like X, Facebook, Instagram, and exploring my voice on Medium. I enjoy spending time with my family and playing video games, especially Fortnite! Always eager to connect with like-minded individuals, whether through technology, education, or collaboration. Let’s create something amazing together!",
-  avatarUrl: "/me.png",
+    "Solutions Architect & UX-Certified Developer. I help teams design scalable, purpose-driven systems that connect people and performance. With 20 years of experience across full-stack engineering, UX, and system design, I build software that doesn't just work — it empowers.",
+  summary: `I'm Mark Fasel — a Solutions Architect, developer, and UX-certified engineer with over 20 years of experience designing systems that connect technology, people, and purpose.
+
+Currently, I serve as a Solutions Architect at LIFE SURGE, where I lead systems architecture and product integration across CRM, marketing, events, and content platforms. My role bridges product vision with technical execution — designing scalable systems that empower teams, streamline operations, and advance the mission of building God's Kingdom through business and technology.
+
+Before LIFE SURGE, I worked as a Senior Software Developer at Roghnu, specializing in data integrations, financial systems, and backend automation. I architected secure APIs, built data mapping interfaces, and developed real-time Sage Intacct workflows that streamlined financial operations and improved system reliability at scale.
+
+Earlier in my career, I held engineering and UX leadership roles at Scorpion, Publix Super Markets, Ramsey Solutions, and Johns Hopkins All Children's Hospital — where I helped modernize platforms, create design systems, and mentor developers to build cleaner, more maintainable software.
+
+Beyond my professional work, I'm building a suite of products at the intersection of AI and marketing, designed to help creators and teams simplify content creation, automation, and growth. I'm also developing Clue Finder Tours, a family-friendly adventure and city exploration platform inspired by scavenger hunts and storytelling experiences — similar to LetsRoam.com — bringing families and travelers together through interactive discovery.
+
+In 2024, my wife and I launched Next Level Tutoring, an online math tutoring business for 1st to 4th graders that helps students grow in confidence and skill.
+
+I also offer coaching and mentorship for individuals and teams in:
+	•	Software Development & Architecture — designing scalable, maintainable systems
+	•	Leadership & Professional Growth — developing influence, communication, and confidence
+	•	LinkedIn & Personal Branding — building visibility and consistent engagement
+	•	Marketing & Strategic Growth — turning ideas into actionable, profitable strategies
+
+In addition to coaching, I write <a href="https://www.linkedin.com/newsletters/the-architect-s-journal-7390778369992392704/">The Architect's Journal</a> — a weekly newsletter where I share insights on system design, leadership, and the intersection of technology and purpose.
+
+Outside of work, I'm a husband, father, and lifelong learner — often found golfing with my son, supporting my daughter’s creativity, or exploring new ways to blend design, faith, and technology.
+
+My mission: to build scalable, human-centered systems — and empower others to do the same — by combining clarity, creativity, and purpose in everything I create.`,
+  avatarUrl: "/me-2.png",
   skills: [
     "React",
     "Next.js",
@@ -107,6 +128,44 @@ export const DATA = {
   },
 
   work: [
+    {
+      company: "LIFE SURGE",
+      href: "https://lifesurge.com",
+      badges: [],
+      location: "On-site - Palmetto, FL",
+      title: "Solutions Architect",
+      logoUrl: "/lifesurge.png",
+      start: "2025",
+      end: "Present",
+      description:
+        "Leading systems architecture and platform integration for LIFE SURGE’s digital ecosystem. Designing scalable solutions across CRM, marketing, event, and content platforms to align product vision with technical execution. Architecting integrations between HubSpot, Salesforce, and Asana, defining scalable frameworks for automation, and driving faith-driven innovation that empowers teams and advances Kingdom impact through technology.",
+      links: [
+        {
+          type: "Website",
+          href: "https://lifesurge.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+    },
+    {
+      company: "Roghnu",
+      href: "https://roghnu.com",
+      badges: [],
+      location: "Remote - Tampa, FL",
+      title: "Senior Software Developer - Full Stack",
+      logoUrl: "/roghnu.png",
+      start: "2025",
+      end: "2025",
+      description:
+        "Specialized in building API-driven financial platforms and scalable data integrations. Architected secure Laravel and Vue-based applications powering enterprise accounting and BI workflows. Designed a custom data mapping UI for the Roghnu Data Portal, created Sage Intacct API automations for real-time invoicing, and improved system performance by reducing 60MB+ payloads to under 60KB.",
+      links: [
+        {
+          type: "Website",
+          href: "https://roghnu.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+    },
     {
       company: "Sorpion",
       href: "https://scorpion.co",
@@ -249,6 +308,62 @@ export const DATA = {
     },
   ],
   projects: [
+    {
+      title: "LIFE SURGE",
+      href: "https://lifesurge.com",
+      dates: "Oct 2025 - Present",
+      active: true,
+      description:
+        "As Solutions Architect at LIFE SURGE, I lead the design and implementation of scalable systems that unify CRM, marketing, event, and content platforms. My work focuses on architecting integrations between HubSpot, Salesforce, and Asana, developing internal documentation for platform visibility, and aligning technical strategy with organizational mission. This role bridges faith, technology, and leadership—advancing innovation and operational excellence through purposeful system design.",
+      technologies: [
+        "Systems Architecture",
+        "Laravel",
+        "Vue.js",
+        "HubSpot",
+        "Salesforce",
+        "Asana",
+        "REST APIs",
+        "Cloud Integrations",
+        "Agile/Scrum",
+      ],
+      links: [
+        {
+          type: "Website",
+          href: "https://lifesurge.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "",
+      video: "",
+    },
+    {
+      title: "Roghnu",
+      href: "https://roghnu.com",
+      dates: "Jan 2025 - Oct 2025",
+      active: false,
+      description:
+        "At Roghnu, I developed scalable financial data integration platforms and custom software solutions powering enterprise accounting and BI workflows. My focus was on API-driven Laravel and Vue applications, Sage Intacct automations, and data mapping systems that improved operational efficiency and reporting accuracy. I architected secure REST APIs, optimized backend processes, and reduced large data payloads from 60MB+ to under 60KB, dramatically enhancing system performance.",
+      technologies: [
+        "Laravel",
+        "PHP",
+        "Vue.js",
+        "Vite",
+        "SQL Server",
+        "REST APIs",
+        "JSON/XML",
+        "Sage Intacct",
+        "ERP/CRM Integrations",
+      ],
+      links: [
+        {
+          type: "Website",
+          href: "https://roghnu.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "",
+      video: "",
+    },
     {
       title: "Scorpion",
       href: "https://scorpion.co",
@@ -397,6 +512,22 @@ export const DATA = {
     },
   ],
   hackathons: [
+    {
+      title: "Nestly",
+      dates: "Current",
+      location: "Remote",
+      description:
+        "Building Nestly, a platform that connects people and communities through innovative solutions. Implemented SMS opt-in functionality with Twilio integration and developed the opt-in policy page to ensure compliance with messaging regulations.",
+      image: "/nestly-logo.png",
+      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
+      links: [
+        {
+          title: "Website",
+          icon: <Icons.globe className="h-4 w-4" />,
+          href: "https://nestlyhq.com",
+        },
+      ],
+    },
     {
       title:
         "Basic Rails App that Uses View Components, Stimulus Js, and Bootstrap",

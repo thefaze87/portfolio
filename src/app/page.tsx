@@ -258,6 +258,13 @@ export default function Page() {
                 >
                   with a direct question on twitter
                 </Link>{" "}
+                ,
+                <Link
+                  href={DATA.contact.social.LinkedIn.url}
+                  className="text-blue-500 hover:underline"
+                >
+                  connect with me on LinkedIn
+                </Link>{" "}
                 or send me an email{" "}
                 <Link
                   href={DATA.contact.social.email.url}

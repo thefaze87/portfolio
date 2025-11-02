@@ -257,7 +257,7 @@ export default function Page() {
                   className="text-blue-500 hover:underline"
                 >
                   with a direct question on twitter
-                </Link>{" "}
+                </Link>
                 ,{" "}
                 <Link
                   href={DATA.contact.social.LinkedIn.url}

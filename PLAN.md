@@ -63,7 +63,7 @@ git add -A && git commit -m "chore: scaffold next.js 15 + tailwind v4"
    - Inter (Variable, range 400–600)
    - JetBrains Mono (Variable)
    - Fraunces (Variable — for hero h1 only)
-   - Declare with `@font-face` in `app/globals.css`, `font-display: swap`, preload only Inter 400 and Cabinet 600 in `<head>`.
+   - Declare with `@font-face` in `app/globals.css`, `font-display: swap`, preload only Inter 400, Cabinet Medium 500, and Cabinet Bold 700 in `<head>` (Cabinet Extrabold 800 lazy-loads).
 3. Create `app/(system)/styleguide/page.tsx` with sections for:
    - Color swatches (every token, with hex + WCAG contrast against `--color-bg`)
    - Type scale (every named scale, both rendered + label)

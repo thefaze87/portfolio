@@ -1,5 +1,70 @@
 @import '../styles/tokens.css';
 
+/* ============================================================================
+ * @font-face declarations
+ *
+ * All four families are self-hosted in /public/fonts/. font-display: swap
+ * shows fallback text immediately and swaps in the custom font when ready —
+ * never blocks rendering.
+ *
+ * Inter, JetBrains Mono, Fraunces ship as variable fonts (single file
+ * covering the full weight range). Cabinet Grotesk has no variable build,
+ * so we ship three static cuts: Medium 500 (nav, openers), Bold 700
+ * (emphasis), Extrabold 800 (drop caps, hero accents).
+ * ========================================================================== */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/cabinet-grotesk-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/cabinet-grotesk-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/cabinet-grotesk-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================================
+ * Base
+ * ========================================================================== */
+
 :root {
   color-scheme: dark;
 }
@@ -16,6 +81,20 @@ body {
   min-height: 100dvh;
   margin: 0;
 }
+
+/* Tabular numerals for stats, tables, code — proportional everywhere else */
+.nums-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================================
+ * Reduced-motion handler
+ *
+ * Reset every animation/transition to ~instant. Pages with custom motion
+ * (the hero diagram, etc.) should also branch on the media query at the
+ * component level to render the final state without re-running the animation
+ * from a flash of initial state.
+ * ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   *,

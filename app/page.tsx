@@ -1,5 +1,7 @@
+import { EyebrowLabel } from '@/components/brand/EyebrowLabel';
+
 /**
- * Phase 1 smoke-test home page. Replaced in Phase 3 by the real hero,
+ * Phase 1-2 smoke-test home page. Replaced in Phase 3 by the real hero,
  * services, case studies, etc. Kept minimal and on-system: every value
  * resolves to a token. If you find yourself hardcoding a pixel here,
  * the token is missing — add it to styles/tokens.css first.
@@ -14,20 +16,7 @@ export default function Home() {
         paddingBlock: 'var(--space-9)',
       }}
     >
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-        <span
-          aria-hidden="true"
-          style={{
-            display: 'inline-block',
-            width: 'var(--space-5)',
-            height: 'var(--stroke-thin)',
-            background: 'var(--color-accent)',
-          }}
-        />
-        <span className="type-mono-label" style={{ color: 'var(--color-accent)' }}>
-          Repo initialized · Phase 1
-        </span>
-      </div>
+      <EyebrowLabel>Repo initialized · Phase 2</EyebrowLabel>
 
       <h1 className="type-display-lg" style={{ marginTop: 'var(--space-5)' }}>
         Mark Fasel
@@ -41,7 +30,7 @@ export default function Home() {
           color: 'var(--color-text-muted)',
         }}
       >
-        Scaffold complete. Design system tokens are live. See{' '}
+        Scaffold complete. Design system tokens are live and brand primitives are wired. See{' '}
         <a
           href="/styleguide"
           style={{
@@ -52,7 +41,7 @@ export default function Home() {
         >
           /styleguide
         </a>{' '}
-        for the full reference. Proceed to Phase 2 in PLAN.md.
+        for the full reference. Proceed to Phase 3 in PLAN.md.
       </p>
     </main>
   );

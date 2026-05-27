@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { contrastRatio, formatRatio, wcagGrade, type WcagGrade } from '@/lib/contrast';
+import { EyebrowLabel } from '@/components/brand/EyebrowLabel';
 import { GridOverlay } from '@/components/brand/GridOverlay';
+import { Logo, type LogoSize } from '@/components/brand/Logo';
+import { Submark, type SubmarkName } from '@/components/brand/Submark';
+import { Wordmark, type WordmarkSize } from '@/components/brand/Wordmark';
 
 /* ============================================================================
  * Token registries
@@ -229,7 +233,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
          * Header
          * ----------------------------------------------------------------- */}
         <header style={{ marginBottom: 'var(--space-10)' }}>
-          <EyebrowLabel>Styleguide · Internal · Phase 1</EyebrowLabel>
+          <EyebrowLabel>Styleguide · Internal · Phase 2</EyebrowLabel>
           <h1 className="type-display-lg" style={{ marginTop: 'var(--space-5)', maxWidth: '32ch' }}>
             Design system tokens.
           </h1>
@@ -448,6 +452,237 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           </div>
         </Section>
 
+        {/* ------------------------------------------------------------------
+         * Brand primitives — built in Phase 2.
+         * Each component gets its own numbered section per styleguide-first
+         * rule (CLAUDE.md): a component lands here before being used anywhere
+         * else on the site.
+         * ----------------------------------------------------------------- */}
+
+        {/* §06 Wordmark */}
+        <Section title="Wordmark" index="06">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            Cabinet Grotesk Medium, 0.14em tracking, all caps. Three discrete sizes paired with
+            corresponding logo sizes. The optional metadata line (JetBrains Mono, muted) reads
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              {' '}
+              Solutions Architect · AI Strategist
+            </code>{' '}
+            — the canonical signature pair.
+          </p>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 'var(--space-6)',
+            }}
+          >
+            {(['sm', 'md', 'lg'] as const).map((s) => (
+              <WordmarkTile key={s} size={s} />
+            ))}
+          </div>
+        </Section>
+
+        {/* §07 EyebrowLabel */}
+        <Section title="EyebrowLabel" index="07">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            Mono-label treatment with a 24px (
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              --space-5
+            </code>
+            ) leading orange divider. The divider color is always{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              --color-accent
+            </code>{' '}
+            — even when the label text is muted — because the divider is the brand cue, not a
+            function of the label&apos;s emphasis.
+          </p>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: 'var(--space-6)',
+            }}
+          >
+            <EyebrowTile caption="accent · divider">
+              <EyebrowLabel>Selected engagement</EyebrowLabel>
+            </EyebrowTile>
+            <EyebrowTile caption="muted · divider">
+              <EyebrowLabel accent={false}>Filed under architecture</EyebrowLabel>
+            </EyebrowTile>
+            <EyebrowTile caption="accent · no divider">
+              <EyebrowLabel divider={false}>Case study · 2024</EyebrowLabel>
+            </EyebrowTile>
+          </div>
+        </Section>
+
+        {/* §08 Submark */}
+        <Section title="Submark" index="08">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            Four monoline glyphs that sit beside page titles and section openers, reinforcing the
+            &ldquo;person who draws systems&rdquo; voice. 24×24 viewBox, 1.5px stroke, inherits text
+            color via{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              currentColor
+            </code>
+            . Orange accents on{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              layers
+            </code>{' '}
+            and{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              compass
+            </code>{' '}
+            mark the critical edge / north arm respectively.
+          </p>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, minmax(120px, 1fr))',
+              gap: 'var(--space-5)',
+              maxWidth: 720,
+            }}
+          >
+            {(['topology', 'layers', 'cube', 'compass'] as const).map((n) => (
+              <SubmarkTile key={n} name={n} />
+            ))}
+          </div>
+        </Section>
+
+        {/* §09 GridOverlay */}
+        <Section title="GridOverlay" index="09">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            Fixed-position 12-column orthographic grid. Two modes: <em>accent</em> (strong orange
+            hairlines, opt-in via{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              ?grid=1
+            </code>
+            ) and <em>ambient</em> (0.5px text-tone hairlines, sit behind content as part of the
+            brand&apos;s visual language). Use the toggle in this page&apos;s header to flip the
+            accent mode. Column count is locked to 12 — not configurable.
+          </p>
+          <GridOverlayPreview />
+        </Section>
+
+        {/* §10 Logo — the most-referenced brand asset */}
+        <Section title="Logo" index="10">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            MF monogram, shared-stem geometric construction. The M&apos;s right leg and the F&apos;s
+            spine are the same vertical stroke (one{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              {'<line>'}
+            </code>
+            , not two adjacent strokes). The M valley sits at y=84 — below geometric center — giving
+            editorial proportion. Optical stroke scaling is non-linear: heavier at small sizes for
+            legibility, lighter at large sizes for refinement.
+          </p>
+
+          <div style={{ marginBottom: 'var(--space-7)' }}>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Six designed sizes — default variant
+            </h3>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                gap: 'var(--space-7)',
+                padding: 'var(--space-6)',
+                border: 'var(--stroke-hairline) solid var(--color-border)',
+                borderRadius: 'var(--radius-sm)',
+                flexWrap: 'wrap',
+              }}
+            >
+              {([16, 24, 32, 48, 72, 120] as const satisfies readonly LogoSize[]).map((s) => (
+                <div
+                  key={s}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 'var(--space-3)',
+                  }}
+                >
+                  <Logo size={s} />
+                  <span
+                    className="type-mono-label nums-tabular"
+                    style={{ color: 'var(--color-text-muted)' }}
+                  >
+                    {s}px
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Three variants — at size 72
+            </h3>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, minmax(160px, 1fr))',
+                gap: 'var(--space-5)',
+                maxWidth: 720,
+              }}
+            >
+              <LogoVariantTile caption="default · --color-text">
+                <Logo size={72} variant="default" />
+              </LogoVariantTile>
+              <LogoVariantTile caption="accent · --color-accent">
+                <Logo size={72} variant="accent" />
+              </LogoVariantTile>
+              <LogoVariantTile caption="framed · 1px border + 20% pad">
+                <Logo size={72} variant="framed" />
+              </LogoVariantTile>
+            </div>
+          </div>
+        </Section>
+
         <footer
           style={{
             marginTop: 'var(--space-10)',
@@ -456,7 +691,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           }}
         >
           <p className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
-            Mark Fasel · Phase 1 · {new Date().getFullYear()}
+            Mark Fasel · Phase 2 · {new Date().getFullYear()}
           </p>
         </footer>
       </main>
@@ -467,25 +702,6 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
 /* ============================================================================
  * Local components
  * ========================================================================== */
-
-function EyebrowLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-      <span
-        aria-hidden="true"
-        style={{
-          display: 'inline-block',
-          width: 'var(--space-5)',
-          height: '1px',
-          background: 'var(--color-accent)',
-        }}
-      />
-      <span className="type-mono-label" style={{ color: 'var(--color-accent)' }}>
-        {children}
-      </span>
-    </div>
-  );
-}
 
 function Section({
   title,
@@ -728,6 +944,138 @@ function StrokeRow({ token }: { token: StrokeToken }) {
       <span className="type-body-sm" style={{ color: 'var(--color-text-muted)' }}>
         {token.usage}
       </span>
+    </div>
+  );
+}
+
+/* ============================================================================
+ * Brand primitive tiles (Phase 2)
+ * ========================================================================== */
+
+function PrimitiveFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-4)',
+        padding: 'var(--space-6)',
+        border: 'var(--stroke-hairline) solid var(--color-border)',
+        borderRadius: 'var(--radius-sm)',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function WordmarkTile({ size }: { size: WordmarkSize }) {
+  return (
+    <PrimitiveFrame>
+      <Wordmark size={size} />
+      <Wordmark size={size} metadata />
+      <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+        size={size}
+      </span>
+    </PrimitiveFrame>
+  );
+}
+
+function EyebrowTile({ caption, children }: { caption: string; children: React.ReactNode }) {
+  return (
+    <PrimitiveFrame>
+      <div style={{ minHeight: 'var(--space-7)', display: 'flex', alignItems: 'center' }}>
+        {children}
+      </div>
+      <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+        {caption}
+      </span>
+    </PrimitiveFrame>
+  );
+}
+
+function SubmarkTile({ name }: { name: SubmarkName }) {
+  return (
+    <PrimitiveFrame>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: 'var(--space-4)',
+          color: 'var(--color-text)',
+        }}
+      >
+        <Submark name={name} size={16} aria-label={`${name} 16px`} />
+        <Submark name={name} size={24} aria-label={`${name} 24px`} />
+      </div>
+      <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+        {name} · 16 / 24
+      </span>
+    </PrimitiveFrame>
+  );
+}
+
+function LogoVariantTile({ caption, children }: { caption: string; children: React.ReactNode }) {
+  return (
+    <PrimitiveFrame>
+      <div
+        style={{
+          minHeight: 'var(--space-10)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {children}
+      </div>
+      <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+        {caption}
+      </span>
+    </PrimitiveFrame>
+  );
+}
+
+/**
+ * Static preview of the GridOverlay. The real component renders as a fixed
+ * full-viewport overlay (toggled by ?grid=1), which is hard to demonstrate
+ * in a styleguide tile. This preview shows the same column count + spacing
+ * in a contained box so the visual treatment is on-page even when the
+ * overlay isn't active.
+ */
+function GridOverlayPreview() {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        height: 'var(--space-10)',
+        border: 'var(--stroke-hairline) solid var(--color-border)',
+        borderRadius: 'var(--radius-sm)',
+        overflow: 'hidden',
+      }}
+      aria-hidden="true"
+    >
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'grid',
+          gridTemplateColumns: 'repeat(12, 1fr)',
+          gap: 'var(--space-5)',
+          paddingInline: 'var(--space-6)',
+        }}
+      >
+        {Array.from({ length: 12 }, (_, i) => (
+          <div
+            key={i}
+            style={{
+              borderLeft:
+                'var(--stroke-thin) solid color-mix(in oklab, var(--color-accent) 38%, transparent)',
+              borderRight:
+                'var(--stroke-thin) solid color-mix(in oklab, var(--color-accent) 38%, transparent)',
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }

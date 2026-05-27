@@ -169,6 +169,8 @@ Code-highlight       #FF6B35    (same as accent — code is the work)
 Link / interactive   #F5F2EB    (with 1px underline; orange only on hover for emphasis links)
 ```
 
+> **TODO Phase 2 polish:** verify chip-on-color contrast hits AAA where chips label AAA grades — currently AA-Normal (e.g. bg `#0A0A0A` on info `#6B92C9` ≈ 5.42:1). Re-evaluate once form validation, status callouts, and other live consumers reveal what info/success/warning/danger need to do in production.
+
 ### Accessibility checks (WCAG 2.2 AA)
 
 All combinations verified for normal text (4.5:1) and large text (3:1):

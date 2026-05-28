@@ -44,7 +44,7 @@ export const SITE_ROLES: readonly string[] = [
   'Solutions Architect',
   'Engineering Leader',
   'Full-Stack Builder',
-  'AI Enthusiast',
+  'AI Strategist',
 ];
 
 /** Joined form for plain-string contexts (metadata, alt text). */

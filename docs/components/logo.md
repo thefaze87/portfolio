@@ -4,41 +4,52 @@ The single most-referenced brand asset. Build this once, correctly, and never to
 
 ## Construction
 
-Geometric monoline construction at viewBox `0 0 120 140`. The right leg of the M and the spine of the F **share one stroke**. This is what makes the monogram read as a single unit.
+Geometric monoline construction at viewBox `0 0 160 140`. **Tight-pair construction** — the M and F are adjacent peer letters separated by a 12-unit gap, sharing baseline, top edge, and stroke weight. They read as two letters in dialogue, not one fused glyph. (An earlier draft used a "shared stem" where the M's right leg doubled as the F's spine; it was abandoned because the F read as stubs hanging off the M rather than as a peer letter.)
 
 ```
-viewBox: 0 0 120 140
-M valley meets at y=84 (60% of cap height — gives editorial proportion)
+viewBox: 0 0 160 140
+M valley meets at y=84 (below geometric center — gives editorial proportion)
 Cap height: 112px (from y=14 to y=126)
 Top padding: 14px, bottom padding: 14px
-Left edge: x=8, right edge of F arm: x=118
+Gap between M right stem (x=104) and F spine (x=116): 12 units
+Left edge: x=8, right edge of F arm: x=148
 ```
 
-### Strokes (six lines total, square-capped)
+### Strokes (seven lines total, square-capped)
 
 ```
 1. M left stem        (8, 14)   → (8, 126)
 2. M left diagonal    (8, 14)   → (56, 84)
 3. M right diagonal   (56, 84)  → (104, 14)
-4. SHARED STEM        (104, 14) → (104, 126)   ← M right leg = F spine
-5. F top arm          (104, 14) → (118, 14)
-6. F crossbar         (104, 68) → (116, 68)
+4. M right stem       (104, 14) → (104, 126)
+5. F spine            (116, 14) → (116, 126)   ← 12-unit gap from M right stem
+6. F top arm          (116, 14) → (148, 14)    ← 32 units wide (~33% of M width)
+7. F crossbar         (116, 76) → (142, 76)    ← 26 units (~81% of top arm), at optical center
 ```
+
+Visual properties this construction must produce:
+
+- M cap height equals F cap height (both y=14 → y=126)
+- F top arm spans ~33% of the M's width — reads as a peer letter, not a stub
+- F crossbar at y=76 (55% down the cap, optical center — not the geometric 50%)
+- Crossbar ~19% shorter than the top arm — correct F proportion
+- 12-unit gap between M and F — letters in dialogue, not glued together
+- Both letters share baseline, top edge, and stroke weight
 
 ## Optical stroke scaling
 
-The component must adjust stroke width based on render size. **Do not** SVG-scale a single asset — strokes get invisible at small sizes if you just shrink the SVG.
+The component must adjust stroke width based on render size. **Do not** SVG-scale a single asset — strokes get invisible at small sizes if you just shrink the SVG. `size` controls the rendered **width**; height derives from the 0.875 aspect ratio (the monogram is wider than it is tall).
 
 | `size` prop | Render width × height | Stroke width |
 | ----------- | --------------------- | ------------ |
-| `16`        | 16 × 19               | 12           |
-| `24`        | 24 × 28               | 9            |
-| `32`        | 32 × 37               | 7            |
-| `48`        | 48 × 56               | 5            |
-| `72`        | 72 × 84               | 3.5          |
-| `120`       | 120 × 140             | 2.5          |
+| `16`        | 16 × 14               | 12           |
+| `24`        | 24 × 21               | 9            |
+| `32`        | 32 × 28               | 7            |
+| `48`        | 48 × 42               | 5            |
+| `72`        | 72 × 63               | 3.5          |
+| `120`       | 120 × 105             | 2.5          |
 
-For sizes between these values, interpolate stroke width linearly. For sizes outside this range, clamp to the nearest defined value.
+For sizes between these values, interpolate stroke width linearly. For sizes outside this range, clamp to the nearest defined value. (In practice `size` is a literal union of these six values, so interpolation only matters if the union is ever widened.)
 
 ## Variants
 
@@ -52,8 +63,8 @@ For sizes between these values, interpolate stroke width linearly. For sizes out
 // components/brand/Logo.tsx
 import { cn } from '@/lib/utils';
 
-type LogoSize = 16 | 24 | 32 | 48 | 72 | 120;
-type LogoVariant = 'default' | 'accent' | 'framed';
+export type LogoSize = 16 | 24 | 32 | 48 | 72 | 120;
+export type LogoVariant = 'default' | 'accent' | 'framed';
 
 const STROKE_BY_SIZE: Record<LogoSize, number> = {
   16: 12,
@@ -64,7 +75,7 @@ const STROKE_BY_SIZE: Record<LogoSize, number> = {
   120: 2.5,
 };
 
-const ASPECT_RATIO = 140 / 120; // height / width
+const ASPECT_RATIO = 140 / 160; // height / width = 0.875
 
 interface LogoProps {
   size?: LogoSize;
@@ -82,19 +93,21 @@ export function Logo({
   const strokeWidth = STROKE_BY_SIZE[size];
   const height = Math.round(size * ASPECT_RATIO);
   const stroke = variant === 'accent' ? 'var(--color-accent)' : 'var(--color-text)';
+  // Collapse empty className to undefined so React omits class="" entirely.
+  const markClassName = variant === 'framed' ? undefined : cn(className) || undefined;
 
   const mark = (
     <svg
       width={size}
       height={height}
-      viewBox="0 0 120 140"
+      viewBox="0 0 160 140"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label={ariaLabel}
-      className={cn(variant !== 'framed' && className)}
+      className={markClassName}
     >
       <title>{ariaLabel}</title>
-      {/* M left stem */}
+      {/* 1 · M left stem */}
       <line
         x1="8"
         y1="14"
@@ -104,7 +117,7 @@ export function Logo({
         strokeWidth={strokeWidth}
         strokeLinecap="square"
       />
-      {/* M left diagonal */}
+      {/* 2 · M left diagonal */}
       <line
         x1="8"
         y1="14"
@@ -114,7 +127,7 @@ export function Logo({
         strokeWidth={strokeWidth}
         strokeLinecap="square"
       />
-      {/* M right diagonal */}
+      {/* 3 · M right diagonal */}
       <line
         x1="56"
         y1="84"
@@ -124,7 +137,7 @@ export function Logo({
         strokeWidth={strokeWidth}
         strokeLinecap="square"
       />
-      {/* Shared stem (M right leg = F spine) */}
+      {/* 4 · M right stem */}
       <line
         x1="104"
         y1="14"
@@ -134,22 +147,32 @@ export function Logo({
         strokeWidth={strokeWidth}
         strokeLinecap="square"
       />
-      {/* F top arm */}
+      {/* 5 · F spine — 12-unit gap from M right stem */}
       <line
-        x1="104"
+        x1="116"
         y1="14"
-        x2="118"
+        x2="116"
+        y2="126"
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+        strokeLinecap="square"
+      />
+      {/* 6 · F top arm — 32 units wide */}
+      <line
+        x1="116"
+        y1="14"
+        x2="148"
         y2="14"
         stroke={stroke}
         strokeWidth={strokeWidth}
         strokeLinecap="square"
       />
-      {/* F crossbar */}
+      {/* 7 · F crossbar — 26 units, at y=76 */}
       <line
-        x1="104"
-        y1="68"
-        x2="116"
-        y2="68"
+        x1="116"
+        y1="76"
+        x2="142"
+        y2="76"
         stroke={stroke}
         strokeWidth={strokeWidth}
         strokeLinecap="square"
@@ -161,17 +184,18 @@ export function Logo({
     const framePadding = Math.round(size * 0.2);
     const frameSize = size + framePadding * 2;
     return (
-      <div
-        className={cn('inline-flex items-center justify-center border', className)}
+      <span
+        className={cn('inline-flex items-center justify-center', className)}
         style={{
           width: frameSize,
           height: frameSize,
           borderColor: 'var(--color-text)',
-          borderWidth: '1px',
+          borderStyle: 'solid',
+          borderWidth: 'var(--stroke-thin)',
         }}
       >
         {mark}
-      </div>
+      </span>
     );
   }
 
@@ -202,47 +226,22 @@ export function Logo({
 
 ## Styleguide entry
 
-Add this section to `/styleguide`:
-
-```tsx
-<section>
-  <EyebrowLabel>Brand · Logo</EyebrowLabel>
-  <h2>MF monogram</h2>
-
-  <div className="mt-8 flex items-end gap-12 border border-[var(--color-border)] p-8">
-    {[16, 24, 32, 48, 72, 120].map((s) => (
-      <div key={s} className="text-center">
-        <Logo size={s as LogoSize} />
-        <div className="mt-4 font-mono text-xs text-[var(--color-text-dim)]">{s}PX</div>
-      </div>
-    ))}
-  </div>
-
-  <div className="mt-8 grid grid-cols-3 gap-4">
-    <div className="flex items-center justify-center border border-[var(--color-border)] p-8">
-      <Logo size={72} variant="default" />
-    </div>
-    <div className="flex items-center justify-center border border-[var(--color-border)] p-8">
-      <Logo size={72} variant="accent" />
-    </div>
-    <div className="flex items-center justify-center border border-[var(--color-border)] p-8">
-      <Logo size={48} variant="framed" />
-    </div>
-  </div>
-</section>
-```
+`/styleguide` §10 shows all six sizes (default variant) plus the three variants at size 72. The section imports the component directly, so it tracks the implementation automatically.
 
 ## Acceptance criteria
 
 The component is correct when:
 
-- [ ] At every defined size, the M valley clearly sits below center (60% of cap height)
-- [ ] The shared stem reads as one continuous line, not two adjacent lines
+- [ ] At every defined size, the M valley clearly sits below center (y=84)
+- [ ] The 12-unit gap between M and F is perceptible — the two read as peer letters
+- [ ] The F top arm spans ~33% of the M's width (not a stub)
+- [ ] The F crossbar sits at optical center (y=76), ~19% shorter than the top arm
 - [ ] At 16px the mark is legible (no stroke vanishing)
 - [ ] At 120px the strokes feel refined, not heavy
 - [ ] `accent` variant flips to orange via the CSS variable, not a hardcoded color
 - [ ] `framed` variant maintains correct proportions at all sizes
 - [ ] No `'use client'` directive
+- [ ] No empty `class=""` attribute emitted when `className` is undefined
 - [ ] Component passes `pnpm typecheck` and `pnpm lint`
 - [ ] Styleguide shows all six sizes + three variants
 - [ ] Lighthouse accessibility on `/styleguide` = 100 with this component present

@@ -605,13 +605,12 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
               maxWidth: '60ch',
             }}
           >
-            MF monogram, shared-stem geometric construction. The M&apos;s right leg and the F&apos;s
-            spine are the same vertical stroke (one{' '}
-            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
-              {'<line>'}
-            </code>
-            , not two adjacent strokes). The M valley sits at y=84 — below geometric center — giving
-            editorial proportion. Optical stroke scaling is non-linear: heavier at small sizes for
+            MF monogram, tight-pair construction. The M and F are adjacent peer letters with a
+            12-unit gap between the M&apos;s right stem and the F&apos;s spine — they share
+            baseline, top edge, and stroke weight, reading as two letters in dialogue rather than
+            one fused glyph. The M valley sits at y=84 — below geometric center — giving editorial
+            proportion. The F top arm spans ~33% of the M&apos;s width so the F reads as a full
+            letter, not a stub. Optical stroke scaling is non-linear: heavier at small sizes for
             legibility, lighter at large sizes for refinement.
           </p>
 

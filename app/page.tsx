@@ -1,36 +1,38 @@
 import { EyebrowLabel } from '@/components/brand/EyebrowLabel';
 
 /**
- * Phase 1-2 smoke-test home page. Replaced in Phase 3 by the real hero,
- * services, case studies, etc. Kept minimal and on-system: every value
- * resolves to a token. If you find yourself hardcoding a pixel here,
- * the token is missing — add it to styles/tokens.css first.
+ * Placeholder home — a hero text block inside the Phase 3 navigation shell
+ * (Header + Footer come from the root layout). Replaced by the real hero,
+ * services, case studies, etc. in later phases. Every value resolves to a
+ * token; if you reach for a hardcoded pixel, add the token to tokens.css first.
  */
 export default function Home() {
   return (
     <main
+      id="main-content"
       className="mx-auto"
       style={{
         maxWidth: 'var(--container-default)',
         paddingInline: 'var(--container-gutter)',
-        paddingBlock: 'var(--space-9)',
+        paddingBlock: 'var(--space-10)',
       }}
     >
-      <EyebrowLabel>Repo initialized · Phase 2</EyebrowLabel>
+      <EyebrowLabel>Solutions Architect · AI Strategist</EyebrowLabel>
 
-      <h1 className="type-display-lg" style={{ marginTop: 'var(--space-5)' }}>
-        Mark Fasel
+      <h1 className="type-display-xl" style={{ marginTop: 'var(--space-5)', maxWidth: '16ch' }}>
+        Better systems. Better decisions.
       </h1>
 
       <p
         className="type-body-lg"
         style={{
-          marginTop: 'var(--space-4)',
+          marginTop: 'var(--space-5)',
           maxWidth: '52ch',
           color: 'var(--color-text-muted)',
         }}
       >
-        Scaffold complete. Design system tokens are live and brand primitives are wired. See{' '}
+        Navigation shell is live — header, mobile drawer, and footer wrap every page. The hero
+        diagram and homepage sections land in later phases. See{' '}
         <a
           href="/styleguide"
           style={{
@@ -41,7 +43,7 @@ export default function Home() {
         >
           /styleguide
         </a>{' '}
-        for the full reference. Proceed to Phase 3 in PLAN.md.
+        for the full component reference.
       </p>
     </main>
   );

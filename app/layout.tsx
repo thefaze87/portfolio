@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { Header } from '@/components/navigation/Header';
+import { Footer } from '@/components/navigation/Footer';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://markfasel.com'),
@@ -80,7 +82,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
        * which would otherwise throw a hydration mismatch. This is shallow —
        * it only ignores the body element's own attributes, never its
        * descendants — so real hydration bugs in page content still surface. */}
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

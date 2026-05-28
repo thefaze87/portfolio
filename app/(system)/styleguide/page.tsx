@@ -5,6 +5,9 @@ import { GridOverlay } from '@/components/brand/GridOverlay';
 import { Logo, type LogoVariant } from '@/components/brand/Logo';
 import { Submark, type SubmarkName } from '@/components/brand/Submark';
 import { Wordmark, type WordmarkSize } from '@/components/brand/Wordmark';
+import { MobileDrawer } from '@/components/navigation/MobileDrawer';
+import { RoleLine } from '@/components/navigation/RoleLine';
+import { NAV_LINKS } from '@/lib/nav';
 
 /* ============================================================================
  * Token registries
@@ -222,6 +225,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
       {showGrid && <GridOverlay accent />}
 
       <main
+        id="main-content"
         className="mx-auto"
         style={{
           maxWidth: 'var(--container-default)',
@@ -233,7 +237,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
          * Header
          * ----------------------------------------------------------------- */}
         <header style={{ marginBottom: 'var(--space-10)' }}>
-          <EyebrowLabel>Styleguide · Internal · Phase 2</EyebrowLabel>
+          <EyebrowLabel>Styleguide · Internal · Phase 3</EyebrowLabel>
           <h1 className="type-display-lg" style={{ marginTop: 'var(--space-5)', maxWidth: '32ch' }}>
             Design system tokens.
           </h1>
@@ -755,32 +759,106 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
                 maxWidth: 760,
               }}
             >
-              <LockupTile caption="horizontal · mark + wordmark">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'calc(40px * 0.35)' }}>
-                  <Logo height={40} />
-                  <Wordmark size="lg" />
+              <LockupTile caption="horizontal · mark + wordmark (reduced)">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                  <Logo height={28} />
+                  <Wordmark size="sm" />
                 </div>
               </LockupTile>
-              <LockupTile caption="full lockup · mark + wordmark + role line">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'calc(40px * 0.35)' }}>
-                  <Logo height={40} />
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 'var(--space-2)',
-                    }}
-                  >
-                    <Wordmark size="lg" />
-                    <span
-                      className="type-mono-label"
-                      style={{ color: 'var(--color-text-muted)', letterSpacing: '0.18em' }}
-                    >
-                      Solutions Architect · AI Strategist
-                    </span>
+              <LockupTile caption="footer lockup · role line as its own block">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                    <Logo height={28} />
+                    <Wordmark size="sm" />
                   </div>
+                  <RoleLine />
                 </div>
               </LockupTile>
+            </div>
+          </div>
+        </Section>
+
+        {/* §11 Navigation */}
+        <Section title="Navigation" index="11">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            The Header (mark-only, sticky) and Footer (full lockup + role line) wrap every page via
+            the root layout — they are <strong style={{ color: 'var(--color-text)' }}>live</strong>{' '}
+            at the top and bottom of this page. They are not re-rendered here as isolated specimens:
+            duplicating their{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              banner
+            </code>{' '}
+            /{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              contentinfo
+            </code>{' '}
+            landmarks on one page is an accessibility violation. The two contextual pieces below are
+            shown as specimens.
+          </p>
+
+          <div style={{ marginBottom: 'var(--space-8)' }}>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Mobile drawer
+            </h3>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-5)',
+                padding: 'var(--space-6)',
+                border: 'var(--stroke-hairline) solid var(--color-border)',
+                borderRadius: 'var(--radius-sm)',
+              }}
+            >
+              <MobileDrawer links={NAV_LINKS} />
+              <span
+                className="type-body-sm"
+                style={{ color: 'var(--color-text-muted)', maxWidth: '52ch' }}
+              >
+                In the header this trigger renders below 768px. Opening it mounts a focus-trapped,
+                scroll-locked full-screen dialog: Tab cycles within the panel, Escape closes, and
+                focus returns to the trigger. 22px sans nav items, mono role line, topology submark
+                at the foot. Click the icon to preview.
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Reading progress
+            </h3>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-6)',
+                padding: 'var(--space-6)',
+                border: 'var(--stroke-hairline) solid var(--color-border)',
+                borderRadius: 'var(--radius-sm)',
+              }}
+            >
+              <ReadingProgressPreview />
+              <span
+                className="type-body-sm"
+                style={{ color: 'var(--color-text-muted)', maxWidth: '52ch' }}
+              >
+                Left-gutter indicator for long content pages — opt-in per page, shown only ≥1440px.
+                Tracks scroll position and the active section heading. Static preview here; the live
+                component is fixed to the left gutter, so it only appears on wide content routes.
+              </span>
             </div>
           </div>
         </Section>
@@ -793,7 +871,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           }}
         >
           <p className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
-            Mark Fasel · Phase 2 · {new Date().getFullYear()}
+            Mark Fasel · Phase 3 · {new Date().getFullYear()}
           </p>
         </footer>
       </main>
@@ -1145,6 +1223,49 @@ function ColorwayTile({
         {caption}
       </span>
     </PrimitiveFrame>
+  );
+}
+
+/**
+ * Static visual replica of the ReadingProgress indicator. The live
+ * component is fixed-position and ≥1440px-only, so it can't be shown inline;
+ * this mirrors its appearance (percentage, vertical track + fill, section
+ * label) for documentation.
+ */
+function ReadingProgressPreview() {
+  return (
+    <div
+      aria-hidden="true"
+      style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}
+    >
+      <span className="type-mono-label nums-tabular" style={{ color: 'var(--color-accent)' }}>
+        37%
+      </span>
+      <div
+        style={{
+          position: 'relative',
+          width: 'var(--stroke-thick)',
+          height: 'var(--space-10)',
+          background: 'var(--color-border)',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            insetInline: 0,
+            top: 0,
+            height: '37%',
+            background: 'var(--color-accent)',
+          }}
+        />
+      </div>
+      <span
+        className="type-mono-label"
+        style={{ color: 'var(--color-text-muted)', writingMode: 'vertical-rl' }}
+      >
+        Architecture
+      </span>
+    </div>
   );
 }
 

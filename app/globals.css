@@ -88,6 +88,41 @@ body {
 }
 
 /* ============================================================================
+ * Focus ring — the single outline/shadow exception. Every interactive
+ * element gets a 2px accent ring on keyboard focus (not on mouse click).
+ * ========================================================================== */
+:focus-visible {
+  outline: var(--stroke-thick) solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+ * Interactive nav primitives
+ *
+ * Hover states can't live in inline styles, so these token-driven classes
+ * carry them. Transitions inherit the global reduced-motion reset below.
+ * ========================================================================== */
+@layer utilities {
+  .nav-link {
+    color: var(--color-text-muted);
+    transition: color 150ms var(--ease-out-soft);
+  }
+  .nav-link:hover {
+    color: var(--color-text);
+  }
+
+  .cta-ghost {
+    color: var(--color-text);
+    border: var(--stroke-thin) solid var(--color-border-strong);
+    border-radius: var(--radius-xs);
+    transition: border-color 150ms var(--ease-out-soft);
+  }
+  .cta-ghost:hover {
+    border-color: var(--color-accent);
+  }
+}
+
+/* ============================================================================
  * Reduced-motion handler
  *
  * Reset every animation/transition to ~instant. Pages with custom motion

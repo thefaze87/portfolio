@@ -84,45 +84,39 @@ Your site should have "diagram of the week" energy. Every page contains at least
 
 ## 3. Logo System
 
-### Primary mark: MF monogram
+The mark is the **Mark Fasel mark**: two flowing ribbon slashes ascending
+left-to-right, plus a solid triangular elevation peak. It is an abstract
+systems/elevation symbol — movement, ascent, direction through complexity —
+that secondarily reads as MF. It is deliberately NOT a letterform monogram.
 
-- Construction: capital M and F set in Cabinet Grotesk Bold, optical kerning at -4%, letterforms not ligatured (the slight gap reads as deliberate spacing, not awkward)
-- Container: optional 1px square frame, 6% padding around glyphs, minimum size 24px
-- Color: solid #F5F2EB on #0A0A0A, or inverse for light mode
+### Primary mark
 
-### Wordmark: MARK FASEL
+Single compound SVG path, landscape proportion (~1.374:1), production viewBox
+`0 195 1500 1092`. Authoritative path data + React component: docs/components/logo.md.
 
-- Cabinet Grotesk Medium, 0.14em letter-spacing, all caps
-- Used in footer, email signature, business card
-- Always paired with a single line of metadata beneath in JetBrains Mono 10px: `SOLUTIONS ARCHITECT · AI STRATEGIST`
+### Colorways
 
-### Lockups (in order of frequency)
+currentColor-driven. default = white #F5F2EB; dark = #0A0A0A (light mode);
+accent = orange #FF6B35.
 
-1. Monogram only — favicon, social avatar, header at narrow widths
-2. Monogram + wordmark horizontal — desktop header
-3. Wordmark + metadata stacked — footer, formal communications
-4. Wordmark alone — large editorial moments (about page, case study covers)
+### Wordmark
 
-### Submark concepts to explore
+"MARK FASEL" — Cabinet Grotesk Medium 500, uppercase, 0.16em tracking, sized
+below the mark's height. No weight split, no title case. Spec: docs/components/wordmark.md.
 
-The visual language allows for a system of small **diagrammatic submarks** that appear next to section headers — they reinforce "this person draws systems." Six suggested:
+### Placement
 
-- **Topology dot** — three connected nodes in a triangle (use on Experience)
-- **Layer stack** — three horizontal lines, the middle one orange (use on Architecture)
-- **Decision branch** — a fork with one path highlighted (use on Consulting)
-- **Iteration loop** — a curved return arrow (use on Writing)
-- **Critical path** — a series of dots with one filled (use on Case Studies)
-- **Compass rose** — abstract NESW with a single orange arm (use on About)
+- Header: mark only
+- Footer: full lockup (mark + wordmark + role line)
+- Avatar/favicon: mark only (square asset for avatars)
 
-Each submark is ~16px, monoline 1px stroke, lives next to the page title.
+### Application assets (/public/brand/)
 
-### What NOT to make the logo
+mark-icon.svg · mark-avatar-square.svg
 
-- An isometric building
-- A blueprint
-- A lowercase "m" with a flourish
-- A house, roof, or any shelter metaphor
-- Anything with a slash or forward arrow built in
+The accent orange is #FF6B35, matching --color-accent. The logo has three
+solid colorways (white / black / orange); orange remains a sparingly-used
+signal per the orange rules in CLAUDE.md.
 
 ---
 
@@ -325,7 +319,7 @@ large         1440px+
 
 **Homepage hero:**
 
-- Header: monogram left, hamburger right, single line, 16px padding
+- Header: mark left, hamburger right, single line, 16px padding
 - Hero h1 drops to display-xl mobile (48px), three lines maintained
 - Subhead 17px, max 28ch line length
 - Two stacked CTAs (orange primary 44px tall, ghost secondary)

@@ -179,31 +179,38 @@ The visual mix is enforced. Don't reach for stock photography.
 
 ## Logo system
 
-The MF monogram uses **shared-stem geometric construction**: the right leg of the M _is_ the left spine of the F. Strokes are square-cap, monoline.
+The brand mark is the **Mark Fasel mark** — a designer-built SVG of two flowing
+ribbon slashes plus a solid elevation peak. It reads as an abstract
+systems/elevation symbol first, letters second. It is NOT a letterform monogram.
+All prior monogram exploration (MF shared-stem, tight-pair, optical stroke tables)
+is dead — ignore any reference to it anywhere.
 
-Construction reference at viewBox `0 0 120 140`:
+The mark is a single compound SVG path on a 0 0 1500 1500 coordinate space, with a
+production viewBox of `0 195 1500 1092` (the artwork is landscape, ~1.374:1).
+Full path data and the React component live in `docs/components/logo.md` — that file
+is authoritative.
 
-- M left stem: `(8,14) → (8,126)`
-- M left diagonal: `(8,14) → (56,84)`
-- M right diagonal: `(56,84) → (104,14)`
-- **Shared stem** (M right leg = F spine): `(104,14) → (104,126)`
-- F top arm: `(104,14) → (118,14)`
-- F crossbar: `(104,68) → (116,68)`
+Color: the mark is driven by `currentColor` so one path serves every colorway:
 
-The M valley meets at `y=84` (60% of cap height), giving it editorial proportion — taller and narrower than a typical monogram.
+- default → var(--color-text) (paper white on dark)
+- accent → var(--color-accent) (orange #FF6B35)
+- dark → #0A0A0A (light-mode contexts)
 
-**Optical stroke scaling** (the `<Logo size>` component must implement this — do not just SVG-scale a single asset):
+Sizing: filled shapes, no optical stroke table. Component takes `height` (px),
+derives width at 1.374 ratio.
 
-| Render size | Stroke width |
-| ----------- | ------------ |
-| 16px        | 12           |
-| 24px        | 9            |
-| 32px        | 7            |
-| 48px        | 5            |
-| 72px        | 3.5          |
-| 120px+      | 2.5          |
+**Wordmark:** "MARK FASEL" in Cabinet Grotesk Medium 500, UPPERCASE, letter-spacing
+0.16em, sized smaller than the mark. Single weight — no light/bold split, no title
+case. Spec in `docs/components/wordmark.md`.
 
-The monogram is **monochrome**. No orange dots, no accents on the mark itself. Orange does its work elsewhere on the page. Full component spec at `docs/components/logo.md`.
+**Placement:** Header shows the MARK ONLY (no wordmark). Footer shows the full
+lockup (mark + wordmark + mono role line "SOLUTIONS ARCHITECT · AI STRATEGIST").
+Square contexts (favicon, avatar) use the mark only via the square asset.
+
+Brand SVG assets live in /public/brand/:
+
+- mark-icon.svg (currentColor)
+- mark-avatar-square.svg
 
 ---
 

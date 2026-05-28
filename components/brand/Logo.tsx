@@ -1,179 +1,70 @@
 import { cn } from '@/lib/utils';
 
 /**
- * Logo — MF monogram, tight-pair construction.
+ * Logo — the Mark Fasel mark.
  *
- * The M and F are adjacent peer letters separated by a 12-unit gap — not a
- * shared stem. They share baseline, top edge, and stroke weight, reading as
- * two letters in dialogue rather than one fused glyph. Seven line segments
- * at a fixed `0 0 160 140` viewBox; the M valley sits at y=84 (below
- * geometric center) for editorial proportion, and the F's top arm spans ~33%
- * of the M's width so the F reads as a full letter, not a stub.
+ * Two flowing ribbon slashes ascending left-to-right plus a solid triangular
+ * elevation peak. An abstract systems/elevation symbol that secondarily reads
+ * as MF — deliberately NOT a letterform monogram. Sourced from the designer's
+ * own SVG; the path below is authoritative and must not be redrawn.
  *
- * Per docs/components/logo.md:
- *   - Seven lines: M left stem, M left diagonal, M right diagonal, M right
- *     stem, F spine, F top arm, F crossbar. All square-capped.
- *   - 12-unit gap between the M right stem (x=104) and the F spine (x=116).
- *   - F crossbar at y=76 (55% down the cap — optical center).
- *   - Optical stroke scaling: stroke width is *not* proportional to render
- *     size. Smaller sizes get heavier strokes (12 at size 16) so the mark
- *     stays legible; larger sizes get lighter strokes (2.5 at size 120) so
- *     it reads refined.
- *   - Three variants: default (var(--color-text)), accent (var(--color-accent)),
- *     framed (1px square border, 20% internal padding).
+ * Single compound path on a 0 0 1500 1500 space, rendered through a tightened
+ * landscape viewBox (0 195 1500 1092, ~1.374:1). Filled shapes — no optical
+ * stroke table. `height` drives size; width derives at the 1.374 aspect ratio.
  *
- * Architecturally:
- *   - `size` is a literal union of the six designed sizes. Arbitrary
- *     numbers are a compile error — they would require runtime stroke
- *     interpolation we don't want consumers improvising.
- *   - `variant` is a literal union; there's no `color` prop. The accent
- *     swap goes through the CSS variable, never a hardcoded value.
- *   - Server Component. No client state.
+ * currentColor-driven so one path serves every colorway:
+ *   - default → var(--color-text) (white, on dark)
+ *   - accent  → var(--color-accent) (orange #FF6B35)
+ *   - dark    → fixed #0A0A0A (light-mode contexts)
+ *
+ * Server Component. Spec: docs/components/logo.md.
  */
 
-export type LogoSize = 16 | 24 | 32 | 48 | 72 | 120;
-export type LogoVariant = 'default' | 'accent' | 'framed';
+const ICON_PATH =
+  'M 1431.320312 334.273438 L 1499.753906 388.058594 C 1434.921875 384.824219 1383.730469 408.207031 1346.671875 435.585938 C 1310.773438 462.113281 1282.113281 497.1875 1262.578125 537.328125 L 993.894531 1088.578125 C 937.699219 1203.902344 820.636719 1276.855469 692.339844 1276.855469 L 524.601562 1276.855469 L 932.050781 447.734375 C 942.796875 425.878906 955.554688 406.039062 969.964844 387.847656 C 907.601562 386.074219 858.148438 408.9375 822.070312 435.554688 C 786.171875 462.082031 757.507812 497.15625 737.972656 537.296875 L 469.292969 1088.546875 C 413.09375 1203.871094 296.03125 1276.824219 167.734375 1276.824219 L 0 1276.824219 L 407.449219 447.765625 C 499.847656 259.703125 742.03125 204.757812 906.746094 334.273438 L 971.886719 385.496094 C 1082.050781 249.261719 1286.597656 220.476562 1431.320312 334.273438 Z M 1217.828125 924.933594 L 1040.507812 1277.070312 L 1499.878906 1277.191406 L 1316.027344 924.230469 C 1295.269531 884.367188 1238.066406 884.761719 1217.828125 924.933594 Z';
 
-/** Optical stroke widths in viewBox units (viewBox is 160 wide). The
- *  table is intentionally non-linear: heavier at small sizes to preserve
- *  legibility, lighter at large sizes to feel refined. */
-const STROKE_BY_SIZE: Record<LogoSize, number> = {
-  16: 12,
-  24: 9,
-  32: 7,
-  48: 5,
-  72: 3.5,
-  120: 2.5,
-};
+const ASPECT = 1500 / 1092; // ≈ 1.374 (width / height)
 
-/** Aspect ratio = viewBox height / viewBox width = 140 / 160 = 0.875.
- *  The monogram is wider than it is tall (M + gap + F). `size` controls
- *  width; height derives from it. */
-const ASPECT_RATIO = 140 / 160;
+export type LogoVariant = 'default' | 'dark' | 'accent';
 
 interface LogoProps {
-  size?: LogoSize;
+  height?: number;
   variant?: LogoVariant;
   className?: string;
   'aria-label'?: string;
 }
 
 export function Logo({
-  size = 32,
+  height = 32,
   variant = 'default',
   className,
   'aria-label': ariaLabel = 'Mark Fasel',
 }: LogoProps) {
-  const strokeWidth = STROKE_BY_SIZE[size];
-  const height = Math.round(size * ASPECT_RATIO);
-  const stroke = variant === 'accent' ? 'var(--color-accent)' : 'var(--color-text)';
-  // The framed variant carries className on its wrapper, so the mark itself
-  // takes none. Collapse the empty string to undefined so React omits the
-  // attribute entirely rather than emitting class="".
-  const markClassName = variant === 'framed' ? undefined : cn(className) || undefined;
+  const width = Math.round(height * ASPECT);
 
-  const mark = (
+  // currentColor-driven, set via inline style on the svg. The `dark` colorway
+  // is a fixed literal (#0A0A0A), not var(--color-bg): it must stay near-black
+  // in light-mode contexts, where the bg token flips to paper white.
+  const colorStyle =
+    variant === 'accent'
+      ? { color: 'var(--color-accent)' }
+      : variant === 'dark'
+        ? { color: '#0A0A0A' }
+        : { color: 'var(--color-text)' };
+
+  return (
     <svg
-      width={size}
+      width={width}
       height={height}
-      viewBox="0 0 160 140"
+      viewBox="0 195 1500 1092"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label={ariaLabel}
-      className={markClassName}
+      style={colorStyle}
+      className={cn(className) || undefined}
     >
       <title>{ariaLabel}</title>
-      {/* 1 · M left stem */}
-      <line
-        x1="8"
-        y1="14"
-        x2="8"
-        y2="126"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 2 · M left diagonal */}
-      <line
-        x1="8"
-        y1="14"
-        x2="56"
-        y2="84"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 3 · M right diagonal */}
-      <line
-        x1="56"
-        y1="84"
-        x2="104"
-        y2="14"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 4 · M right stem */}
-      <line
-        x1="104"
-        y1="14"
-        x2="104"
-        y2="126"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 5 · F spine — 12-unit gap from the M right stem */}
-      <line
-        x1="116"
-        y1="14"
-        x2="116"
-        y2="126"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 6 · F top arm — 32 units wide (~33% of M width) */}
-      <line
-        x1="116"
-        y1="14"
-        x2="148"
-        y2="14"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 7 · F crossbar — 26 units (~81% of top arm), at y=76 optical center */}
-      <line
-        x1="116"
-        y1="76"
-        x2="142"
-        y2="76"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
+      <path fill="currentColor" d={ICON_PATH} />
     </svg>
   );
-
-  if (variant === 'framed') {
-    const framePadding = Math.round(size * 0.2);
-    const frameSize = size + framePadding * 2;
-    return (
-      <span
-        className={cn('inline-flex items-center justify-center', className)}
-        style={{
-          width: frameSize,
-          height: frameSize,
-          borderColor: 'var(--color-text)',
-          borderStyle: 'solid',
-          borderWidth: 'var(--stroke-thin)',
-        }}
-      >
-        {mark}
-      </span>
-    );
-  }
-
-  return mark;
 }

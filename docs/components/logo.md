@@ -1,61 +1,54 @@
-# `<Logo>` component spec
+# `<Logo>` component spec — Mark Fasel mark
 
-The single most-referenced brand asset. Build this once, correctly, and never touch it again.
+The brand mark. Replaces the prior MF-monogram experiments entirely. This is the final, locked geometry — sourced from the designer's own SVG, not a reconstruction.
 
-## Construction
+## What the mark is
 
-Geometric monoline construction at viewBox `0 0 160 140`. **Tight-pair construction** — the M and F are adjacent peer letters separated by a 12-unit gap, sharing baseline, top edge, and stroke weight. They read as two letters in dialogue, not one fused glyph. (An earlier draft used a "shared stem" where the M's right leg doubled as the F's spine; it was abandoned because the F read as stubs hanging off the M rather than as a peer letter.)
+Three forms: two flowing ribbon slashes (the "M" / motion) and a solid triangular peak (elevation / the implied F). Strong diagonal motion, ascending left-to-right. Reads as an abstract systems/elevation symbol first, letters second.
 
-```
-viewBox: 0 0 160 140
-M valley meets at y=84 (below geometric center — gives editorial proportion)
-Cap height: 112px (from y=14 to y=126)
-Top padding: 14px, bottom padding: 14px
-Gap between M right stem (x=104) and F spine (x=116): 12 units
-Left edge: x=8, right edge of F arm: x=148
-```
+The artwork is a single compound path at a `0 0 1500 1500` coordinate space. The actual artwork bounds are approximately x: 0–1500, y: 205–1277 — i.e. it is **landscape**, roughly 1.4:1 (wider than tall). The production component uses a tightened viewBox of `0 195 1500 1092` so the mark isn't floating in vertical whitespace.
 
-### Strokes (seven lines total, square-capped)
+## The path data (authoritative — do not redraw)
+
+Single compound path, two subpaths (ribbons+left form, then the peak):
 
 ```
-1. M left stem        (8, 14)   → (8, 126)
-2. M left diagonal    (8, 14)   → (56, 84)
-3. M right diagonal   (56, 84)  → (104, 14)
-4. M right stem       (104, 14) → (104, 126)
-5. F spine            (116, 14) → (116, 126)   ← 12-unit gap from M right stem
-6. F top arm          (116, 14) → (148, 14)    ← 32 units wide (~33% of M width)
-7. F crossbar         (116, 76) → (142, 76)    ← 26 units (~81% of top arm), at optical center
+M 1431.320312 334.273438 L 1499.753906 388.058594 C 1434.921875 384.824219 1383.730469 408.207031 1346.671875 435.585938 C 1310.773438 462.113281 1282.113281 497.1875 1262.578125 537.328125 L 993.894531 1088.578125 C 937.699219 1203.902344 820.636719 1276.855469 692.339844 1276.855469 L 524.601562 1276.855469 L 932.050781 447.734375 C 942.796875 425.878906 955.554688 406.039062 969.964844 387.847656 C 907.601562 386.074219 858.148438 408.9375 822.070312 435.554688 C 786.171875 462.082031 757.507812 497.15625 737.972656 537.296875 L 469.292969 1088.546875 C 413.09375 1203.871094 296.03125 1276.824219 167.734375 1276.824219 L 0 1276.824219 L 407.449219 447.765625 C 499.847656 259.703125 742.03125 204.757812 906.746094 334.273438 L 971.886719 385.496094 C 1082.050781 249.261719 1286.597656 220.476562 1431.320312 334.273438 Z M 1217.828125 924.933594 L 1040.507812 1277.070312 L 1499.878906 1277.191406 L 1316.027344 924.230469 C 1295.269531 884.367188 1238.066406 884.761719 1217.828125 924.933594 Z
 ```
 
-Visual properties this construction must produce:
+The peak subpath (for the two-tone variant) is the part after the first `Z`:
 
-- M cap height equals F cap height (both y=14 → y=126)
-- F top arm spans ~33% of the M's width — reads as a peer letter, not a stub
-- F crossbar at y=76 (55% down the cap, optical center — not the geometric 50%)
-- Crossbar ~19% shorter than the top arm — correct F proportion
-- 12-unit gap between M and F — letters in dialogue, not glued together
-- Both letters share baseline, top edge, and stroke weight
+```
+M 1217.828125 924.933594 L 1040.507812 1277.070312 L 1499.878906 1277.191406 L 1316.027344 924.230469 C 1295.269531 884.367188 1238.066406 884.761719 1217.828125 924.933594 Z
+```
 
-## Optical stroke scaling
+## Color system
 
-The component must adjust stroke width based on render size. **Do not** SVG-scale a single asset — strokes get invisible at small sizes if you just shrink the SVG. `size` controls the rendered **width**; height derives from the 0.875 aspect ratio (the monogram is wider than it is tall).
+The mark is driven by `currentColor` so a single path serves every colorway via CSS:
 
-| `size` prop | Render width × height | Stroke width |
-| ----------- | --------------------- | ------------ |
-| `16`        | 16 × 14               | 12           |
-| `24`        | 24 × 21               | 9            |
-| `32`        | 32 × 28               | 7            |
-| `48`        | 48 × 42               | 5            |
-| `72`        | 72 × 63               | 3.5          |
-| `120`       | 120 × 105             | 2.5          |
+- **default** — `color: var(--color-text)` → white `#F5F2EB` (primary, on dark)
+- **dark** — `color: #0A0A0A` (primary, on light)
+- **accent** — `color: var(--color-accent)` → orange `#FF6B35`
 
-For sizes between these values, interpolate stroke width linearly. For sizes outside this range, clamp to the nearest defined value. (In practice `size` is a literal union of these six values, so interpolation only matters if the union is ever widened.)
+Three solid monochrome colorways. No two-tone / split-fill variant.
 
-## Variants
+There is NO "framed" variant for this mark (that was a monogram-era idea). Drop it.
 
-- **`default`** — `stroke="var(--color-text)"` (paper white on dark backgrounds, dark text on light)
-- **`accent`** — `stroke="var(--color-accent)"` (orange) — used for chapter markers, hover states, or when placed over photography that would clash with the default
-- **`framed`** — wrapped in a 1px square border with internal padding equal to 20% of the box size
+## Sizing
+
+Unlike the old monogram, this mark scales cleanly as a single asset (no optical stroke table needed — it's filled shapes, not strokes). The component takes a `height` in px and derives width from the 1.4:1 aspect ratio.
+
+Aspect ratio: viewBox is 1500 wide × 1092 tall = **1.374 (width/height)**.
+
+So: `width = height * 1.374`.
+
+Recommended render heights:
+
+- Favicon: 16, 32
+- Header (mobile): 28
+- Header (desktop): 32
+- Footer: 56
+- Hero / large: 80–120
 
 ## React component
 
@@ -63,185 +56,111 @@ For sizes between these values, interpolate stroke width linearly. For sizes out
 // components/brand/Logo.tsx
 import { cn } from '@/lib/utils';
 
-export type LogoSize = 16 | 24 | 32 | 48 | 72 | 120;
-export type LogoVariant = 'default' | 'accent' | 'framed';
+const ICON_PATH =
+  'M 1431.320312 334.273438 L 1499.753906 388.058594 C 1434.921875 384.824219 1383.730469 408.207031 1346.671875 435.585938 C 1310.773438 462.113281 1282.113281 497.1875 1262.578125 537.328125 L 993.894531 1088.578125 C 937.699219 1203.902344 820.636719 1276.855469 692.339844 1276.855469 L 524.601562 1276.855469 L 932.050781 447.734375 C 942.796875 425.878906 955.554688 406.039062 969.964844 387.847656 C 907.601562 386.074219 858.148438 408.9375 822.070312 435.554688 C 786.171875 462.082031 757.507812 497.15625 737.972656 537.296875 L 469.292969 1088.546875 C 413.09375 1203.871094 296.03125 1276.824219 167.734375 1276.824219 L 0 1276.824219 L 407.449219 447.765625 C 499.847656 259.703125 742.03125 204.757812 906.746094 334.273438 L 971.886719 385.496094 C 1082.050781 249.261719 1286.597656 220.476562 1431.320312 334.273438 Z M 1217.828125 924.933594 L 1040.507812 1277.070312 L 1499.878906 1277.191406 L 1316.027344 924.230469 C 1295.269531 884.367188 1238.066406 884.761719 1217.828125 924.933594 Z';
 
-const STROKE_BY_SIZE: Record<LogoSize, number> = {
-  16: 12,
-  24: 9,
-  32: 7,
-  48: 5,
-  72: 3.5,
-  120: 2.5,
-};
+const ASPECT = 1500 / 1092; // ≈ 1.374 (width / height)
 
-const ASPECT_RATIO = 140 / 160; // height / width = 0.875
+type LogoVariant = 'default' | 'dark' | 'accent';
 
 interface LogoProps {
-  size?: LogoSize;
+  height?: number;
   variant?: LogoVariant;
   className?: string;
   'aria-label'?: string;
 }
 
 export function Logo({
-  size = 32,
+  height = 32,
   variant = 'default',
   className,
   'aria-label': ariaLabel = 'Mark Fasel',
 }: LogoProps) {
-  const strokeWidth = STROKE_BY_SIZE[size];
-  const height = Math.round(size * ASPECT_RATIO);
-  const stroke = variant === 'accent' ? 'var(--color-accent)' : 'var(--color-text)';
-  // Collapse empty className to undefined so React omits class="" entirely.
-  const markClassName = variant === 'framed' ? undefined : cn(className) || undefined;
+  const width = Math.round(height * ASPECT);
 
-  const mark = (
+  // currentColor-driven color, set via inline style on the svg
+  const colorStyle =
+    variant === 'accent'
+      ? { color: 'var(--color-accent)' } // #FF6B35
+      : variant === 'dark'
+        ? { color: '#0A0A0A' }
+        : { color: 'var(--color-text)' }; // #F5F2EB white
+
+  return (
     <svg
-      width={size}
+      width={width}
       height={height}
-      viewBox="0 0 160 140"
+      viewBox="0 195 1500 1092"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label={ariaLabel}
-      className={markClassName}
+      style={colorStyle}
+      className={className}
     >
       <title>{ariaLabel}</title>
-      {/* 1 · M left stem */}
-      <line
-        x1="8"
-        y1="14"
-        x2="8"
-        y2="126"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 2 · M left diagonal */}
-      <line
-        x1="8"
-        y1="14"
-        x2="56"
-        y2="84"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 3 · M right diagonal */}
-      <line
-        x1="56"
-        y1="84"
-        x2="104"
-        y2="14"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 4 · M right stem */}
-      <line
-        x1="104"
-        y1="14"
-        x2="104"
-        y2="126"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 5 · F spine — 12-unit gap from M right stem */}
-      <line
-        x1="116"
-        y1="14"
-        x2="116"
-        y2="126"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 6 · F top arm — 32 units wide */}
-      <line
-        x1="116"
-        y1="14"
-        x2="148"
-        y2="14"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
-      {/* 7 · F crossbar — 26 units, at y=76 */}
-      <line
-        x1="116"
-        y1="76"
-        x2="142"
-        y2="76"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="square"
-      />
+      <path fill="currentColor" d={ICON_PATH} />
     </svg>
   );
-
-  if (variant === 'framed') {
-    const framePadding = Math.round(size * 0.2);
-    const frameSize = size + framePadding * 2;
-    return (
-      <span
-        className={cn('inline-flex items-center justify-center', className)}
-        style={{
-          width: frameSize,
-          height: frameSize,
-          borderColor: 'var(--color-text)',
-          borderStyle: 'solid',
-          borderWidth: 'var(--stroke-thin)',
-        }}
-      >
-        {mark}
-      </span>
-    );
-  }
-
-  return mark;
 }
 ```
 
 ## Usage rules
 
-1. **Server Component.** Do not add `'use client'`. The logo is static SVG.
-2. **No props beyond `size`, `variant`, `className`, `aria-label`.** If you find yourself needing `color`, you're misusing it — use `variant` instead.
-3. **Use `size`, not `className`, for sizing.** The optical stroke depends on it. Setting `w-8` via Tailwind defeats the system.
-4. **`aria-label`:** default is `"Mark Fasel"`. Override only when context demands it (e.g., `aria-label="Back to home"` when the logo is the home link).
-5. **Wordmark is separate.** This component renders the mark only. The `"MARK FASEL"` wordmark is a separate `<Wordmark>` component built in Cabinet Grotesk.
+1. **Server Component.** No `'use client'`. It's static SVG.
+2. **Use `height`, not `className`, for sizing.** Width derives automatically from the aspect ratio.
+3. **`variant` controls color.** Never hardcode a fill on a call site.
+4. **The mark is landscape (1.37:1).** In square contexts (favicon, avatar), use the dedicated square asset (`/public/brand/mark-avatar-square.svg`), not the inline component.
 
-## Variants in use
+## Wordmark
 
-| Where                      | Size                          | Variant             |
-| -------------------------- | ----------------------------- | ------------------- |
-| Favicon                    | 16                            | default (no orange) |
-| Browser tab icon           | 32                            | default             |
-| Header (mobile)            | 32                            | default             |
-| Header (desktop)           | 32                            | default             |
-| Footer                     | 80 (interpolated stroke ~3.0) | default             |
-| Case study chapter markers | 48                            | accent              |
-| 404 page centerpiece       | 120                           | default             |
-| Social avatar              | 120 → exported as PNG         | framed              |
+The `<Wordmark>` component renders "Mark Fasel" in Cabinet Grotesk (weight 600, letter-spacing -0.015em). The horizontal lockup places `<Logo height={X}>` to the left of the wordmark with a gap of roughly `height * 0.3`.
 
-## Styleguide entry
+## Application assets (in /public/brand/)
 
-`/styleguide` §10 shows all six sizes (default variant) plus the three variants at size 72. The section imports the component directly, so it tracks the implementation automatically.
+- `mark-icon.svg` — currentColor, tight viewBox, for general use
+- `mark-avatar-square.svg` — centered in a dark 1500² square, for LinkedIn/GitHub
+- `favicon.svg` — same as mark-icon but white fill hardcoded, for the browser tab
+- `favicon.ico` / `apple-touch-icon.png` — generated from the square avatar
 
 ## Acceptance criteria
 
-The component is correct when:
+- [ ] Renders the exact path from the designer's SVG (no redraw, no approximation)
+- [ ] `default` (white) / `dark` (black) / `accent` (orange #FF6B35) variants all correct
+- [ ] currentColor drives all three variants from a single path
+- [ ] Width derives from height at 1.374 ratio
+- [ ] Legible at height=16 (favicon)
+- [ ] Server Component, no `'use client'`
+- [ ] Passes typecheck + lint
+- [ ] Styleguide §10 shows all four variants + the size range + the square avatar
+- [ ] The old monogram construction (shared-stem / tight-pair) is fully removed from the component and this doc
 
-- [ ] At every defined size, the M valley clearly sits below center (y=84)
-- [ ] The 12-unit gap between M and F is perceptible — the two read as peer letters
-- [ ] The F top arm spans ~33% of the M's width (not a stub)
-- [ ] The F crossbar sits at optical center (y=76), ~19% shorter than the top arm
-- [ ] At 16px the mark is legible (no stroke vanishing)
-- [ ] At 120px the strokes feel refined, not heavy
-- [ ] `accent` variant flips to orange via the CSS variable, not a hardcoded color
-- [ ] `framed` variant maintains correct proportions at all sizes
-- [ ] No `'use client'` directive
-- [ ] No empty `class=""` attribute emitted when `className` is undefined
-- [ ] Component passes `pnpm typecheck` and `pnpm lint`
-- [ ] Styleguide shows all six sizes + three variants
-- [ ] Lighthouse accessibility on `/styleguide` = 100 with this component present
+## Favicon & app icons
+
+Browser tabs vary (light-grey in light mode, dark in dark mode), so a single
+white or black favicon disappears half the time. Solution:
+
+- **favicon.svg** — the mark in **orange #FF6B35**, centered in a square viewBox.
+  Orange has contrast against both light and dark tab bars and never vanishes.
+  It's on-brand and makes the tab instantly recognizable. This is the primary
+  browser favicon.
+- **apple-touch-icon.png** — white mark on the dark square (rendered from
+  mark-avatar-square.svg at 180×180). Home-screen icons sit on their own
+  background, so white-on-dark is correct there.
+
+An optional `favicon-adaptive.svg` (white↔black auto-flip via prefers-color-scheme)
+is provided as an alternative, but the orange favicon is the recommended default.
+
+### Wiring in app/layout.tsx metadata
+
+```tsx
+export const metadata: Metadata = {
+  // ...
+  icons: {
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
+};
+```
+
+Place favicon.svg in /public/. Generate apple-touch-icon.png (180×180) from
+mark-avatar-square.svg and place in /public/.

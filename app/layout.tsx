@@ -24,6 +24,16 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     creator: '@markfasel',
   },
+  icons: {
+    // SVG first for modern browsers (orange #FF6B35 mark — has contrast against
+    // both light and dark tab bars, never vanishes). .ico is the legacy
+    // fallback. apple-touch is the white mark on the dark square for home screens.
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
 };
 
 export const viewport: Viewport = {
@@ -65,7 +75,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           crossOrigin="anonymous"
         />
       </head>
-      <body>{children}</body>
+      {/* suppressHydrationWarning: browser extensions (Grammarly, Dark Reader,
+       * Demoway, etc.) inject attributes onto <body> before React hydrates,
+       * which would otherwise throw a hydration mismatch. This is shallow —
+       * it only ignores the body element's own attributes, never its
+       * descendants — so real hydration bugs in page content still surface. */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

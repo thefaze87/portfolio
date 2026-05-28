@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { contrastRatio, formatRatio, wcagGrade, type WcagGrade } from '@/lib/contrast';
 import { EyebrowLabel } from '@/components/brand/EyebrowLabel';
 import { GridOverlay } from '@/components/brand/GridOverlay';
-import { Logo, type LogoSize } from '@/components/brand/Logo';
+import { Logo, type LogoVariant } from '@/components/brand/Logo';
 import { Submark, type SubmarkName } from '@/components/brand/Submark';
 import { Wordmark, type WordmarkSize } from '@/components/brand/Wordmark';
 
@@ -469,13 +469,14 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
               maxWidth: '60ch',
             }}
           >
-            Cabinet Grotesk Medium, 0.14em tracking, all caps. Three discrete sizes paired with
-            corresponding logo sizes. The optional metadata line (JetBrains Mono, muted) reads
+            Cabinet Grotesk Medium 500, uppercase, 0.16em tracking. Single weight — no light/bold
+            split, no title case (both explored and rejected). Three sizes (sm/md/lg), two color
+            variants (default / accent). Always sized smaller than the mark so the mark stays the
+            hero. The mono role line{' '}
             <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
-              {' '}
-              Solutions Architect · AI Strategist
+              SOLUTIONS ARCHITECT · AI STRATEGIST
             </code>{' '}
-            — the canonical signature pair.
+            lives in the footer lockup (§10), not the wordmark itself.
           </p>
 
           <div
@@ -595,8 +596,8 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           <GridOverlayPreview />
         </Section>
 
-        {/* §10 Logo — the most-referenced brand asset */}
-        <Section title="Logo" index="10">
+        {/* §10 Mark — the brand mark + lockups */}
+        <Section title="Mark" index="10">
           <p
             className="type-body"
             style={{
@@ -605,21 +606,68 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
               maxWidth: '60ch',
             }}
           >
-            MF monogram, tight-pair construction. The M and F are adjacent peer letters with a
-            12-unit gap between the M&apos;s right stem and the F&apos;s spine — they share
-            baseline, top edge, and stroke weight, reading as two letters in dialogue rather than
-            one fused glyph. The M valley sits at y=84 — below geometric center — giving editorial
-            proportion. The F top arm spans ~33% of the M&apos;s width so the F reads as a full
-            letter, not a stub. Optical stroke scaling is non-linear: heavier at small sizes for
-            legibility, lighter at large sizes for refinement.
+            The Mark Fasel mark — two flowing ribbon slashes ascending left-to-right plus a solid
+            triangular elevation peak. An abstract systems/elevation symbol that secondarily reads
+            as MF; deliberately not a letterform monogram. A single compound SVG path,{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              currentColor
+            </code>
+            -driven, landscape ~1.374:1.{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              height
+            </code>{' '}
+            drives size; width derives from the aspect ratio.
           </p>
 
-          <div style={{ marginBottom: 'var(--space-7)' }}>
+          {/* Colorways */}
+          <div style={{ marginBottom: 'var(--space-8)' }}>
             <h3
               className="type-mono-label"
               style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
             >
-              Six designed sizes — default variant
+              Three colorways
+            </h3>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: 'var(--space-5)',
+                maxWidth: 760,
+              }}
+            >
+              {(
+                [
+                  {
+                    variant: 'default',
+                    caption: 'default · white · var(--color-text)',
+                    background: 'var(--color-surface)',
+                  },
+                  {
+                    variant: 'dark',
+                    caption: 'dark · #0A0A0A · on light',
+                    background: 'var(--color-text)',
+                  },
+                  {
+                    variant: 'accent',
+                    caption: 'accent · orange · var(--color-accent)',
+                    background: 'var(--color-surface)',
+                  },
+                ] satisfies { variant: LogoVariant; caption: string; background: string }[]
+              ).map((c) => (
+                <ColorwayTile key={c.variant} caption={c.caption} background={c.background}>
+                  <Logo height={56} variant={c.variant} />
+                </ColorwayTile>
+              ))}
+            </div>
+          </div>
+
+          {/* Size range */}
+          <div style={{ marginBottom: 'var(--space-8)' }}>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Size range — by height
             </h3>
             <div
               style={{
@@ -632,9 +680,9 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
                 flexWrap: 'wrap',
               }}
             >
-              {([16, 24, 32, 48, 72, 120] as const satisfies readonly LogoSize[]).map((s) => (
+              {[16, 24, 32, 48, 72, 120].map((h) => (
                 <div
-                  key={s}
+                  key={h}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -642,42 +690,97 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
                     gap: 'var(--space-3)',
                   }}
                 >
-                  <Logo size={s} />
+                  <Logo height={h} />
                   <span
                     className="type-mono-label nums-tabular"
                     style={{ color: 'var(--color-text-muted)' }}
                   >
-                    {s}px
+                    {h}px
                   </span>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Square avatar */}
+          <div style={{ marginBottom: 'var(--space-8)' }}>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Square avatar
+            </h3>
+            <div style={{ display: 'flex', gap: 'var(--space-5)', alignItems: 'center' }}>
+              <div
+                aria-hidden="true"
+                style={{
+                  width: 'var(--space-10)',
+                  height: 'var(--space-10)',
+                  background: 'var(--color-bg)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 'var(--radius-sm)',
+                  border: 'var(--stroke-hairline) solid var(--color-border)',
+                }}
+              >
+                <Logo height={48} variant="default" />
+              </div>
+              <span
+                className="type-body-sm"
+                style={{ color: 'var(--color-text-muted)', maxWidth: '40ch' }}
+              >
+                White mark centered on the #0A0A0A square. Shipped asset:{' '}
+                <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+                  public/brand/mark-avatar-square.svg
+                </code>{' '}
+                — used for LinkedIn / GitHub avatars.
+              </span>
+            </div>
+          </div>
+
+          {/* Lockups */}
           <div>
             <h3
               className="type-mono-label"
               style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
             >
-              Three variants — at size 72
+              Lockups
             </h3>
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, minmax(160px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: 'var(--space-5)',
-                maxWidth: 720,
+                maxWidth: 760,
               }}
             >
-              <LogoVariantTile caption="default · --color-text">
-                <Logo size={72} variant="default" />
-              </LogoVariantTile>
-              <LogoVariantTile caption="accent · --color-accent">
-                <Logo size={72} variant="accent" />
-              </LogoVariantTile>
-              <LogoVariantTile caption="framed · 1px border + 20% pad">
-                <Logo size={72} variant="framed" />
-              </LogoVariantTile>
+              <LockupTile caption="horizontal · mark + wordmark">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'calc(40px * 0.35)' }}>
+                  <Logo height={40} />
+                  <Wordmark size="lg" />
+                </div>
+              </LockupTile>
+              <LockupTile caption="full lockup · mark + wordmark + role line">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'calc(40px * 0.35)' }}>
+                  <Logo height={40} />
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 'var(--space-2)',
+                    }}
+                  >
+                    <Wordmark size="lg" />
+                    <span
+                      className="type-mono-label"
+                      style={{ color: 'var(--color-text-muted)', letterSpacing: '0.18em' }}
+                    >
+                      Solutions Architect · AI Strategist
+                    </span>
+                  </div>
+                </div>
+              </LockupTile>
             </div>
           </div>
         </Section>
@@ -972,9 +1075,9 @@ function WordmarkTile({ size }: { size: WordmarkSize }) {
   return (
     <PrimitiveFrame>
       <Wordmark size={size} />
-      <Wordmark size={size} metadata />
+      <Wordmark size={size} variant="accent" />
       <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
-        size={size}
+        size={size} · default + accent
       </span>
     </PrimitiveFrame>
   );
@@ -1014,7 +1117,15 @@ function SubmarkTile({ name }: { name: SubmarkName }) {
   );
 }
 
-function LogoVariantTile({ caption, children }: { caption: string; children: React.ReactNode }) {
+function ColorwayTile({
+  caption,
+  background,
+  children,
+}: {
+  caption: string;
+  background: string;
+  children: React.ReactNode;
+}) {
   return (
     <PrimitiveFrame>
       <div
@@ -1023,8 +1134,24 @@ function LogoVariantTile({ caption, children }: { caption: string; children: Rea
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          background,
+          borderRadius: 'var(--radius-xs)',
+          padding: 'var(--space-5)',
         }}
       >
+        {children}
+      </div>
+      <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+        {caption}
+      </span>
+    </PrimitiveFrame>
+  );
+}
+
+function LockupTile({ caption, children }: { caption: string; children: React.ReactNode }) {
+  return (
+    <PrimitiveFrame>
+      <div style={{ minHeight: 'var(--space-9)', display: 'flex', alignItems: 'center' }}>
         {children}
       </div>
       <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>

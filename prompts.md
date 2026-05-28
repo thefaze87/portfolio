@@ -53,6 +53,11 @@ description of /styleguide so I can verify before merging.
 
 ## Phase 2 — Brand primitives
 
+> NOTE (updated): The logo is finalized as the Mark Fasel mark (not a monogram).
+> See docs/components/logo.md and docs/components/wordmark.md. The Logo and
+> Wordmark components below should be built from those specs, not from any
+> monogram description. The mark SVG assets are in /public/brand/.
+
 ```
 Phase 1 is accepted. Starting Phase 2.
 

@@ -120,6 +120,97 @@ body {
   .cta-ghost:hover {
     border-color: var(--color-accent);
   }
+
+  /* Primary CTA — the one orange interactive element. Dark text on orange
+   * for AA contrast in both modes (see --color-on-accent). */
+  .cta-primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    border: var(--stroke-thin) solid transparent;
+    border-radius: var(--radius-xs);
+    transition: background-color 150ms var(--ease-out-soft);
+  }
+  .cta-primary:hover {
+    background: var(--color-accent-hover);
+  }
+
+  /* Hero headline — fluid Fraunces that holds three lines from 375px up.
+   * The hero h1 is the only place the serif appears. */
+  .type-hero-h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ============================================================================
+ * Hero topology diagram — entrance motion.
+ *
+ * Additive only: the whole block lives inside prefers-reduced-motion:
+ * no-preference, so reduced-motion users get no animation and every element
+ * renders at its final state (nodes visible, paths fully drawn). Per-element
+ * stagger comes from an inline --hero-delay. Critical-path lines use
+ * pathLength="1" so a single dasharray/offset draws any length uniformly.
+ * ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-node-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes hero-path-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  [data-hero-node] {
+    opacity: 0;
+    animation: hero-node-in 0.5s var(--ease-out-soft) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+  [data-hero-path] {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: hero-path-draw 0.75s var(--ease-out-soft) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+
+  /* Masthead — blueprint paths draw once on load; one node pulses faintly.
+   * Reduced-motion users (outside this block) see paths fully drawn and the
+   * pulse node at its static resting opacity. */
+  @keyframes masthead-path-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes masthead-pulse {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  [data-masthead-path] {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: masthead-path-draw 2.6s var(--ease-out-soft) forwards;
+    animation-delay: var(--masthead-delay, 0ms);
+  }
+  [data-masthead-pulse] {
+    animation: masthead-pulse 6s ease-in-out infinite;
+  }
 }
 
 /* ============================================================================

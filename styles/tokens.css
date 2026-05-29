@@ -27,6 +27,11 @@
   --color-accent: #ff6b35;
   --color-accent-hover: #ff7e4f;
   --color-accent-secondary: #f5b041;
+  /* Text/icon color for use ON an orange surface (buttons, badges). Fixed
+   * near-black in both modes — orange stays orange across themes, so its
+   * foreground must too. ~5.6:1 on #FF6B35, higher on the darker light-mode
+   * orange. */
+  --color-on-accent: #0a0a0a;
 
   /* Semantic status colors — used only when the meaning is literally
    * success/warning/danger/info. Not interchangeable with brand colors. */

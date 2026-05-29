@@ -7,6 +7,11 @@ import { Submark, type SubmarkName } from '@/components/brand/Submark';
 import { Wordmark, type WordmarkSize } from '@/components/brand/Wordmark';
 import { MobileDrawer } from '@/components/navigation/MobileDrawer';
 import { RoleLine } from '@/components/navigation/RoleLine';
+import { SectionLabel } from '@/components/brand/SectionLabel';
+import { TopologyHero } from '@/components/diagrams/TopologyHero';
+import { TrustBar } from '@/components/marketing/TrustBar';
+import { HeroMasthead } from '@/components/marketing/HeroMasthead';
+import { ArchitecturePhilosophy } from '@/components/marketing/ArchitecturePhilosophy';
 import { NAV_LINKS } from '@/lib/nav';
 
 /* ============================================================================
@@ -237,7 +242,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
          * Header
          * ----------------------------------------------------------------- */}
         <header style={{ marginBottom: 'var(--space-10)' }}>
-          <EyebrowLabel>Styleguide · Internal · Phase 3</EyebrowLabel>
+          <EyebrowLabel>Styleguide · Internal · Phase 5</EyebrowLabel>
           <h1 className="type-display-lg" style={{ marginTop: 'var(--space-5)', maxWidth: '32ch' }}>
             Design system tokens.
           </h1>
@@ -863,6 +868,199 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           </div>
         </Section>
 
+        {/* §12 Hero system */}
+        <Section title="Hero system" index="12">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            The above-the-fold system: the{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              TopologyHero
+            </code>{' '}
+            diagram, the primary/secondary CTAs, and the trust bar. The full composition is live at{' '}
+            <Link
+              href="/"
+              prefetch={false}
+              style={{
+                color: 'var(--color-text)',
+                textDecoration: 'underline',
+                textUnderlineOffset: 'var(--space-1)',
+              }}
+            >
+              the homepage
+            </Link>
+            . It isn&apos;t re-rendered whole here (a second hero{' '}
+            <code className="type-mono-body" style={{ color: 'var(--color-text)' }}>
+              {'<h1>'}
+            </code>{' '}
+            would muddy the page outline); the parts are shown as specimens.
+          </p>
+
+          {/* Topology — dark + light */}
+          <div style={{ marginBottom: 'var(--space-8)' }}>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Critical-path topology · default + light
+            </h3>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: 'var(--space-5)',
+              }}
+            >
+              <div
+                style={{
+                  padding: 'var(--space-6)',
+                  border: 'var(--stroke-hairline) solid var(--color-border)',
+                  borderRadius: 'var(--radius-sm)',
+                }}
+              >
+                <TopologyHero />
+              </div>
+              {/* Light-mode preview: flips the tokens within this subtree only. */}
+              <div
+                data-mode="light"
+                style={{
+                  background: 'var(--color-bg)',
+                  color: 'var(--color-text)',
+                  padding: 'var(--space-6)',
+                  border: 'var(--stroke-hairline) solid var(--color-border)',
+                  borderRadius: 'var(--radius-sm)',
+                }}
+              >
+                <TopologyHero />
+              </div>
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div style={{ marginBottom: 'var(--space-8)' }}>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Hero CTAs
+            </h3>
+            <div className="flex flex-wrap" style={{ gap: 'var(--space-4)', alignItems: 'center' }}>
+              <span
+                className="cta-primary type-body inline-flex items-center justify-center"
+                style={{ padding: 'var(--space-4) var(--space-6)' }}
+              >
+                View Experience
+              </span>
+              <span
+                className="cta-ghost type-body inline-flex items-center justify-center"
+                style={{ padding: 'var(--space-4) var(--space-6)' }}
+              >
+                Let&apos;s Talk
+              </span>
+              <span className="type-body-sm" style={{ color: 'var(--color-text-muted)' }}>
+                primary (the one orange interactive element) + ghost secondary
+              </span>
+            </div>
+          </div>
+
+          {/* Trust bar */}
+          <div>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Trust bar
+            </h3>
+            <div
+              style={{
+                border: 'var(--stroke-hairline) solid var(--color-border)',
+                borderRadius: 'var(--radius-sm)',
+                overflow: 'hidden',
+              }}
+            >
+              <TrustBar />
+            </div>
+          </div>
+        </Section>
+
+        {/* §13 Architecture system — masthead, section labels, philosophy */}
+        <Section title="Architecture system" index="13">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            The premium-journal layer: reusable section labels, the hero masthead backdrop, and the
+            architecture-philosophy section. The masthead is live behind the homepage hero; the
+            philosophy section is live on the homepage below the trust bar.
+          </p>
+
+          {/* Section labels */}
+          <div style={{ marginBottom: 'var(--space-8)' }}>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Section labels
+            </h3>
+            <div className="flex flex-wrap" style={{ gap: 'var(--space-4) var(--space-7)' }}>
+              {['ARCH.01', 'ARCH.02', 'CASE.01', 'CASE.02', 'THINK.01', 'THINK.02'].map((l) => (
+                <SectionLabel key={l}>{l}</SectionLabel>
+              ))}
+              <SectionLabel accent>ARCH.01</SectionLabel>
+            </div>
+          </div>
+
+          {/* Masthead preview */}
+          <div style={{ marginBottom: 'var(--space-8)' }}>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Hero masthead — drafting grid · ghost wordmark · blueprint overlay
+            </h3>
+            <div
+              style={{
+                position: 'relative',
+                overflow: 'hidden',
+                height: 'var(--space-11)',
+                background: 'var(--color-bg)',
+                border: 'var(--stroke-hairline) solid var(--color-border)',
+                borderRadius: 'var(--radius-sm)',
+              }}
+            >
+              <HeroMasthead />
+            </div>
+          </div>
+
+          {/* Philosophy section */}
+          <div>
+            <h3
+              className="type-mono-label"
+              style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-5)' }}
+            >
+              Philosophy section
+            </h3>
+            <div
+              style={{
+                border: 'var(--stroke-hairline) solid var(--color-border)',
+                borderRadius: 'var(--radius-sm)',
+                overflow: 'hidden',
+              }}
+            >
+              <ArchitecturePhilosophy />
+            </div>
+          </div>
+        </Section>
+
         <footer
           style={{
             marginTop: 'var(--space-10)',
@@ -871,7 +1069,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           }}
         >
           <p className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
-            Mark Fasel · Phase 3 · {new Date().getFullYear()}
+            Mark Fasel · Phase 5 · {new Date().getFullYear()}
           </p>
         </footer>
       </main>

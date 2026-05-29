@@ -20,7 +20,8 @@ interface TimelineEntry {
   org: string;
   role: string;
   dates?: string;
-  highlights: string[];
+  /** Optional — kept editorial; entries currently render org/role/dates only. */
+  highlights?: string[];
 }
 
 const TIMELINE = timelineData as TimelineEntry[];
@@ -66,7 +67,7 @@ export function ExperienceTimeline() {
             marginTop: 'var(--space-9)',
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--space-9)',
+            gap: 'var(--space-8)',
           }}
         >
           <span aria-hidden="true" className="exp-line" />
@@ -110,36 +111,38 @@ export function ExperienceTimeline() {
                     {entry.role}
                   </p>
 
-                  <ul
-                    className="flex flex-wrap"
-                    style={{
-                      listStyle: 'none',
-                      margin: 0,
-                      padding: 0,
-                      marginTop: 'var(--space-4)',
-                      gap: '0 var(--space-3)',
-                    }}
-                  >
-                    {entry.highlights.map((highlight, h) => (
-                      <li
-                        key={highlight}
-                        className="type-body-sm"
-                        style={{
-                          color: 'var(--color-text-muted)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 'var(--space-3)',
-                        }}
-                      >
-                        {h > 0 && (
-                          <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
-                            ·
-                          </span>
-                        )}
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
+                  {entry.highlights && entry.highlights.length > 0 && (
+                    <ul
+                      className="flex flex-wrap"
+                      style={{
+                        listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
+                        marginTop: 'var(--space-4)',
+                        gap: '0 var(--space-3)',
+                      }}
+                    >
+                      {entry.highlights.map((highlight, h) => (
+                        <li
+                          key={highlight}
+                          className="type-body-sm"
+                          style={{
+                            color: 'var(--color-text-muted)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 'var(--space-3)',
+                          }}
+                        >
+                          {h > 0 && (
+                            <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
+                              ·
+                            </span>
+                          )}
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </li>
             );

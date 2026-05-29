@@ -14,6 +14,7 @@ import { HeroMasthead } from '@/components/marketing/HeroMasthead';
 import { ArchitecturePhilosophy } from '@/components/marketing/ArchitecturePhilosophy';
 import { ExperienceTimeline } from '@/components/marketing/ExperienceTimeline';
 import { IndustriesGrid } from '@/components/marketing/IndustriesGrid';
+import { ExperienceMore } from '@/components/marketing/ExperienceMore';
 import { NAV_LINKS } from '@/lib/nav';
 
 /* ============================================================================
@@ -1117,9 +1118,19 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
               border: 'var(--stroke-hairline) solid var(--color-border)',
               borderRadius: 'var(--radius-sm)',
               overflow: 'hidden',
+              marginBottom: 'var(--space-6)',
             }}
           >
             <IndustriesGrid />
+          </div>
+          <div
+            style={{
+              border: 'var(--stroke-hairline) solid var(--color-border)',
+              borderRadius: 'var(--radius-sm)',
+              overflow: 'hidden',
+            }}
+          >
+            <ExperienceMore />
           </div>
         </Section>
 

@@ -3,6 +3,7 @@ import { TrustBar } from '@/components/marketing/TrustBar';
 import { ArchitecturePhilosophy } from '@/components/marketing/ArchitecturePhilosophy';
 import { ExperienceTimeline } from '@/components/marketing/ExperienceTimeline';
 import { IndustriesGrid } from '@/components/marketing/IndustriesGrid';
+import { ExperienceMore } from '@/components/marketing/ExperienceMore';
 
 /**
  * Home — the marketing homepage. Lives in the (marketing) route group so it
@@ -18,6 +19,7 @@ export default function Home() {
       <ArchitecturePhilosophy />
       <ExperienceTimeline />
       <IndustriesGrid />
+      <ExperienceMore />
     </main>
   );
 }

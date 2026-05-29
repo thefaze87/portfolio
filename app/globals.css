@@ -173,6 +173,16 @@ body {
     }
   }
 
+  /* Text CTA — white label, no button/border, subtle accent on hover.
+   * For editorial "view more" links where an orange button would be too loud. */
+  .cta-text {
+    color: var(--color-text);
+    transition: color 150ms var(--ease-out-soft);
+  }
+  .cta-text:hover {
+    color: var(--color-accent);
+  }
+
   /* Primary CTA — the one orange interactive element. Dark text on orange
    * for AA contrast in both modes (see --color-on-accent). */
   .cta-primary {

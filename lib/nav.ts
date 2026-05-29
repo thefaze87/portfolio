@@ -16,34 +16,47 @@ export const NAV_LINKS: readonly NavLink[] = [
   { href: '/products', label: 'Products' },
 ];
 
-/** Footer nav — primary links plus the secondary engagement routes. */
+/** Footer nav — primary links plus the secondary engagement route.
+ *  Newsletter is not here: it's an external platform (Substack), see PLATFORMS. */
 export const FOOTER_NAV_LINKS: readonly NavLink[] = [
   ...NAV_LINKS,
-  { href: '/newsletter', label: 'Newsletter' },
   { href: '/contact', label: 'Contact' },
 ];
 
 /**
- * Social links. Hrefs are platform-root placeholders — replace with Mark's
- * real profile URLs before launch (intentionally not guessed here).
+ * The newsletter publication. Subscriptions + delivery are owned by Substack
+ * (no native capture forms yet); the site funnels visitors here directly.
  */
-export const SOCIAL_LINKS: readonly NavLink[] = [
-  { href: 'https://www.linkedin.com/', label: 'LinkedIn' },
-  { href: 'https://github.com/', label: 'GitHub' },
-  { href: 'https://x.com/', label: 'X' },
-  { href: 'https://www.youtube.com/', label: 'YouTube' },
+export const NEWSLETTER = {
+  name: 'Designing Modern Systems',
+  href: 'https://designingmodernsystems.substack.com/',
+} as const;
+
+/**
+ * External platforms. Newsletter (Substack) and LinkedIn are the primary
+ * channels the site funnels toward; ordered by that priority. All open in a
+ * new tab. `primary` is available for surfaces that want to emphasize the
+ * lead channels.
+ */
+export type Platform = { href: string; label: string; primary?: boolean };
+export const PLATFORMS: readonly Platform[] = [
+  { href: NEWSLETTER.href, label: 'Newsletter', primary: true },
+  { href: 'https://linkedin.com/in/markfasel', label: 'LinkedIn', primary: true },
+  { href: 'https://www.youtube.com/@DesigningModernSystems', label: 'YouTube' },
+  { href: 'https://github.com/thefaze87', label: 'GitHub' },
+  { href: 'https://x.com/markfasel', label: 'X' },
 ];
 
 /**
  * Role line, stored as discrete segments so each role can render in a
  * nowrap span — wrapping then only ever happens *between* roles, never
- * mid-phrase. AI is deliberately absent here so AI strategy can headline
- * the Consulting / About pages rather than being diluted into a footer label.
+ * mid-phrase. "Systems Thinker" anchors the systems/architecture/AI
+ * positioning the site is built around.
  */
 export const SITE_ROLES: readonly string[] = [
   'Solutions Architect',
   'Engineering Leader',
-  'Full-Stack Builder',
+  'Systems Thinker',
   'AI Strategist',
 ];
 

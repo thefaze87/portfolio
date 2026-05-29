@@ -1,12 +1,14 @@
 import { Hero } from '@/components/marketing/Hero';
 import { TrustBar } from '@/components/marketing/TrustBar';
 import { ArchitecturePhilosophy } from '@/components/marketing/ArchitecturePhilosophy';
+import { ExperienceTimeline } from '@/components/marketing/ExperienceTimeline';
+import { IndustriesGrid } from '@/components/marketing/IndustriesGrid';
 
 /**
  * Home — the marketing homepage. Lives in the (marketing) route group so it
  * sits alongside about/consulting/etc. while still serving "/". Header and
- * Footer come from the root layout; this page owns the above-the-fold system
- * and the architecture-philosophy section.
+ * Footer come from the root layout; this page owns the above-the-fold system,
+ * the architecture-philosophy section, and the experience narrative.
  */
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
       <Hero />
       <TrustBar />
       <ArchitecturePhilosophy />
+      <ExperienceTimeline />
+      <IndustriesGrid />
     </main>
   );
 }

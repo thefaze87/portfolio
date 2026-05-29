@@ -12,6 +12,8 @@ import { TopologyHero } from '@/components/diagrams/TopologyHero';
 import { TrustBar } from '@/components/marketing/TrustBar';
 import { HeroMasthead } from '@/components/marketing/HeroMasthead';
 import { ArchitecturePhilosophy } from '@/components/marketing/ArchitecturePhilosophy';
+import { ExperienceTimeline } from '@/components/marketing/ExperienceTimeline';
+import { IndustriesGrid } from '@/components/marketing/IndustriesGrid';
 import { NAV_LINKS } from '@/lib/nav';
 
 /* ============================================================================
@@ -242,7 +244,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
          * Header
          * ----------------------------------------------------------------- */}
         <header style={{ marginBottom: 'var(--space-10)' }}>
-          <EyebrowLabel>Styleguide · Internal · Phase 5</EyebrowLabel>
+          <EyebrowLabel>Styleguide · Internal · Phase 6</EyebrowLabel>
           <h1 className="type-display-lg" style={{ marginTop: 'var(--space-5)', maxWidth: '32ch' }}>
             Design system tokens.
           </h1>
@@ -1061,6 +1063,66 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           </div>
         </Section>
 
+        {/* §14 Experience system — timeline + industries */}
+        <Section title="Experience system" index="14">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '60ch',
+            }}
+          >
+            EXP.01 (timeline) and EXP.02 (industries), live on the homepage below the philosophy
+            section.
+          </p>
+
+          <div
+            style={{
+              marginBottom: 'var(--space-7)',
+              padding: '0 var(--space-2)',
+              border: 'var(--stroke-hairline) solid var(--color-border)',
+              borderRadius: 'var(--radius-sm)',
+            }}
+          >
+            <p
+              className="type-body-sm"
+              style={{
+                color: 'var(--color-text-muted)',
+                padding: 'var(--space-4)',
+                margin: 0,
+                maxWidth: '70ch',
+              }}
+            >
+              <strong style={{ color: 'var(--color-text)' }}>Timeline usage rules.</strong>{' '}
+              Editorial, not a résumé. Desktop alternates entries left/right of a centered rail;
+              mobile is a single left-rail column — text stays left-aligned in both. Exactly one
+              node is orange: the current role (top entry). No logos, photos, gradients, glow, or
+              decorative animation. Order conveys recency; date ranges are optional per entry.
+            </p>
+          </div>
+
+          <div
+            style={{
+              border: 'var(--stroke-hairline) solid var(--color-border)',
+              borderRadius: 'var(--radius-sm)',
+              overflow: 'hidden',
+              marginBottom: 'var(--space-6)',
+            }}
+          >
+            <ExperienceTimeline />
+          </div>
+          <div
+            style={{
+              border: 'var(--stroke-hairline) solid var(--color-border)',
+              borderRadius: 'var(--radius-sm)',
+              overflow: 'hidden',
+            }}
+          >
+            <IndustriesGrid />
+          </div>
+        </Section>
+
         <footer
           style={{
             marginTop: 'var(--space-10)',
@@ -1069,7 +1131,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           }}
         >
           <p className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
-            Mark Fasel · Phase 5 · {new Date().getFullYear()}
+            Mark Fasel · Phase 6 · {new Date().getFullYear()}
           </p>
         </footer>
       </main>

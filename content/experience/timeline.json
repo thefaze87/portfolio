@@ -1,0 +1,43 @@
+[
+  {
+    "org": "LifeSurge",
+    "role": "Solutions Architect",
+    "dates": "2024–Present",
+    "highlights": [
+      "Architecture alignment",
+      "Enterprise systems",
+      "AI initiatives",
+      "UX strategy",
+      "Cross-functional leadership"
+    ]
+  },
+  {
+    "org": "Ramsey Solutions",
+    "role": "Senior Front-End Engineer",
+    "highlights": [
+      "React modernization",
+      "Design systems",
+      "Ecommerce architecture",
+      "Performance improvements"
+    ]
+  },
+  {
+    "org": "Scorpion",
+    "role": "Senior Front-End Developer",
+    "highlights": ["Enterprise franchise platforms", "Front-End architecture", "UX systems"]
+  },
+  {
+    "org": "Johns Hopkins All Children's Hospital",
+    "role": "Senior Software Developer",
+    "highlights": [
+      "Enterprise healthcare applications",
+      "Internal systems",
+      "Accessibility improvements"
+    ]
+  },
+  {
+    "org": "Publix Super Markets",
+    "role": "Software Engineer",
+    "highlights": ["Ecommerce systems", "Digital ordering", "Revenue-driving initiatives"]
+  }
+]

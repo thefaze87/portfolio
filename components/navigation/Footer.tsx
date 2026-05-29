@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
 import { Wordmark } from '@/components/brand/Wordmark';
 import { RoleLine } from '@/components/navigation/RoleLine';
-import { FOOTER_NAV_LINKS, SITE_LOCATION, SOCIAL_LINKS } from '@/lib/nav';
+import { FOOTER_NAV_LINKS, PLATFORMS, SITE_LOCATION } from '@/lib/nav';
 
 /**
  * Footer — restrained brand lockup + nav + social, with a fine-print bar.
@@ -72,18 +72,20 @@ export function Footer() {
             </nav>
 
             <ul
+              aria-label="Platforms"
               className="flex flex-wrap"
               style={{ gap: 'var(--space-5)', listStyle: 'none', margin: 0, padding: 0 }}
             >
-              {SOCIAL_LINKS.map((link) => (
-                <li key={link.label}>
+              {PLATFORMS.map((platform) => (
+                <li key={platform.label}>
                   <a
-                    href={link.href}
+                    href={platform.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="nav-link type-mono-label"
                   >
-                    {link.label}
+                    {platform.label}
+                    <span className="sr-only"> (opens in a new tab)</span>
                   </a>
                 </li>
               ))}

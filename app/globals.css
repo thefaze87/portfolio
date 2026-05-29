@@ -121,6 +121,58 @@ body {
     border-color: var(--color-accent);
   }
 
+  /* Experience timeline. Mobile: a left rail with the node column on the
+   * left and content to its right. Desktop (≥1024px): the rail centers and
+   * entries alternate — left entries hug the center from column 1, right
+   * entries from column 3. Text stays left-aligned in both; only the block's
+   * side alternates. */
+  .exp-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--space-7) / 2);
+    width: var(--stroke-thin);
+    background: var(--color-border);
+    transform: translateX(-50%);
+  }
+  .exp-entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--space-7) 1fr;
+    align-items: start;
+  }
+  .exp-node {
+    grid-column: 1;
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-1);
+  }
+  .exp-content {
+    grid-column: 2;
+  }
+  @media (min-width: 1024px) {
+    .exp-line {
+      left: 50%;
+    }
+    .exp-entry {
+      grid-template-columns: 1fr var(--space-7) 1fr;
+    }
+    .exp-node {
+      grid-column: 2;
+    }
+    .exp-content {
+      max-width: 38ch;
+    }
+    .exp-entry--left .exp-content {
+      grid-column: 1;
+      justify-self: end;
+    }
+    .exp-entry--right .exp-content {
+      grid-column: 3;
+      justify-self: start;
+    }
+  }
+
   /* Primary CTA — the one orange interactive element. Dark text on orange
    * for AA contrast in both modes (see --color-on-accent). */
   .cta-primary {

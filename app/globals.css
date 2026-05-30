@@ -80,6 +80,11 @@ html {
 body {
   min-height: 100dvh;
   margin: 0;
+  /* Permits oversize decorative bg elements (e.g. the hero ghost typography
+   * that spans wider than the viewport) without producing a horizontal
+   * scrollbar. `clip` is preferred over `hidden` because it doesn't promote
+   * to overflow:auto on the other axis. */
+  overflow-x: clip;
 }
 
 /* Tabular numerals for stats, tables, code — proportional everywhere else */
@@ -292,5 +297,242 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================================
+ * Experience page hero (EXP.00) — two-column composition.
+ *
+ * Mobile: block flow. The portrait wrapper caps at 380px and centers, so
+ * the ARCH.01 label and the photo share the same horizontal axis.
+ *
+ * Desktop (≥1024px): CSS grid. Content column is 1fr; portrait column is
+ * min(700px, 50%) so the photo never exceeds the spec'd 700px ceiling but
+ * always stays at roughly half the inner container width. align-self:
+ * stretch on the portrait column lets the blueprint backdrop fill the full
+ * row height — the photo sits bottom-right inside that backdrop, with
+ * blueprint and annotations visible above and (because the photo is
+ * intrinsically landscape) often around it.
+ *
+ * grid-template-rows: minmax(760px, auto) enforces the spec'd 760px hero
+ * min-height directly on the row so anchored content has a real row to
+ * sit against; padding-bottom: 0 on desktop lets the photo touch the
+ * section's outer bottom edge.
+ * ========================================================================== */
+.exp-hero {
+  position: relative;
+  padding-top: var(--space-7);
+  padding-bottom: 0;
+}
+.exp-hero-content {
+  max-width: 640px;
+}
+.exp-hero-portrait {
+  margin-top: var(--space-5);
+  margin-inline: auto;
+  width: 100%;
+  max-width: 360px;
+}
+@media (min-width: 1024px) {
+  .exp-hero {
+    display: grid;
+    /* Portrait column: clamp(500, 55%, 800). 55% is the sweet spot — the
+     * content column gets ~480px (1440 viewport), enough for the
+     * type-display-lg headline to read in 3-4 lines instead of the
+     * 5-6 single-word lines that a 65% photo column forced. The portrait
+     * is a touch smaller than the prior 65% setting, but balance reads
+     * better than a marginally bigger figure beside choppy text.
+     * Row: minmax(460, auto) — close to the contained image's natural
+     * height at this column width, minimizing the letterbox above. */
+    grid-template-columns: minmax(0, 1fr) clamp(500px, 55%, 800px);
+    grid-template-rows: minmax(460px, auto);
+    column-gap: var(--space-5);
+    padding-top: var(--space-10);
+    padding-bottom: 0;
+  }
+  .exp-hero-content {
+    align-self: start;
+  }
+  .exp-hero-portrait {
+    margin: 0;
+    max-width: none;
+  }
+}
+
+/* Ghost typography — Aether-Fox-style oversized word that lives across the
+ * whole hero (not just the portrait area) so the photo can cover most of it
+ * without erasing the effect. `body { overflow-x: clip }` keeps the word's
+ * lateral overflow from producing a horizontal scrollbar. Hidden on mobile
+ * via .exp-blueprint-desktop. */
+.exp-hero-ghost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.exp-hero-ghost > span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(220px, 28vw, 560px);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  /* 2.5% — middle of the new spec's 2-3% band. Reads as atmosphere, not
+   * content. */
+  color: rgba(245, 242, 235, 0.025);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* ============================================================================
+ * Portrait + blueprint composite (ExperiencePortrait).
+ *
+ * Depth: blueprint (z 1) → annotations (z 2) → portrait (z 3). Annotations
+ * sit *behind* the portrait by z-index, so they only show where the photo
+ * isn't — at the top-left and top-right corners of the column on desktop,
+ * and above the photo in normal flow on mobile.
+ *
+ * No CSS filter is applied to the photo — `filter` forces re-rasterization
+ * on most browsers, which softens high-DPR renders. Only mask-image is
+ * used (alpha-only, doesn't touch pixel sharpness).
+ * ========================================================================== */
+.exp-portrait {
+  position: relative;
+}
+
+.exp-portrait-blueprint {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Subtle radial vignette behind the portrait — extremely feathered dark gray
+ * that provides separation between the photo and the lighter blueprint
+ * elements without reading as a halo or glow. Centered toward the bottom-
+ * right where the photo lives. Hidden on mobile (per the "reduce blueprint
+ * by 80%" rule). */
+.exp-portrait-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 75% 65% at 60% 70%,
+    rgba(18, 18, 18, 0.08) 0%,
+    rgba(18, 18, 18, 0.04) 40%,
+    rgba(18, 18, 18, 0) 75%
+  );
+  pointer-events: none;
+}
+
+.exp-portrait-anno {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0.85;
+  position: relative;
+  z-index: 2;
+}
+
+.exp-portrait-anno--arch {
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+/* The source PNG is now an RGBA cutout — the figure has a transparent
+ * background. No aspect-ratio constraint, no object-fit cover, no mask:
+ * the image's natural silhouette is the visible shape. The wrapper is a
+ * transparent positioning frame; the alpha channel handles edge blending.
+ * The "image rectangle" disappears because there is no rectangle to draw. */
+.exp-portrait-photo {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.exp-portrait-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 1024px) {
+  .exp-portrait {
+    height: 100%;
+  }
+  /* Annotations at the four corners of the column per spec: upper-left,
+   * upper-right, mid-left, lower-right. mid-left and lower-right sit
+   * within the photo wrapper area, but in zones where the cutout PNG's
+   * alpha is transparent (off the figure's sides) — so they read against
+   * the page bg + blueprint, not over Mark's body. */
+  .exp-portrait-anno--arch {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-5);
+    margin: 0;
+  }
+  .exp-portrait-anno--system {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-5);
+    margin: 0;
+  }
+  .exp-portrait-anno--architecture {
+    position: absolute;
+    top: 50%;
+    left: var(--space-5);
+    transform: translateY(-50%);
+    margin: 0;
+  }
+  .exp-portrait-anno--api {
+    position: absolute;
+    bottom: var(--space-5);
+    right: var(--space-5);
+    margin: 0;
+  }
+  /* Photo wrapper bottom-aligned at the hero's lower edge so EXP.01's
+   * borderTop hairline lands cleanly *below* the figure, not through
+   * Mark's chest. right: -gutter/2 pushes the silhouette toward the
+   * viewport's right edge by half the gutter. */
+  .exp-portrait-photo {
+    position: absolute;
+    bottom: 0;
+    right: calc(-1 * var(--container-gutter) / 2);
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    margin: 0;
+  }
+  /* object-fit: contain — preserves the full silhouette including BOTH
+   * shoulders. cover (tried earlier) crops the source's outer edges
+   * symmetrically and was clipping Mark's right shoulder because his body
+   * extends wider than the cover-cropped visible window allowed. contain
+   * fits the entire image inside the wrapper; the cutout PNG's transparent
+   * letterbox at top is invisible against the blueprint behind. */
+  .exp-portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+  }
+}
+
+/* Blueprint layers hidden below 1024px (spec: keep only the circle + ARCH.01
+ * on mobile). Applied to SVG <g> elements *and* the SYSTEM DESIGN annotation
+ * span — display: none/inline works for both. */
+.exp-blueprint-desktop {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .exp-blueprint-desktop {
+    display: inline;
   }
 }

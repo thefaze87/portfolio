@@ -1,0 +1,68 @@
+[
+  {
+    "org": "Life Surge / Oxlos",
+    "role": "Enterprise Solutions Architect",
+    "dates": "Oct 2025–Present",
+    "highlights": [
+      "Lead solutions architecture across enterprise platforms and integrations.",
+      "Translate business goals into system design and technical strategy.",
+      "Guide AI adoption and automation across internal workflows."
+    ]
+  },
+  {
+    "org": "Roghnu",
+    "role": "Senior Software Engineer",
+    "dates": "Jan 2025–Oct 2025",
+    "highlights": [
+      "Shipped production features across a modern web stack.",
+      "Raised delivery practices and code quality on a senior team."
+    ]
+  },
+  {
+    "org": "Scorpion",
+    "role": "Sr. Front-end Architect / UI Engineer",
+    "dates": "Nov 2020–Oct 2024",
+    "highlights": [
+      "Led front-end architecture for a large multi-tenant marketing platform.",
+      "Established shared design systems and component standards across teams.",
+      "Drove performance, accessibility, and UI consistency at scale."
+    ]
+  },
+  {
+    "org": "Publix Super Markets",
+    "role": "Software Engineer",
+    "dates": "Apr 2019–Nov 2020",
+    "highlights": [
+      "Built and maintained business-critical retail systems.",
+      "Partnered across teams to deliver reliable internal tooling."
+    ]
+  },
+  {
+    "org": "Ramsey Solutions",
+    "role": "Software Engineer",
+    "dates": "May 2018–Jan 2019",
+    "highlights": [
+      "Contributed to customer-facing web products and services.",
+      "Shipped features in a fast-moving product environment."
+    ]
+  },
+  {
+    "org": "Johns Hopkins All Children's Hospital",
+    "role": "Software Engineer",
+    "dates": "Aug 2014–May 2018",
+    "highlights": [
+      "Built healthcare applications supporting clinical and operational needs.",
+      "Delivered software within regulated, high-reliability environments."
+    ]
+  },
+  {
+    "org": "Independent Consulting",
+    "role": "Solutions & Strategy Consultant",
+    "dates": "2005–Present",
+    "highlights": [
+      "Provided architecture and strategy consulting across software, systems, and digital products.",
+      "Partnered with teams to solve complex technical decisions and integration challenges.",
+      "Maintained an ongoing parallel practice alongside full-time engineering roles."
+    ]
+  }
+]

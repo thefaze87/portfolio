@@ -15,6 +15,12 @@ import { ArchitecturePhilosophy } from '@/components/marketing/ArchitecturePhilo
 import { ExperienceTimeline } from '@/components/marketing/ExperienceTimeline';
 import { IndustriesGrid } from '@/components/marketing/IndustriesGrid';
 import { ExperienceMore } from '@/components/marketing/ExperienceMore';
+import { ExperienceHero } from '@/components/marketing/ExperienceHero';
+import { ExperienceCareer } from '@/components/marketing/ExperienceCareer';
+import { ExperienceMetrics } from '@/components/marketing/ExperienceMetrics';
+import { ExperienceLeadership } from '@/components/marketing/ExperienceLeadership';
+import { ExperienceRecommendations } from '@/components/marketing/ExperienceRecommendations';
+import { ExperienceLinks } from '@/components/marketing/ExperienceLinks';
 import { NAV_LINKS } from '@/lib/nav';
 
 /* ============================================================================
@@ -245,7 +251,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
          * Header
          * ----------------------------------------------------------------- */}
         <header style={{ marginBottom: 'var(--space-10)' }}>
-          <EyebrowLabel>Styleguide · Internal · Phase 6</EyebrowLabel>
+          <EyebrowLabel>Styleguide · Internal · Phase 7</EyebrowLabel>
           <h1 className="type-display-lg" style={{ marginTop: 'var(--space-5)', maxWidth: '32ch' }}>
             Design system tokens.
           </h1>
@@ -1134,6 +1140,44 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           </div>
         </Section>
 
+        {/* §15 Experience page — the full /experience composition (EXP.00–05) */}
+        <Section title="Experience page" index="15">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            The six sections of the standalone <code>/experience</code> route: EXP.00 editorial hero
+            (page h1), EXP.01 detailed career timeline, EXP.02 metrics, EXP.03 technology
+            leadership, EXP.04 recommendations, EXP.05 links. EXP.01 bullets and EXP.04 quotes are
+            placeholder copy; EXP.02 figures are derivable breadth facts, not invented metrics.
+          </p>
+
+          {[
+            <ExperienceHero key="hero" />,
+            <ExperienceCareer key="career" />,
+            <ExperienceMetrics key="metrics" />,
+            <ExperienceLeadership key="leadership" />,
+            <ExperienceRecommendations key="recs" />,
+            <ExperienceLinks key="links" />,
+          ].map((specimen, i) => (
+            <div
+              key={i}
+              style={{
+                border: 'var(--stroke-hairline) solid var(--color-border)',
+                borderRadius: 'var(--radius-sm)',
+                overflow: 'hidden',
+                marginBottom: 'var(--space-6)',
+              }}
+            >
+              {specimen}
+            </div>
+          ))}
+        </Section>
+
         <footer
           style={{
             marginTop: 'var(--space-10)',
@@ -1142,7 +1186,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           }}
         >
           <p className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
-            Mark Fasel · Phase 6 · {new Date().getFullYear()}
+            Mark Fasel · Phase 7 · {new Date().getFullYear()}
           </p>
         </footer>
       </main>

@@ -22,7 +22,7 @@ export function ExperienceMore() {
         style={{
           maxWidth: 'var(--container-default)',
           paddingInline: 'var(--container-gutter)',
-          paddingBlock: 'var(--space-10)',
+          paddingBlock: 'var(--section-py)',
           borderTop: 'var(--stroke-hairline) solid var(--color-border)',
         }}
       >

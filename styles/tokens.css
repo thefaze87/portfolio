@@ -126,17 +126,25 @@
   --container-default: 1280px;
   --container-wide: 1440px;
   --container-gutter: 24px;
+  /* Vertical padding for each homepage/experience section. Held in a single
+   * variable (rather than hardcoded `var(--space-10)` everywhere) so mobile
+   * can breathe more naturally. Tuned tight on phones (24px = space-5) so
+   * sections don't feel like discrete pages stacked apart; scales up to
+   * 128px (space-10) on desktop for the editorial rhythm. */
+  --section-py: var(--space-5);
 }
 
 @media (min-width: 768px) {
   :root {
     --container-gutter: 40px;
+    --section-py: var(--space-7);
   }
 }
 
 @media (min-width: 1024px) {
   :root {
     --container-gutter: 64px;
+    --section-py: var(--space-10);
   }
 }
 

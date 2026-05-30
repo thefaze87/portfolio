@@ -16,9 +16,10 @@ import { ExperienceTimeline } from '@/components/marketing/ExperienceTimeline';
 import { IndustriesGrid } from '@/components/marketing/IndustriesGrid';
 import { ExperienceMore } from '@/components/marketing/ExperienceMore';
 import { ExperienceHero } from '@/components/marketing/ExperienceHero';
+import { ExperienceCompetencies } from '@/components/marketing/ExperienceCompetencies';
 import { ExperienceCareer } from '@/components/marketing/ExperienceCareer';
-import { ExperienceMetrics } from '@/components/marketing/ExperienceMetrics';
-import { ExperienceLeadership } from '@/components/marketing/ExperienceLeadership';
+import { ExperiencePrinciples } from '@/components/marketing/ExperiencePrinciples';
+import { SelectedWork } from '@/components/marketing/SelectedWork';
 import { ExperienceRecommendations } from '@/components/marketing/ExperienceRecommendations';
 import { ExperienceLinks } from '@/components/marketing/ExperienceLinks';
 import { NAV_LINKS } from '@/lib/nav';
@@ -1140,7 +1141,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           </div>
         </Section>
 
-        {/* §15 Experience page — the full /experience composition (EXP.00–05) */}
+        {/* §15 Experience page — the portfolio composition */}
         <Section title="Experience page" index="15">
           <p
             className="type-body"
@@ -1150,17 +1151,20 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
               maxWidth: '64ch',
             }}
           >
-            The six sections of the standalone <code>/experience</code> route: EXP.00 editorial hero
-            (page h1), EXP.01 detailed career timeline, EXP.02 metrics, EXP.03 technology
-            leadership, EXP.04 recommendations, EXP.05 links. EXP.01 bullets and EXP.04 quotes are
-            placeholder copy; EXP.02 figures are derivable breadth facts, not invented metrics.
+            The portfolio sections of the standalone <code>/experience</code> route: EXP.00 hero
+            (page h1), EXP.01 competency strip, EXP.01 career-as-case-studies (summary + outcomes +
+            tech per role), ARCH.02 architecture principles, WORK.01 selected work, EXP.04
+            recommendations, EXP.05 links. Career content comes from{' '}
+            <code>content/experience/career.json</code>; Selected Work from{' '}
+            <code>content/experience/work.json</code>.
           </p>
 
           {[
             <ExperienceHero key="hero" />,
+            <ExperienceCompetencies key="competencies" />,
             <ExperienceCareer key="career" />,
-            <ExperienceMetrics key="metrics" />,
-            <ExperienceLeadership key="leadership" />,
+            <ExperiencePrinciples key="principles" />,
+            <SelectedWork key="work" />,
             <ExperienceRecommendations key="recs" />,
             <ExperienceLinks key="links" />,
           ].map((specimen, i) => (

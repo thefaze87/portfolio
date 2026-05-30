@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { ExperienceHero } from '@/components/marketing/ExperienceHero';
+import { ExperienceCompetencies } from '@/components/marketing/ExperienceCompetencies';
 import { ExperienceCareer } from '@/components/marketing/ExperienceCareer';
-import { ExperienceMetrics } from '@/components/marketing/ExperienceMetrics';
-import { ExperienceLeadership } from '@/components/marketing/ExperienceLeadership';
+import { ExperiencePrinciples } from '@/components/marketing/ExperiencePrinciples';
+import { SelectedWork } from '@/components/marketing/SelectedWork';
 import { ExperienceRecommendations } from '@/components/marketing/ExperienceRecommendations';
 import { ExperienceLinks } from '@/components/marketing/ExperienceLinks';
 
@@ -13,10 +14,14 @@ export const metadata: Metadata = {
 };
 
 /**
- * Experience — the full career page. EXP.00 hero owns the page's only <h1>;
- * EXP.01–05 follow as h2 sections (career, metrics, leadership,
- * recommendations, links), each on the shared section shell so the page reads
- * as one continuous publication. Header and Footer come from the root layout.
+ * Experience — the portfolio page. Composition reads as an architectural
+ * publication: hero positioning, a brief competency strip, the career as
+ * case studies, the principles those decisions return to, a Selected Work
+ * gallery, recommendations, and a closing call to action.
+ *
+ * EXP.00 Hero owns the page's only <h1>. EXP.01 → ARCH.02 → WORK.01 →
+ * EXP.04/05 follow as h2 sections, each on the shared section shell so
+ * the page reads as one continuous publication.
  *
  * Server Component (no client islands).
  */
@@ -24,9 +29,10 @@ export default function ExperiencePage() {
   return (
     <main id="main-content">
       <ExperienceHero />
+      <ExperienceCompetencies />
       <ExperienceCareer />
-      <ExperienceMetrics />
-      <ExperienceLeadership />
+      <ExperiencePrinciples />
+      <SelectedWork />
       <ExperienceRecommendations />
       <ExperienceLinks />
     </main>

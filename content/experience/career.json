@@ -3,66 +3,81 @@
     "org": "Life Surge / Oxlos",
     "role": "Enterprise Solutions Architect",
     "dates": "Oct 2025–Present",
-    "highlights": [
-      "Lead solutions architecture across enterprise platforms and integrations.",
-      "Translate business goals into system design and technical strategy.",
-      "Guide AI adoption and automation across internal workflows."
-    ]
+    "summary": "Lead solutions architecture across Life Surge / Oxlos's enterprise platforms — education, events, registration, payments, and internal systems — setting boundaries, integration patterns, and AI strategy across multiple engineering teams in close collaboration with executive stakeholders.",
+    "outcomes": [
+      "Architecture across education, events, registration, payments, and internal platforms",
+      "System boundaries and ownership models",
+      "API contracts and integration architecture",
+      "AI strategy and implementation guidance",
+      "Technical leadership across multiple engineering teams",
+      "Executive stakeholder collaboration"
+    ],
+    "tech": ["Laravel", "Vue", "APIs", "Azure", "AI Systems", "System Design"]
   },
   {
     "org": "Roghnu",
-    "role": "Senior Software Engineer",
+    "role": "Senior Software Developer",
     "dates": "Jan 2025–Oct 2025",
-    "highlights": [
-      "Shipped production features across a modern web stack.",
-      "Raised delivery practices and code quality on a senior team."
-    ]
+    "summary": "Architected enterprise integrations and financial data platforms with an API-first focus — connecting Sage Intacct, aviation data systems, and internal services through durable synchronization patterns.",
+    "outcomes": [
+      "Enterprise integrations",
+      "Sage Intacct architecture",
+      "Aviation data platforms",
+      "Financial systems integration",
+      "Data synchronization platforms",
+      "API-first architecture"
+    ],
+    "tech": ["Laravel", "Vue", "SQL Server", "Azure", "Sage Intacct", "Enterprise APIs"]
   },
   {
     "org": "Scorpion",
-    "role": "Sr. Front-end Architect / UI Engineer",
+    "role": "Senior Frontend Engineer",
     "dates": "Nov 2020–Oct 2024",
-    "highlights": [
-      "Led front-end architecture for a large multi-tenant marketing platform.",
-      "Established shared design systems and component standards across teams.",
-      "Drove performance, accessibility, and UI consistency at scale."
-    ]
+    "summary": "Led front-end architecture and design systems across large-scale marketing platforms — establishing component standards, accessibility patterns, and the shared foundation multiple product teams built on top of.",
+    "outcomes": [
+      "Frontend architecture",
+      "Design systems",
+      "Enterprise Angular applications",
+      "Accessibility",
+      "Large-scale marketing platforms"
+    ],
+    "tech": ["Angular", "TypeScript", "RxJS", "Design Systems"]
   },
   {
     "org": "Publix Super Markets",
     "role": "Software Engineer",
     "dates": "Apr 2019–Nov 2020",
-    "highlights": [
-      "Built and maintained business-critical retail systems.",
-      "Partnered across teams to deliver reliable internal tooling."
-    ]
+    "summary": "Built and maintained business-critical retail systems and internal tooling.",
+    "outcomes": [],
+    "tech": []
   },
   {
     "org": "Ramsey Solutions",
     "role": "Software Engineer",
     "dates": "May 2018–Jan 2019",
-    "highlights": [
-      "Contributed to customer-facing web products and services.",
-      "Shipped features in a fast-moving product environment."
-    ]
+    "summary": "Contributed to customer-facing web products in a fast-moving product environment.",
+    "outcomes": [],
+    "tech": []
   },
   {
     "org": "Johns Hopkins All Children's Hospital",
     "role": "Software Engineer",
     "dates": "Aug 2014–May 2018",
-    "highlights": [
-      "Built healthcare applications supporting clinical and operational needs.",
-      "Delivered software within regulated, high-reliability environments."
-    ]
+    "summary": "Architected healthcare platforms, internal systems, and enterprise intranet initiatives — supporting clinical, research, and operational workflows within a regulated, high-reliability environment.",
+    "outcomes": [
+      "Healthcare platform architecture",
+      "Internal systems",
+      "Enterprise intranet initiatives",
+      "Research and operational platforms"
+    ],
+    "tech": [".NET", "JavaScript", "UX"]
   },
   {
     "org": "Independent Consulting",
     "role": "Solutions & Strategy Consultant",
     "dates": "2005–Present",
-    "highlights": [
-      "Provided architecture and strategy consulting across software, systems, and digital products.",
-      "Partnered with teams to solve complex technical decisions and integration challenges.",
-      "Maintained an ongoing parallel practice alongside full-time engineering roles."
-    ]
+    "summary": "Maintained a parallel architecture and strategy practice — partnering with teams to navigate complex technical decisions, integration challenges, and platform transitions across software, systems, and digital products.",
+    "outcomes": [],
+    "tech": []
   }
 ]

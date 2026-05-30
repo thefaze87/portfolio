@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Placeholder case study",
+    "subtitle": "Selected Work · placeholder",
+    "description": "Replace this entry with a real case study from your portfolio — the work, the context, and the outcomes. Add as many objects to this array as you want shown.",
+    "outcomes": [
+      "First placeholder outcome — what shipped or what changed",
+      "Second placeholder outcome — the measurable result",
+      "Third placeholder outcome — the durable impact"
+    ],
+    "tech": ["Tech 1", "Tech 2", "Tech 3"],
+    "tag": "Placeholder"
+  }
+]

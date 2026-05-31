@@ -498,13 +498,14 @@ body {
     right: var(--space-5);
     margin: 0;
   }
-  /* Photo wrapper bottom-aligned at the hero's lower edge so EXP.01's
-   * borderTop hairline lands cleanly *below* the figure, not through
-   * Mark's chest. right: -gutter/2 pushes the silhouette toward the
-   * viewport's right edge by half the gutter. */
+  /* Photo wrapper bottom-aligned at the hero with a small 16px buffer
+   * (bottom: var(--space-4)) so the figure doesn't physically touch the
+   * next section's borderTop hairline below. Without that buffer, photo
+   * pixels and hairline pixels coincide at the same y. right: -gutter/2
+   * pushes the silhouette toward the viewport's right edge. */
   .exp-portrait-photo {
     position: absolute;
-    bottom: 0;
+    bottom: var(--space-4);
     right: calc(-1 * var(--container-gutter) / 2);
     width: 100%;
     max-width: 800px;

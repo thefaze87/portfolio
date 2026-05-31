@@ -59,7 +59,7 @@ export function ExperienceCompetencies() {
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <span className="type-h3" style={{ color: 'var(--color-text)' }}>
+              <span className="type-h1" style={{ color: 'var(--color-text)' }}>
                 {label}
               </span>
             </li>

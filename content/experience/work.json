@@ -1,14 +1,30 @@
 [
   {
-    "title": "Placeholder case study",
-    "subtitle": "Selected Work · placeholder",
-    "description": "Replace this entry with a real case study from your portfolio — the work, the context, and the outcomes. Add as many objects to this array as you want shown.",
-    "outcomes": [
-      "First placeholder outcome — what shipped or what changed",
-      "Second placeholder outcome — the measurable result",
-      "Third placeholder outcome — the durable impact"
-    ],
-    "tech": ["Tech 1", "Tech 2", "Tech 3"],
-    "tag": "Placeholder"
+    "title": "Pentastar Aviation",
+    "subtitle": "Enterprise Integration Architecture",
+    "description": "Unified aviation operations with Sage Intacct through resilient synchronization pipelines, reconciliation processes, and scalable integration patterns.",
+    "outcomes": [],
+    "tech": []
+  },
+  {
+    "title": "Life Surge Platform Ecosystem",
+    "subtitle": "Enterprise Systems Architecture",
+    "description": "Defined system boundaries and integration strategies across events, education, registration, payments, and internal platforms.",
+    "outcomes": [],
+    "tech": []
+  },
+  {
+    "title": "Ramsey Digital Experiences",
+    "subtitle": "Frontend Architecture",
+    "description": "Delivered scalable user experiences supporting content, education, and customer engagement across multiple brands.",
+    "outcomes": [],
+    "tech": []
+  },
+  {
+    "title": "Publix Ordering Platforms",
+    "subtitle": "Retail Systems Engineering",
+    "description": "Built customer-facing digital experiences connecting ordering workflows with enterprise retail systems.",
+    "outcomes": [],
+    "tech": []
   }
 ]

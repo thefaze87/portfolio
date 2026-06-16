@@ -22,6 +22,7 @@ interface CareerEntry {
   summary: string;
   outcomes: string[];
   tech: string[];
+  themes?: string[];
   href?: string;
 }
 
@@ -186,6 +187,26 @@ export function ExperienceCareer() {
                             </li>
                           ))}
                         </ul>
+                      </div>
+                    )}
+
+                    {entry.themes && entry.themes.length > 0 && (
+                      <div>
+                        <span
+                          className="type-mono-label"
+                          style={{ color: 'var(--color-text-muted)' }}
+                        >
+                          Architectural themes
+                        </span>
+                        <p
+                          className="type-mono-label"
+                          style={{
+                            marginTop: 'var(--space-3)',
+                            color: 'var(--color-accent)',
+                          }}
+                        >
+                          {entry.themes.join(' · ')}
+                        </p>
                       </div>
                     )}
 

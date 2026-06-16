@@ -44,18 +44,53 @@
     "tech": ["Angular", "TypeScript", "RxJS", "Design Systems"]
   },
   {
+    "org": "Ramsey Solutions",
+    "role": "Frontend Engineer",
+    "dates": "May 2018–Jan 2019",
+    "summary": "Contributed to large-scale digital products serving millions of users across personal finance, education, events, and media. Worked within cross-functional teams to build user experiences that balanced performance, accessibility, and business goals.",
+    "outcomes": [
+      "Delivered frontend solutions across multiple Ramsey brands and platforms",
+      "Collaborated with designers, product managers, and backend engineers to ship customer-facing features",
+      "Helped improve usability, consistency, and maintainability across applications",
+      "Contributed to scalable frontend architecture and shared component patterns"
+    ],
+    "tech": [
+      "Vue.js",
+      "JavaScript",
+      "TypeScript",
+      "APIs",
+      "Frontend Architecture",
+      "Design Systems"
+    ],
+    "themes": ["Customer Experience", "Platform Consistency", "Frontend Scalability"]
+  },
+  {
     "org": "Publix Super Markets",
     "role": "Software Engineer",
     "dates": "Apr 2019–Nov 2020",
-    "summary": "Built and maintained business-critical retail systems and internal tooling.",
-    "outcomes": [],
-    "tech": []
+    "summary": "Designed and developed digital experiences supporting one of the largest employee-owned companies in the United States. Worked on customer-facing ordering systems and enterprise applications used across a large retail organization.",
+    "outcomes": [
+      "Contributed to online ordering and customer experience initiatives",
+      "Built integrations between frontend experiences and backend services",
+      "Supported scalable systems serving high-volume customer traffic",
+      "Collaborated with business stakeholders to translate requirements into technical solutions"
+    ],
+    "tech": [
+      "C#",
+      ".NET MVC",
+      "JavaScript",
+      "SQL Server",
+      "Sitecore CMS",
+      "APIs",
+      "Enterprise Systems"
+    ],
+    "themes": ["Retail Systems", "Enterprise Applications", "Customer Experience"]
   },
   {
-    "org": "Ramsey Solutions",
-    "role": "Software Engineer",
-    "dates": "May 2018–Jan 2019",
-    "summary": "Contributed to customer-facing web products in a fast-moving product environment.",
+    "org": "Independent Consulting",
+    "role": "Solutions & Strategy Consultant",
+    "dates": "2005–Present",
+    "summary": "Maintained a parallel architecture and strategy practice — partnering with teams to navigate complex technical decisions, integration challenges, and platform transitions across software, systems, and digital products.",
     "outcomes": [],
     "tech": []
   },
@@ -70,14 +105,6 @@
       "Enterprise intranet initiatives",
       "Research and operational platforms"
     ],
-    "tech": [".NET", "JavaScript", "UX"]
-  },
-  {
-    "org": "Independent Consulting",
-    "role": "Solutions & Strategy Consultant",
-    "dates": "2005–Present",
-    "summary": "Maintained a parallel architecture and strategy practice — partnering with teams to navigate complex technical decisions, integration challenges, and platform transitions across software, systems, and digital products.",
-    "outcomes": [],
-    "tech": []
+    "tech": [".NET", "JavaScript", "Kentico CMS", "UX"]
   }
 ]

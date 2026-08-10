@@ -1,110 +1,100 @@
-[
-  {
-    "org": "Life Surge / Oxlos",
-    "role": "Enterprise Solutions Architect",
-    "dates": "Oct 2025–Present",
-    "summary": "Lead solutions architecture across Life Surge / Oxlos's enterprise platforms — education, events, registration, payments, and internal systems — setting boundaries, integration patterns, and AI strategy across multiple engineering teams in close collaboration with executive stakeholders.",
-    "outcomes": [
-      "Architecture across education, events, registration, payments, and internal platforms",
-      "System boundaries and ownership models",
-      "API contracts and integration architecture",
-      "AI strategy and implementation guidance",
-      "Technical leadership across multiple engineering teams",
-      "Executive stakeholder collaboration"
-    ],
-    "tech": [".NET", "React", "Vue", "WordPress", "APIs", "Azure", "AI Systems", "System Design"]
-  },
-  {
-    "org": "Roghnu",
-    "role": "Senior Software Developer",
-    "dates": "Jan 2025–Oct 2025",
-    "summary": "Architected enterprise integrations and financial data platforms with an API-first focus — connecting Sage Intacct, aviation data systems, and internal services through durable synchronization patterns.",
-    "outcomes": [
-      "Enterprise integrations",
-      "Sage Intacct architecture",
-      "Aviation data platforms",
-      "Financial systems integration",
-      "Data synchronization platforms",
-      "API-first architecture"
-    ],
-    "tech": ["Laravel", "Vue", "SQL Server", "Azure", "Sage Intacct", "Enterprise APIs"]
-  },
-  {
-    "org": "Scorpion",
-    "role": "Senior Frontend Engineer",
-    "dates": "Nov 2020–Oct 2024",
-    "summary": "Led front-end architecture and design systems across large-scale marketing platforms — establishing component standards, accessibility patterns, and the shared foundation multiple product teams built on top of.",
-    "outcomes": [
-      "Frontend architecture",
-      "Design systems",
-      "Enterprise Angular applications",
-      "Accessibility",
-      "Large-scale marketing platforms"
-    ],
-    "tech": ["Angular", "TypeScript", "RxJS", "Design Systems"]
-  },
-  {
-    "org": "Ramsey Solutions",
-    "role": "Frontend Engineer",
-    "dates": "May 2018–Jan 2019",
-    "summary": "Contributed to large-scale digital products serving millions of users across personal finance, education, events, and media. Worked within cross-functional teams to build user experiences that balanced performance, accessibility, and business goals.",
-    "outcomes": [
-      "Delivered frontend solutions across multiple Ramsey brands and platforms",
-      "Collaborated with designers, product managers, and backend engineers to ship customer-facing features",
-      "Helped improve usability, consistency, and maintainability across applications",
-      "Contributed to scalable frontend architecture and shared component patterns"
-    ],
-    "tech": [
-      "Vue.js",
-      "JavaScript",
-      "TypeScript",
-      "APIs",
-      "Frontend Architecture",
-      "Design Systems"
-    ],
-    "themes": ["Customer Experience", "Platform Consistency", "Frontend Scalability"]
-  },
-  {
-    "org": "Publix Super Markets",
-    "role": "Software Engineer",
-    "dates": "Apr 2019–Nov 2020",
-    "summary": "Designed and developed digital experiences supporting one of the largest employee-owned companies in the United States. Worked on customer-facing ordering systems and enterprise applications used across a large retail organization.",
-    "outcomes": [
-      "Contributed to online ordering and customer experience initiatives",
-      "Built integrations between frontend experiences and backend services",
-      "Supported scalable systems serving high-volume customer traffic",
-      "Collaborated with business stakeholders to translate requirements into technical solutions"
-    ],
-    "tech": [
-      "C#",
-      ".NET MVC",
-      "JavaScript",
-      "SQL Server",
-      "Sitecore CMS",
-      "APIs",
-      "Enterprise Systems"
-    ],
-    "themes": ["Retail Systems", "Enterprise Applications", "Customer Experience"]
-  },
-  {
-    "org": "Independent Consulting",
-    "role": "Solutions & Strategy Consultant",
-    "dates": "2005–Present",
-    "summary": "Maintained a parallel architecture and strategy practice — partnering with teams to navigate complex technical decisions, integration challenges, and platform transitions across software, systems, and digital products.",
+{
+  "roles": [
+    {
+      "org": "Life Surge",
+      "role": "Solutions Architect",
+      "dates": "Oct 2025–Present",
+      "summary": "Own enterprise architecture and platform modernization across event, education, CRM, e-commerce, and internal business systems — partnering with executive stakeholders to translate business strategy into scalable technical delivery.",
+      "outcomes": [
+        "Architected BridgePoint, an enterprise CRM unifying ERP, billing, payments, RBAC, Microsoft Entra ID, event operations, and LMS provisioning across previously disconnected systems",
+        "Set technical direction for a team of 5–7 engineers, establishing platform standards, system design decisions, and architecture review practices",
+        "Drove architecture initiatives spanning 6+ business units — Product, Revenue, Marketing, Education, Collections, and Engineering",
+        "Built and now lead an enterprise WCAG 2.2 governance platform automating accessibility audits, executive reporting, and compliance tracking",
+        "Defined enterprise API contracts and led modernization of student and assessment platforms onto React and Vue over legacy .NET systems"
+      ],
+      "tech": [".NET", "React", "Vue", "APIs", "Azure", "Microsoft Entra ID", "System Design"]
+    },
+    {
+      "org": "Roghnu",
+      "role": "Senior Software Developer",
+      "dates": "Jan 2025–Oct 2025",
+      "summary": "Delivered enterprise integration solutions connecting financial systems, business applications, and third-party platforms through scalable APIs and distributed synchronization services.",
+      "outcomes": [
+        "Architected enterprise integrations across 5+ financial and business platforms, eliminating manual data exchange between systems",
+        "Built observable data pipelines processing millions of synchronized records with validation, audit capability, and structured logging",
+        "Engineered resilient synchronization services with retry logic, monitoring, and fault-tolerant processing",
+        "Re-architected a production import/save pipeline after live traffic exceeded original scope by hundreds of thousands of records — replacing frontend-only processing with an event-driven backend queue"
+      ],
+      "tech": ["Laravel", "Vue", "SQL Server", "Azure", "Sage Intacct", "Enterprise APIs"]
+    },
+    {
+      "org": "Scorpion",
+      "role": "Senior Front-end Product Developer",
+      "dates": "Nov 2020–Oct 2024",
+      "summary": "Promoted to lead frontend architecture and enterprise application modernization across multiple SaaS platforms serving franchise and local service businesses at scale.",
+      "outcomes": [
+        "Architected a custom product management platform that cut product launches from 3 months to 3 weeks while reducing production defects by 40%",
+        "Championed an enterprise design system adopted across internal web applications, reducing frontend development time by 30–40%",
+        "Directed frontend architecture across three flagship enterprise platforms, establishing reusable architecture and engineering standards",
+        "Modernized legacy React and Angular applications through technical debt reduction, performance optimization, and enterprise ADA/WCAG initiatives"
+      ],
+      "tech": ["React", "Angular", "TypeScript", "RxJS", "Storybook", "Design Systems"]
+    },
+    {
+      "org": "Publix Super Markets",
+      "role": "Software Engineer",
+      "dates": "Apr 2019–Nov 2020",
+      "summary": "Built customer-facing commerce and enterprise applications for one of the largest employee-owned companies in the United States, serving high-volume retail traffic.",
+      "outcomes": [
+        "Delivered e-commerce capabilities including Apple Pay and Google Pay integrations, contributing to a 20%+ increase in online revenue",
+        "Raised third-party WCAG/ADA compliance scores from 70% to 90% across customer-facing web and mobile platforms"
+      ],
+      "tech": ["C#", ".NET MVC", "JavaScript", "SQL Server", "Sitecore CMS", "APIs"],
+      "themes": ["Retail Systems", "Enterprise Applications", "Customer Experience"]
+    },
+    {
+      "org": "Ramsey Solutions",
+      "role": "Front-end Developer",
+      "dates": "Jun 2018–Jan 2019",
+      "summary": "Built digital products serving millions of users across personal finance, education, events, and media, working within cross-functional product teams.",
+      "outcomes": [
+        "Refactored legacy Handlebars and jQuery applications into modern React architectures, improving maintainability, performance, and scalability",
+        "Contributed to Gazelle, the enterprise design system, establishing reusable UI standards that accelerated feature delivery across products"
+      ],
+      "tech": ["React", "JavaScript", "Handlebars", "Design Systems", "Frontend Architecture"],
+      "themes": ["Customer Experience", "Platform Consistency", "Frontend Scalability"]
+    },
+    {
+      "org": "Johns Hopkins All Children's Hospital",
+      "role": "Senior Software Developer",
+      "dates": "Aug 2014–Jun 2018",
+      "summary": "Led development of healthcare platforms, enterprise intranet initiatives, and internal systems supporting clinical, research, and operational workflows in a regulated, high-reliability environment.",
+      "outcomes": [
+        "Delivered a complete redesign and migration of 12,000+ pages in six weeks, on time and under budget",
+        "Directed development of the enterprise intranet serving 3,000+ employees, partnering with executive leadership on product strategy"
+      ],
+      "tech": [".NET", "JavaScript", "Kentico CMS", "UX"]
+    },
+    {
+      "org": "LawLytics",
+      "role": "Senior Front-End Developer → Creative Director",
+      "dates": "Jun 2012–Jul 2014",
+      "summary": "Led frontend engineering and UX strategy for a multi-tenant legal technology platform, then moved into creative direction — owning the visual system and front-end standards across client sites. The step from writing the code to directing the work that produced it is where the product and UX half of my thinking started.",
+      "outcomes": [
+        "Led frontend engineering and UX strategy across a multi-tenant platform",
+        "Progressed from senior individual contributor to creative direction",
+        "Set design and front-end standards across client work",
+        "Bridged design and engineering as a single responsibility"
+      ],
+      "tech": ["JavaScript", "HTML/CSS", "CMS Platforms", "UX", "Creative Direction"]
+    }
+  ],
+  "parallel": {
+    "org": "Mark Fasel, LLC",
+    "role": "Independent Consultant",
+    "dates": "2014–Present",
+    "summary": "Architecture, frontend strategy, and modernization consulting for startups and enterprise clients — a practice that has run alongside every in-house role since, and the reason I have spent as much time in systems I did not build as in ones I did.",
     "outcomes": [],
     "tech": []
-  },
-  {
-    "org": "Johns Hopkins All Children's Hospital",
-    "role": "Software Engineer",
-    "dates": "Aug 2014–May 2018",
-    "summary": "Architected healthcare platforms, internal systems, and enterprise intranet initiatives — supporting clinical, research, and operational workflows within a regulated, high-reliability environment.",
-    "outcomes": [
-      "Healthcare platform architecture",
-      "Internal systems",
-      "Enterprise intranet initiatives",
-      "Research and operational platforms"
-    ],
-    "tech": [".NET", "JavaScript", "Kentico CMS", "UX"]
   }
-]
+}

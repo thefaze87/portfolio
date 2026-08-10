@@ -1,3 +1,14 @@
+> **ARCHIVED — historical record only. Do not follow these instructions.**
+>
+> This described the one-time repo reset and Claude Code handoff that produced
+> the current codebase. That reset happened; the scaffold it describes is the
+> code that exists now. It is kept for provenance.
+>
+> Current sources of truth: `CLAUDE.md` (rules + stack), `PLAN.md` (roadmap),
+> `docs/brand-spec.md` (brand), `docs/audit-2026-08.md` (state of the build).
+
+---
+
 # Claude Code handoff package
 
 This bundle is the complete handoff for building **markfasel.com** in Claude Code. It assumes:

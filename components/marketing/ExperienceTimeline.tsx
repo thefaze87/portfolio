@@ -24,7 +24,19 @@ interface TimelineEntry {
   highlights?: string[];
 }
 
-const TIMELINE = timelineData as TimelineEntry[];
+/**
+ * The data separates employment (`roles`, strictly reverse-chronological) from
+ * the parallel consulting practice. Mark Fasel, LLC spans 2014–Present and
+ * overlaps every role from Scorpion onward, so placing it in the sequence
+ * necessarily broke chronology wherever it landed. It renders as a coda below
+ * the rail instead.
+ */
+interface TimelineData {
+  roles: TimelineEntry[];
+  parallel: TimelineEntry;
+}
+
+const { roles: TIMELINE, parallel: PARALLEL } = timelineData as TimelineData;
 
 export function ExperienceTimeline() {
   return (
@@ -148,6 +160,29 @@ export function ExperienceTimeline() {
             );
           })}
         </ol>
+
+        {/* Parallel practice — deliberately outside the <ol>. It isn't a step
+         * in the sequence; it runs underneath all of them. */}
+        <div
+          style={{
+            marginTop: 'var(--space-9)',
+            paddingTop: 'var(--space-7)',
+            borderTop: 'var(--stroke-hairline) solid var(--color-border)',
+          }}
+        >
+          <span className="type-mono-label nums-tabular" style={{ color: 'var(--color-accent)' }}>
+            Parallel practice · {PARALLEL.dates}
+          </span>
+          <h3 className="type-h3" style={{ marginTop: 'var(--space-3)' }}>
+            {PARALLEL.org}
+          </h3>
+          <p
+            className="type-body"
+            style={{ marginTop: 'var(--space-1)', color: 'var(--color-text-muted)' }}
+          >
+            {PARALLEL.role} — running alongside every role above.
+          </p>
+        </div>
       </div>
     </section>
   );

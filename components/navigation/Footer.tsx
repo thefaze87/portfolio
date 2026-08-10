@@ -3,6 +3,7 @@ import { Logo } from '@/components/brand/Logo';
 import { Wordmark } from '@/components/brand/Wordmark';
 import { RoleLine } from '@/components/navigation/RoleLine';
 import { FOOTER_NAV_LINKS, PLATFORMS, SITE_LOCATION } from '@/lib/nav';
+import { GENERAL_INQUIRY } from '@/lib/email';
 
 /**
  * Footer — restrained brand lockup + nav + social, with a fine-print bar.
@@ -70,6 +71,19 @@ export function Footer() {
                 ))}
               </div>
             </nav>
+
+            {/* Direct email. Sits with the nav rather than in the fine print
+             * because it is a real contact path, not metadata. The address is
+             * rendered as text (readable, copyable) inside the mailto — a
+             * visitor with no configured mail client can still read and copy
+             * it, which a "Email me" label would not allow. */}
+            <a
+              href={GENERAL_INQUIRY.href}
+              className="nav-link type-body-sm"
+              style={{ justifySelf: 'start' }}
+            >
+              {GENERAL_INQUIRY.address}
+            </a>
 
             <ul
               aria-label="Platforms"

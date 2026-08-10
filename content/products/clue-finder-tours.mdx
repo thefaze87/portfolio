@@ -1,0 +1,82 @@
+---
+title: Turning physical locations into programmable experiences
+excerpt: Clue Finder runs across three product surfaces. The hard part was never rendering content — it was modelling progression, and deciding what a player is allowed to do next.
+publishedAt: 2026-01-14
+draft: false
+tags: [product-architecture, mobile, location-based, full-stack]
+---
+
+A scavenger hunt sounds like a content problem. You have locations, you have clues, you show them in order.
+
+It is not a content problem. It is a state machine that happens to be distributed across a city, running on a phone with unreliable signal, for a player who may close the app halfway through and come back tomorrow.
+
+## The problem
+
+Clue Finder sells self-guided tours: you buy a hunt, you walk a route, you solve clues at checkpoints, and the experience unfolds as you go. Physical places, digital progression.
+
+The naive model puts the tour in a CMS and renders it. That breaks immediately on the questions that actually matter:
+
+- Where is this player in this hunt, right now?
+- What have they unlocked, and what is still hidden?
+- What happens if they close the app at checkpoint four?
+- Can two people on the same purchase progress independently?
+- How does an author change a hunt that people are currently playing?
+
+Every one of those is a question about **state**, not content. Getting the boundary wrong between the two is what makes these platforms unmaintainable.
+
+<Callout type="insight">
+  Authored content and player state are different things with different lifecycles. A hunt is edited
+  rarely by one author; progression is written constantly by many players. Modelling them as one
+  thing means every content edit risks corrupting somebody's game.
+</Callout>
+
+## Constraints
+
+- **The phone is the primary device, outdoors.** Signal is unreliable, screens are in sunlight, and one hand is holding a coffee.
+- **Progress cannot be lost.** A player who loses their place mid-hunt has had the product fail at the only moment that matters.
+- **Authors are not engineers.** Hunt creation had to be a real authoring interface, not a database form.
+- **Purchase gates access.** Stripe sits between a visitor and a playable hunt, and that boundary has to be honest.
+
+## The architecture
+
+The platform runs as three surfaces sharing one model of what a hunt is:
+
+**The tours web application** (Rails, with Turbo and Stimulus) — the marketing and discovery surface where hunts are browsed and bought. Server-rendered, because this is the surface search engines need to see and the one that has to load instantly on a phone.
+
+**The player experience** (Laravel API, plus a PWA and a React Native app) — where the hunt actually runs. The PWA covers players who will not install anything for a one-afternoon activity; the native app covers repeat users and gives access to device capabilities the browser handles poorly.
+
+**The admin application** (Laravel) — hunt authoring, checkpoint and clue management, and content operations.
+
+### The separation that matters
+
+The core decision was to keep **hunt definition** and **player progression** as separate domains.
+
+A hunt is authored content: checkpoints, clues, ordering, media, unlock rules. It is versioned, edited by an author, and largely static once published.
+
+Progression is per-player state: which checkpoints are reached, what is unlocked, where they are in the sequence, when they last played. It is written constantly and belongs to the player, not the hunt.
+
+Keeping them separate means an author can edit a hunt without invalidating in-flight sessions, and a player's progress survives content changes underneath it. Collapsing them — which is the tempting shortcut, because a checkpoint "has" a completion — makes every edit a migration.
+
+### Stripe as an access boundary
+
+Purchase grants access to a hunt. That sounds simple and is the place these systems usually leak: a well-meaning share link, an unauthenticated deep link into checkpoint three, a PWA cache that keeps content after a refund.
+
+Access is checked at the point of progression, not only at the point of entry, so possession of a URL is never sufficient.
+
+## The tradeoffs
+
+**Three surfaces is more than one.** A single responsive web app would have been considerably less work. The split is justified by genuinely different jobs — discovery wants SEO and instant load, play wants offline tolerance and device access — but it is real ongoing cost, and I would not recommend it for a smaller product.
+
+**Two backend frameworks is a legacy of sequence, not a design.** The tours site and the player platform grew at different times. It works, and it is honest to say it is not what I would choose starting over.
+
+**PWA and native together is duplication.** Both exist because the audience genuinely splits between "I will not install anything" and "I do this often." That is a product bet, and if it proves wrong, one of them should be deleted rather than maintained out of sunk cost.
+
+## Outcome
+
+A working platform where hunts can be authored without engineering involvement, players progress reliably across sessions and devices, and purchase properly gates access — with the progression model isolated well enough that new experience types can be added without touching the parts that already work.
+
+## What I would do differently
+
+I would consolidate to one backend at the start. The two-framework split was never a decision; it was an accumulation, and every cross-surface feature since has paid a tax for it.
+
+I would also model progression as an event log rather than current-state rows. Current state is easier to query and I chose it for speed. But the interesting product questions — where do players stall, which clue is too hard, where do hunts get abandoned — are all questions about the _sequence_ of what happened, and a state table cannot answer them.

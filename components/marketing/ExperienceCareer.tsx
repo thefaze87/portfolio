@@ -2,7 +2,7 @@ import { SectionLabel } from '@/components/brand/SectionLabel';
 import careerData from '@/content/experience/career.json';
 
 /**
- * ExperienceCareer — EXP.01. Portfolio-style case studies, one per role. Each
+ * ExperienceCareer — EXP.02. Portfolio-style case studies, one per role. Each
  * entry renders: dates + org + role header (left), then a summary paragraph,
  * a KEY OUTCOMES list, and a TECH stack chip row (right). The first entry
  * is the current role and carries the orange active accent.
@@ -26,7 +26,19 @@ interface CareerEntry {
   href?: string;
 }
 
-const CAREER = careerData as CareerEntry[];
+/**
+ * `roles` is strictly reverse-chronological employment. `parallel` is the
+ * consulting practice (Mark Fasel, LLC, 2014–Present), which overlaps the
+ * later roles — it renders as a coda so the sequence above stays
+ * chronologically honest. See ExperienceTimeline for the same split on the
+ * homepage.
+ */
+interface CareerData {
+  roles: CareerEntry[];
+  parallel: CareerEntry;
+}
+
+const { roles: CAREER, parallel: PARALLEL } = careerData as CareerData;
 
 export function ExperienceCareer() {
   return (
@@ -40,7 +52,7 @@ export function ExperienceCareer() {
           borderTop: 'var(--stroke-hairline) solid var(--color-border)',
         }}
       >
-        <SectionLabel>EXP.01</SectionLabel>
+        <SectionLabel>EXP.02</SectionLabel>
 
         <h2 className="type-display-md" style={{ marginTop: 'var(--space-5)', maxWidth: '24ch' }}>
           The career, as case studies.
@@ -225,6 +237,43 @@ export function ExperienceCareer() {
             );
           })}
         </ol>
+
+        {/* Parallel practice — outside the ordered list for the same reason as
+         * the homepage timeline: it spans the whole sequence rather than
+         * occupying a slot in it. */}
+        <div
+          style={{
+            marginTop: 'var(--space-9)',
+            paddingTop: 'var(--space-7)',
+            borderTop: 'var(--stroke-hairline) solid var(--color-border)',
+          }}
+        >
+          <article className="grid grid-cols-1 lg:grid-cols-12" style={{ gap: 'var(--space-7)' }}>
+            <header className="lg:col-span-4" style={{ display: 'flex', flexDirection: 'column' }}>
+              <span
+                className="type-mono-label nums-tabular"
+                style={{ color: 'var(--color-accent)' }}
+              >
+                Parallel practice · {PARALLEL.dates}
+              </span>
+              <h3 className="type-h1" style={{ marginTop: 'var(--space-4)', maxWidth: '20ch' }}>
+                {PARALLEL.org}
+              </h3>
+              <p
+                className="type-body"
+                style={{ marginTop: 'var(--space-2)', color: 'var(--color-text-muted)' }}
+              >
+                {PARALLEL.role}
+              </p>
+            </header>
+
+            <div className="lg:col-span-8">
+              <p className="type-body-lg" style={{ color: 'var(--color-text)', maxWidth: '64ch' }}>
+                {PARALLEL.summary}
+              </p>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
   );

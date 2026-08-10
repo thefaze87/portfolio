@@ -1,0 +1,95 @@
+---
+title: Replacing a spreadsheet with an application
+excerpt: An ERP import process ran on hand-mapped Excel files. The replacement let users upload, review, map fields visually, and run large imports asynchronously — without sitting and watching a progress bar.
+client: Roghnu
+role: Frontend architect · Full-stack engineer
+period: 2025
+publishedAt: 2025-09-22
+draft: false
+stack: [Laravel, Vue, TypeScript, SQL, Queues, Sage Intacct, REST APIs, XLS processing]
+outcomes:
+  [
+    Visual field mapping replaced manual spreadsheet mapping,
+    Long-running imports moved to background queues,
+    Users notified on completion instead of waiting on a request,
+  ]
+tags: [enterprise, ux, integration, queues, erp]
+---
+
+The existing process worked like this: someone exported data, opened it in Excel, mapped columns by hand against a reference sheet, saved it in a specific shape, and handed it to a system that would either accept it or fail in a way that required starting over.
+
+It worked. People had built careers of care around making it work. And it was costing days per cycle and producing errors that were structurally impossible to catch until after import.
+
+## The problem
+
+Spreadsheet-driven ERP workflows fail in a consistent pattern:
+
+- **Mapping knowledge lives in a person, not the system.** The rules for which source column becomes which ERP field exist in someone's head and a document that is slightly out of date.
+- **Errors surface at the end.** You find out the mapping was wrong after the import runs, when the damage is in the ERP.
+- **There is no review step.** The file is the interface, and a file cannot show you what it is about to do.
+- **Everything blocks.** A large import ties up the person who started it.
+
+The request was to make imports faster. The actual problem was that there was no application — only a file format and a convention.
+
+<Callout type="insight">
+  When a business process runs on a spreadsheet, the spreadsheet is not the tool. It is the missing
+  application, drawn by hand, every time.
+</Callout>
+
+## Constraints
+
+- **Sage Intacct is the system of record.** Anything landing in the ERP has to be correct, and the ERP's contract is not negotiable.
+- **Existing files had to keep working.** People had spreadsheets in flight. A design requiring everyone to start over was a design nobody would adopt.
+- **Imports are genuinely large.** Big enough that synchronous processing was never viable.
+- **Users are domain experts, not technical.** The interface had to speak in their vocabulary, not in field names.
+
+## The architecture
+
+### Upload, review, map, then run
+
+The workflow was decomposed into steps that a user can stop at:
+
+1. **Upload** the mapped spreadsheet — preserving the existing artifact rather than demanding a new one.
+2. **Review** the parsed data in the interface, before anything is committed.
+3. **Map** source fields to ERP destinations through a visual interface, with the mapping saved as a reusable configuration rather than re-derived each time.
+4. **Process** — validated, queued, and executed.
+
+Step 2 is the one that changed the character of the tool. A review step turns an irreversible action into an inspectable one, which is the same reason the dry-run mode matters in any migration tooling.
+
+### Queues, because imports are not requests
+
+Import and export operations run as Laravel queued jobs, not inside the HTTP request.
+
+This is the obvious architectural choice and it is worth stating why it was load-bearing here: these operations take long enough that a synchronous design would have meant timeouts, retries against a partially-completed import, and a user who cannot do anything else. Queueing them made the work durable and the interface responsive.
+
+### Telling the user when it finished
+
+Backgrounding the work creates a new problem: the user no longer knows when it is done.
+
+So completion had to travel back to the frontend — job status surfaced in the interface, with notification when an import or export finished. Without that, "it is processing" becomes "I will refresh and hope," which is a worse experience than waiting.
+
+<PullQuote>
+  Moving work to the background is half a feature. The other half is telling someone it finished.
+</PullQuote>
+
+### Mapping as data
+
+The field mappings became stored configuration rather than steps performed by hand. That is what moved the institutional knowledge out of a person and into the system — and it is the part that keeps paying, because the second import is now nearly free.
+
+## The tradeoffs
+
+**Keeping spreadsheet upload preserved a format I would not have chosen.** A direct integration would be cleaner. But the adoption path mattered more than the elegance: meeting people at the artifact they already had is what made the tool something they would actually use.
+
+**Stored mappings can go stale.** If the ERP schema changes, a saved mapping is now wrong in a way that looks right. This needs validation against the live schema — it is the first thing I would harden.
+
+**Queues add operational surface.** Failed jobs, retries, and dead letters are now things someone has to watch. Justified by the size of the imports, but it is not free.
+
+## Outcome
+
+A purpose-built application replacing a spreadsheet ritual: users upload, review before committing, map visually, and run large imports without blocking — with completion reported back rather than guessed at.
+
+The broader outcome is that the mapping logic stopped being tribal knowledge and became something the system knows.
+
+## What I would do differently
+
+I would have validated mappings against the live ERP schema from the start rather than trusting a saved configuration to stay correct. The failure mode I shipped — a stale mapping that looks valid and imports wrong data — is exactly the class of error the project existed to eliminate, and I reintroduced a quieter version of it.

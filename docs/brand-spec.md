@@ -171,7 +171,7 @@ All combinations verified for normal text (4.5:1) and large text (3:1):
 
 - `#F5F2EB` on `#0A0A0A` → 17.4:1 ✓ AAA
 - `#ACA79E` on `#0A0A0A` → 9.2:1 ✓ AAA
-- `#6B6760` on `#0A0A0A` → 4.1:1 — **fails AA for body text, use only for ≥18pt or non-essential metadata**
+- `#8A857C` on `#0A0A0A` → 5.40:1 ✓ AA at all sizes (was `#6B6760`, measured 3.52:1 — the 4.1:1 figure previously stated here was incorrect, and the "≥18pt only" exemption was not observed in practice)
 - `#FF6B35` on `#0A0A0A` → 5.6:1 ✓ AA (acceptable for headings and CTAs at ≥14pt bold)
 - `#F5F2EB` on `#FF6B35` (button text on orange) → 3.1:1 — **use #0A0A0A as button text instead → 5.6:1 ✓**
 - `#111111` on `#FAFBF5` (light mode body) → 17.6:1 ✓ AAA
@@ -676,11 +676,11 @@ Publix, and Scorpion.
 - Technical advisory
 
 ## Key URLs
-- About: https://markfasel.com/about
-- Consulting: https://markfasel.com/consulting
-- Case studies: https://markfasel.com/work
-- Writing: https://markfasel.com/writing
-- Contact: https://markfasel.com/contact
+- About: https://markfasel.dev/about
+- Consulting: https://markfasel.dev/consulting
+- Case studies: https://markfasel.dev/work
+- Writing: https://markfasel.dev/writing
+- Contact: https://markfasel.dev/contact
 
 ## Writing
 Mark publishes essays on architecture, AI, leadership, and systems

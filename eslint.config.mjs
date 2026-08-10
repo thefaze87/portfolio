@@ -24,6 +24,29 @@ const eslintConfig = defineConfig([
     name: 'portfolio/jsx-a11y-recommended',
     rules: jsxA11y.flatConfigs.recommended.rules,
   },
+  {
+    name: 'portfolio/conventions',
+    rules: {
+      /**
+       * Allow a leading underscore to mark a binding as deliberately unused.
+       * The load-bearing case is omit-by-destructuring — pulling a key out of
+       * a props object so the remainder can be spread onto a DOM element:
+       *
+       *   const { href: _href, ...buttonProps } = props;
+       *
+       * Without this, that pattern has to be replaced by something less clear.
+       */
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
+    },
+  },
   globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
 ]);
 

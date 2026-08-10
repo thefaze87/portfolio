@@ -1,0 +1,61 @@
+---
+title: The architect's job is decisions, not diagrams
+excerpt: Every architecture diagram I have ever drawn was a byproduct. The actual work was deciding what we would not build, and writing down why.
+pillar: architecture
+publishedAt: 2026-07-22
+draft: false
+tags: [architecture, decision-making, documentation]
+---
+
+There is a version of this job that involves drawing boxes. Rectangles for services, arrows for calls, a legend nobody reads. It photographs well. It fills a slide. It is not the job.
+
+The job is deciding. Which system owns this data. What we build versus buy versus delete. Which of these choices we can reverse cheaply next year, and which one we are stuck with for a decade. The diagram is a byproduct — a way to communicate a decision that has already been made.
+
+Confusing the two is the most common failure I see in architecture work, and it is expensive in a specific way: teams end up with beautiful documentation of a system nobody agreed to.
+
+## Decisions have a cost of reversal
+
+The useful axis for sorting architectural decisions is not importance. It is how much it costs to change your mind.
+
+Picking a component library is cheap to reverse. Painful, tedious, a few sprints — but bounded, and the blast radius stops at the frontend. Picking the boundary between two services is not. That decision propagates into data models, team ownership, deployment topology, and eventually the org chart. Two years later, "just move that responsibility" means renegotiating who owns a roadmap.
+
+So the questions worth agonizing over are the expensive-to-reverse ones, and the discipline is refusing to spend equal energy on the rest. I have watched teams spend three weeks on a state management library and forty minutes on a service boundary, and then spend the following two years paying for the forty minutes.
+
+<Callout type="insight">
+  Ask of every decision: what would it cost us to change our mind in eighteen months? Spend your
+  deliberation budget in proportion to that number, not in proportion to how interesting the debate
+  is.
+</Callout>
+
+## Undocumented decisions get relitigated
+
+An architectural decision that exists only in someone's head has a half-life of about six months. After that, the people who were in the room have partly forgotten the reasoning, and the people who were not in the room reasonably assume there was none.
+
+What follows is predictable. Someone proposes the thing you already rejected. Nobody can articulate why it was rejected, only that it was. The team either re-runs the entire analysis or defers to whoever sounds most confident. Both outcomes are bad, and the second is worse.
+
+The fix is unglamorous. Write down, for any decision that is expensive to reverse:
+
+1. **What we chose.** One sentence.
+2. **What we chose against.** The credible alternatives, not strawmen. If you cannot state the strongest case for the option you rejected, you have not finished thinking.
+3. **Why.** The constraints that made the difference — including the non-technical ones. "Because the team that would own it has no capacity until Q3" is a legitimate architectural constraint and belongs in the record.
+4. **What would change our minds.** The condition under which this decision should be revisited.
+
+That fourth item is the one people skip, and it is the one that does the most work. It converts a decision from a verdict into a hypothesis with an expiry condition. It also gives the person who disagrees something better to do than argue — they can go find out whether the trigger condition has been met.
+
+## The diagram is for communication, not for thinking
+
+Diagrams are genuinely useful. They are how you get twelve people to share a mental model quickly, and there is no substitute for that.
+
+But they encode very little of what matters. A box labelled `Orders` tells you nothing about whether orders are the system of record for pricing, what happens when the payment provider times out mid-write, or which team gets paged at 3am. Those are the decisions. The box is a handle for referring to them.
+
+The trap is that diagrams _feel_ like architecture. You can spend a day making one and finish with the satisfying sense of having done architectural work. Sometimes you have. Often you have produced a picture of a system whose hard questions remain open, and the picture's tidiness actively conceals that.
+
+A test I use: for each arrow, can I state what happens when it fails? If not, that arrow is decoration.
+
+## What this looks like in practice
+
+On most engagements the highest-value artifact I produce is not a diagram. It is a short document — usually two to four pages — that lists the decisions in front of the organization, what each one costs to reverse, and a recommendation with its reasoning exposed.
+
+It is less impressive than a system topology. It is what people actually use six months later, because a decision record survives a rewrite and a diagram does not.
+
+Draw the diagram. It helps. Just be clear with yourself that you are documenting, not deciding — and that the decision needed to happen before the drawing did.

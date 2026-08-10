@@ -1,0 +1,59 @@
+---
+title: Most scaling problems begin as communication problems
+excerpt: The system is a cast of the organization that built it. When a platform stops scaling, the constraint is usually an ownership boundary nobody wanted to renegotiate.
+pillar: leadership
+publishedAt: 2026-03-05
+draft: false
+tags: [leadership, systems-thinking, organizations, architecture]
+---
+
+A team tells me their platform will not scale. We look at the platform. The platform is fine — unfashionable in places, but fine. What is not fine is that four teams have partial ownership of the checkout flow, no single person can approve a change to it, and every release requires a meeting.
+
+That is not a scaling problem in the technical sense. It is a scaling problem in the sense that matters: the organization cannot make decisions fast enough to keep up with itself, and the system has faithfully recorded that fact in its architecture.
+
+## Systems mirror the organizations that build them
+
+Conway's observation gets quoted a lot and acted on rarely. The version worth internalizing is not "your architecture will resemble your org chart." It is stronger and more useful: **your architecture will resemble your communication paths, including the broken ones.**
+
+Two teams that talk constantly will produce tightly coupled components, because coupling is cheap when coordination is cheap. Two teams that avoid each other will produce a brittle, over-specified interface with a lot of defensive validation on both sides — because that interface is doing the work the conversation is not.
+
+You can read an org's dysfunction off its integration points. The place where three services all write to the same table is almost always a place where nobody wanted to have a conversation about ownership.
+
+<PullQuote>
+  The place where three services write to the same table is where nobody wanted to have a
+  conversation about ownership.
+</PullQuote>
+
+## The tell: technical debates that will not resolve
+
+There is a specific signature for this. A technical debate runs for weeks, both sides have credible arguments, new information does not move anyone, and the discussion keeps restarting in different forums.
+
+That is almost never a technical disagreement. Technical disagreements resolve when someone produces a benchmark. A debate that survives evidence is a proxy for something else — usually an unresolved question about who owns an outcome, or two people optimizing for different things neither has been asked to state.
+
+I have learned to stop arguing the technical merits at that point and ask a different question: _what would have to be true for this to be an easy decision?_ The answers are revealing. "If we knew who owns latency for this endpoint." "If we knew whether we're keeping the legacy client past next year." Those are not architecture questions. They are questions someone has been avoiding, and the architecture debate is where the avoidance surfaces.
+
+## Fixing the boundary usually means fixing the ownership
+
+Once you see it this way, the intervention changes. The instinct is to solve it in code — introduce an abstraction, add an event bus, insert a layer that lets both teams keep doing what they are doing. It works briefly. Then the new layer accumulates the same ambiguity, because the ambiguity was never in the code.
+
+The durable fix is to assign ownership explicitly. One team owns this capability. They own the outcome, the on-call, and the roadmap for it. Other teams consume it through an interface that team controls.
+
+That conversation is harder than any refactor, because it takes something away from someone. It is also the only version that lasts, and it is why architecture at senior levels stops being primarily technical work. The diagrams are easy. Getting four directors to agree on which one of them owns checkout is the job.
+
+## What this means for how you work
+
+Three practical consequences.
+
+**Read the system for organizational information.** When you inherit a codebase, the weird parts are evidence. A service with an incoherent set of responsibilities usually maps to a team that was reorganized. A duplicated implementation usually maps to two groups who could not agree. This is diagnostic information about the organization, available for free, and it is more reliable than what people tell you in interviews.
+
+**State constraints out loud.** Most teams do not fail because they picked the wrong framework. They fail because two people held incompatible assumptions for six months and neither said so. A meeting whose only agenda is "what are we each assuming" is worth more than most design reviews.
+
+**Treat ownership as an architectural artifact.** Put it in the same document as the service boundaries, because it _is_ a service boundary. An interface without an owner is not an interface; it is a place where an argument will happen later.
+
+## The uncomfortable part
+
+This framing means that a meaningful share of architecture work is organizational work, performed by someone whose job title suggests otherwise, often without the authority to actually reorganize anything.
+
+That is the real constraint. You can usually see the problem clearly. You frequently cannot fix it directly. What you can do is name it precisely enough that the people who _can_ fix it understand what they are choosing — and stop paying engineers to build increasingly elaborate technical workarounds for a decision nobody wants to make.
+
+Naming it is not the whole job. But it is a great deal more useful than the abstraction layer.

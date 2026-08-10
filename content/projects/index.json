@@ -1,0 +1,132 @@
+{
+  "featured": [
+    {
+      "id": "roghnu-data-mapping",
+      "title": "ERP Data Mapping Platform",
+      "positioning": "Enterprise Application · UX Transformation",
+      "status": "Delivered · Roghnu",
+      "summary": "Replaced a spreadsheet-driven ERP import workflow with a purpose-built application. Users had been hand-mapping XLS files into Sage Intacct; the new system let them upload, review, map fields visually, and run large imports asynchronously while continuing to work.",
+      "role": "Frontend architect · Full-stack engineer",
+      "stack": [
+        "Laravel",
+        "Vue",
+        "TypeScript",
+        "SQL",
+        "Queues",
+        "Sage Intacct",
+        "REST APIs",
+        "XLS processing"
+      ],
+      "highlights": [
+        "Visual field mapping replacing manual spreadsheet mapping",
+        "Queue-backed import/export so large jobs never block a request",
+        "Frontend completion notifications for asynchronous work",
+        "Sage Intacct ERP integration"
+      ],
+      "caseStudy": "erp-data-mapping-platform",
+      "cta": "View case study"
+    },
+    {
+      "id": "scorpion-shared-ui",
+      "title": "Shared UI & Design System",
+      "positioning": "Frontend Architecture at Organizational Scale",
+      "status": "Delivered · Scorpion",
+      "summary": "A shared component library and CSS foundation distributed over NPM and consumed by both React and Angular applications. Drew architectural cues from Tailwind, Bootstrap, IBM Carbon, and Ramsey's Gazelle — with accessibility built into the primitives rather than documented beside them.",
+      "role": "Frontend architect",
+      "stack": [
+        "SCSS",
+        "Design tokens",
+        "NPM distribution",
+        "React",
+        "Angular",
+        "TypeScript",
+        "Accessibility"
+      ],
+      "highlights": [
+        "Framework-agnostic CSS foundation consumed by React and Angular",
+        "Design tokens and reusable UI primitives",
+        "Accessibility as a property of the components, not a checklist",
+        "Contribution path so the system was not a central-team bottleneck"
+      ],
+      "caseStudy": "design-system-at-scale",
+      "cta": "View case study"
+    }
+  ],
+  "selected": [
+    {
+      "id": "aviation-integration",
+      "title": "Aviation ↔ Sage Intacct Integration",
+      "positioning": "Integration Architecture · Financial Systems",
+      "status": "Delivered · Roghnu",
+      "summary": "Two systems of record disagreed about the same transactions. The durable fix was not a better sync job — it was deciding, field by field, which system owns what, and making disagreement visible instead of silent.",
+      "role": "Senior Software Developer",
+      "stack": ["Laravel", "Vue", "SQL Server", "Azure", "Sage Intacct", "Enterprise APIs"],
+      "highlights": [
+        "Explicit single-owner model for every shared field",
+        "Durable, replayable, idempotent synchronization",
+        "Reconciliation automated and surfaced as data"
+      ],
+      "caseStudy": "aviation-financial-integration",
+      "cta": "View case study"
+    },
+    {
+      "id": "life-surge-platform",
+      "title": "LIFE SURGE Platform Systems",
+      "positioning": "Enterprise Solutions Architecture",
+      "status": "Current · LIFE SURGE",
+      "summary": "Solutions architecture across education, events, registration, payments, and internal platforms — setting system boundaries, integration patterns, API contracts, and AI strategy across multiple engineering teams alongside executive stakeholders.",
+      "role": "Solutions Architect",
+      "stack": [".NET", "React", "Vue", "Azure", "APIs", "AI Systems", "System Design"],
+      "highlights": [
+        "System boundaries and ownership models across platforms",
+        "API contracts and integration architecture",
+        "Event landing page and registration architecture",
+        "Accessibility architecture across public-facing surfaces"
+      ],
+      "confidential": true,
+      "cta": null
+    },
+    {
+      "id": "ramsey-commerce",
+      "title": "E-Commerce Modernization",
+      "positioning": "Legacy Modernization · Frontend Architecture",
+      "status": "Delivered · Ramsey Solutions",
+      "summary": "Modernizing legacy jQuery and Handlebars commerce surfaces toward React, across multiple brands and domains — with shared component patterns and the Gazelle design system holding consistency together.",
+      "role": "Frontend Engineer",
+      "stack": [
+        "React",
+        "Vue.js",
+        "JavaScript",
+        "TypeScript",
+        "Gazelle Design System",
+        "Accessibility"
+      ],
+      "highlights": [
+        "jQuery/Handlebars → React migration on live commerce surfaces",
+        "Cross-domain checkout and commerce integration",
+        "Reusable frontend architecture across multiple brands"
+      ],
+      "cta": null
+    }
+  ],
+  "labs": [
+    {
+      "id": "next-level-tutoring",
+      "title": "Next Level Tutoring",
+      "positioning": "Rapid product execution",
+      "status": "Shipped",
+      "summary": "Idea to live business in roughly 96 hours — brand, site, funnel, payments, and marketing launch. Included here for the execution speed, not the engineering depth.",
+      "stack": ["Next.js", "Payments", "Funnel", "Analytics"],
+      "cta": null
+    },
+    {
+      "id": "automation-bots",
+      "title": "Automation & Bots",
+      "positioning": "API-driven automation experiments",
+      "status": "Ongoing",
+      "summary": "A run of small event-driven automation projects across Discord, X, and game APIs — OAuth flows, scheduled jobs, and webhook plumbing. Where new integration patterns get tried before they show up in client work.",
+      "stack": ["Node.js", "Discord API", "OAuth", "Webhooks", "Scheduled jobs"],
+      "cta": null
+    }
+  ]
+}

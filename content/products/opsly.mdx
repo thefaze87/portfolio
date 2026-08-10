@@ -1,0 +1,85 @@
+---
+title: Composable engines instead of another CRM
+excerpt: The architecture document for Opsly — what is decided, what is being built, and what is deliberately still open. Not a description of shipped software.
+publishedAt: 2026-04-02
+draft: false
+tags: [architecture, saas, ai, multi-tenant]
+---
+
+<Callout type="note" label="Status">
+  This is an architecture write-up for a platform in active design, not a description of shipped
+  software. The build state below is stated plainly — what exists, what is in progress, and what is
+  still a decision rather than a feature.
+</Callout>
+
+Every small business I have looked at recently is paying people to move information between systems that will not talk to each other. A lead arrives in one place, gets retyped into a second, triggers a follow-up someone has to remember, and lands in a spreadsheet that becomes the actual system of record.
+
+The market answer is a large CRM — GoHighLevel and its neighbours. Those are genuinely capable products, and they fail for the same reason enterprise suites fail: you buy eighty features to use six, and the six you need are the ones configured worst.
+
+Opsly is a bet on the opposite shape.
+
+## The thesis
+
+Rather than one platform that does everything mediocrely, a set of **composable engines** that each solve one operational problem completely.
+
+Lead intake is an engine. Qualification is an engine. Follow-up is an engine. A business turns on the two they need, not the twelve they do not. Each engine owns its data, its jobs, and its interface, and communicates with the others through events rather than through a shared god-object called "Contact."
+
+<PullQuote>
+  The competitor is not GoHighLevel. It is the spreadsheet and the person maintaining it.
+</PullQuote>
+
+That framing sets the bar correctly. The product does not have to beat a mature CRM on features. It has to beat a spreadsheet and a part-time admin on reliability and time saved — which is a much more winnable and much more honest fight.
+
+## Who it is for
+
+Owner-led businesses with real operational volume and no internal engineering: home services and trades, dental and medical practices, med spas, and professional services firms.
+
+The defining characteristic is not size. It is that the owner can name the three tasks eating their week, and nobody has ever been paid to fix them.
+
+## Architectural decisions already made
+
+### Multi-tenancy is a domain concern, not a filter
+
+Tenancy is designed in at the data layer, not applied as a `where tenant_id = ?` convention that one forgotten query turns into a data breach. Every engine's model assumes a tenant boundary as an invariant.
+
+This is the decision most expensive to reverse, which is why it is being made first rather than deferred until there are customers to migrate.
+
+### Engines own their data
+
+Each engine holds its own tables and its own jobs. Engines do not read each other's data directly; they publish and subscribe to events.
+
+The alternative — a shared central schema every engine writes to — is faster initially and produces exactly the coupling that makes large CRMs impossible to change. I have spent enough time untangling that pattern in other people's systems to be unwilling to build it deliberately.
+
+### AI sits at decision points, not everywhere
+
+AI is applied where it improves a decision that is currently made badly or not at all — qualifying an inbound lead, summarising a call, drafting a follow-up for a human to approve. It is not applied to tasks nobody examined first, because automating a bad process with a model produces bad output faster and hides the cost in a per-token line item.
+
+Every AI touchpoint in the design has a human review path or a defined blast radius. That constraint is doing real work: it has already eliminated several capabilities that demo well and would be dangerous unattended.
+
+### The stack follows Helixon's shape
+
+The likely build is the pattern that has already proven itself on [Helixon](/projects/helixon): a monolithic repository with a clear admin and API layer separation, PostgreSQL, and background jobs as first-class infrastructure.
+
+Frontend is the genuinely open question — Rails with Inertia and Vue, or a Next.js/React front end against an API layer. Both are viable. The decision waits on whether tenants need any client the server does not render, because that is the only requirement that actually distinguishes them. Choosing before the requirement exists would be picking a technology and then justifying it.
+
+## What is deliberately not decided
+
+Billing model, per-tenant customisation depth, and whether engines are independently installable or a single deployable with feature flags.
+
+Each of those is cheap to decide late and expensive to decide wrong early. The domain and tenancy boundaries are the ones that had to be right on day one; these can follow real usage.
+
+## The honest state
+
+**Built:** domain and tenancy architecture, platform boundaries, the engine model.
+
+**In development:** lead intake and qualification, automated follow-up.
+
+**Roadmap:** AI assistants, messaging and notifications, business dashboards, per-tenant integrations, automation analytics.
+
+I am stating that split explicitly because the alternative — a feature list that reads as shipped — is the thing that makes most product pages untrustworthy. A roadmap is not a weakness. Presenting one as a product is.
+
+## What I would watch
+
+The failure mode for this architecture is engine proliferation: a dozen half-finished engines rather than three that work. The composability that makes the model attractive is also what makes it easy to keep starting.
+
+The discipline is that an engine ships complete or not at all — and that the bar for "complete" is a business turning off the spreadsheet it replaced.

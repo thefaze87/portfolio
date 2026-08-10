@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/Button';
 import { Submark } from '@/components/brand/Submark';
 import { RoleLine } from '@/components/navigation/RoleLine';
-import { type NavLink } from '@/lib/nav';
+import { PRIMARY_CTA, type NavLink } from '@/lib/nav';
 
 /**
  * MobileDrawer — hamburger trigger + full-screen navigation dialog.
@@ -172,6 +173,18 @@ export function MobileDrawer({ links, className }: MobileDrawerProps) {
                   {link.label}
                 </Link>
               ))}
+
+              {/* The drawer previously had no conversion action at all —
+               * mobile visitors could navigate but never convert. */}
+              <Button
+                href={PRIMARY_CTA.href}
+                variant="primary"
+                size="lg"
+                onClick={() => setOpen(false)}
+                style={{ marginTop: 'var(--space-4)', alignSelf: 'flex-start' }}
+              >
+                {PRIMARY_CTA.label}
+              </Button>
             </nav>
 
             <div

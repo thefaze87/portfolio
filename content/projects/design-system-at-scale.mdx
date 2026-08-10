@@ -1,0 +1,75 @@
+---
+title: A design system is an organizational agreement
+excerpt: Multiple product teams, one shared frontend foundation, and four years of learning that component libraries fail for reasons that have nothing to do with components.
+client: Scorpion
+role: Senior Frontend Engineer · Frontend Architecture
+period: 2020–2024
+publishedAt: 2025-06-18
+draft: false
+stack: [SCSS, Design Tokens, NPM, React, Angular, TypeScript, RxJS, Accessibility]
+outcomes:
+  [
+    Shared component foundation adopted across multiple product teams,
+    Accessibility moved from per-team effort to a property of the primitives,
+    Contribution path replaced the central-team bottleneck,
+  ]
+tags: [design-systems, frontend, architecture, accessibility]
+---
+
+I spent four years leading frontend architecture and design systems across large-scale marketing platforms. Multiple product teams, one shared foundation, and a long education in why these efforts fail.
+
+They rarely fail technically. Building a button is not hard. They fail because a design system is a claim about who gets to decide things, and that claim has to be negotiated rather than announced.
+
+## The problem
+
+Several product teams were building similar interfaces independently. Each had reasonable local justifications for its choices. Collectively the result was the familiar one: the same component implemented several ways, accessibility handled well in some places and not at all in others, and a visual drift that made the products look like they came from different companies.
+
+The naive fix is to write a component library and tell everyone to use it. That fix has a well-documented failure mode — teams adopt it for the easy cases, hit something it does not support, fork, and the library becomes one more variant to maintain.
+
+<PullQuote>
+  Adoption is not a rollout problem. It is a question of whether using the system is easier than not
+  using it.
+</PullQuote>
+
+## Constraints
+
+- **No team could stop shipping.** There was no migration quarter. Anything requiring teams to pause feature work was not going to happen.
+- **The teams were not wrong.** Their divergent implementations solved real problems the shared version did not yet handle. Treating divergence as indiscipline would have been both inaccurate and a good way to lose the room.
+- **Accessibility could not be an opt-in.** Marketing platforms serve the general public. Leaving accessibility to each consumer guarantees it happens inconsistently.
+- **The foundation had to survive me.** A system that depends on one person reviewing every change is a bottleneck wearing a governance costume.
+
+## The architecture
+
+**Primitives, not pages.** The system owned the smallest units where consistency actually mattered — typography, spacing, color, focus behavior, form controls — and deliberately did not own page layouts. Layout is where product teams have genuine, legitimate differences. Trying to standardize it is how you get a system nobody can use.
+
+**Accessibility built into the primitives.** Focus management, label association, and keyboard behavior lived inside the components rather than in documentation. This is the highest-leverage decision in the whole effort: when the accessible path is the default path, accessibility stops being a thing teams remember to do and becomes a property of the thing they already used.
+
+**A contribution path.** Teams that needed something the system lacked could add it, with review, rather than forking. This mattered more than any technical decision. The alternative — a central team as the only source of new components — creates a queue, and a queue creates forks.
+
+**Composition over configuration.** Components that needed to vary exposed composition seams instead of accumulating boolean props. A component with eleven flags is a component that has stopped having a clear purpose.
+
+### Distribution, and why it shaped the design
+
+The system shipped as an NPM package consumed by both React and Angular applications, on top of a framework-agnostic CSS and token foundation.
+
+That constraint did more to shape the architecture than any aesthetic decision. A component library that must serve two frameworks cannot put its logic in components — the shared layer has to be the tokens, the CSS foundation, and the behavioral contract, with thin framework-specific bindings on top. Anything clever in the React implementation is something the Angular consumers do not get.
+
+Architecturally it drew on systems that had already solved parts of this at scale: Tailwind's token-first utility thinking, Bootstrap's distribution model, IBM Carbon's treatment of accessibility as a system property, and Ramsey's Gazelle as a close-range example of a design system serving multiple brands.
+
+## The tradeoffs
+
+**Narrow scope meant less visible consistency.** By declining to own layout, the system left real inconsistency on the table. That was deliberate. A narrow system that teams actually use beats a comprehensive one they route around.
+
+**The contribution path cost review time.** Every contribution needed review to prevent the system degrading into a junk drawer. This is real ongoing cost, and it is the cost of not being a bottleneck. Worth it.
+
+**Composition has a learning curve.** A boolean prop is immediately obvious; a composition seam requires understanding the intended shape. We paid this in onboarding and documentation, and got back the ability to support cases we had not anticipated.
+
+## Outcome
+
+The shared foundation was adopted across multiple product teams and became the base those teams built on. Accessibility patterns moved from per-team effort into the primitives. The contribution path meant the system kept growing without a central team gating every addition.
+
+## What I would do differently
+
+I would have started with the contribution path rather than adding it once adoption stalled. We built the library first and the governance second, which meant the first teams to hit a gap experienced the system as a constraint rather than as something they could shape. That first impression took a long time to undo.
+
+Put differently: I optimized the artifact before optimizing the agreement, and the agreement was the harder and more important half.

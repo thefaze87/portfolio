@@ -16,15 +16,28 @@ import { cn } from '@/lib/utils';
 interface SectionLabelProps {
   children: React.ReactNode;
   accent?: boolean;
+  /**
+   * Render as a heading instead of a span. Use this when the label is in fact
+   * naming a region of the page — it gives screen-reader users a navigable
+   * outline at zero visual cost, since the mono-label styling is unchanged.
+   * Keep the default `span` for figure callouts (ARCH.01), which label a
+   * figure rather than a section.
+   */
+  as?: 'span' | 'h2' | 'h3';
   className?: string;
 }
 
-export function SectionLabel({ children, accent = false, className }: SectionLabelProps) {
+export function SectionLabel({
+  children,
+  accent = false,
+  as: Tag = 'span',
+  className,
+}: SectionLabelProps) {
   const color = accent ? 'var(--color-accent)' : 'var(--color-text-muted)';
   return (
-    <span
+    <Tag
       className={cn('type-mono-label inline-flex items-center', className)}
-      style={{ color, gap: 'var(--space-2)' }}
+      style={{ color, gap: 'var(--space-2)', margin: 0 }}
     >
       <span
         aria-hidden="true"
@@ -37,6 +50,6 @@ export function SectionLabel({ children, accent = false, className }: SectionLab
         }}
       />
       {children}
-    </span>
+    </Tag>
   );
 }

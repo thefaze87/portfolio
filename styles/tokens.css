@@ -23,7 +23,17 @@
   --color-border-strong: #3a3a3a;
   --color-text: #f5f2eb;
   --color-text-muted: #aca79e;
-  --color-text-dim: #6b6760;
+  /* Verified 5.40:1 on --color-bg, 5.11:1 on --color-surface, 4.70:1 on
+   * --color-elevated — clears WCAG AA (4.5:1) for normal text on every
+   * surface in the system, including one not used yet.
+   *
+   * Was #6b6760, which measured 3.52:1 and failed AA at the 11-14px sizes it
+   * is actually used at. docs/brand-spec.md claimed 4.1:1 and permitted it
+   * "≥18pt only"; both the number and the exemption were wrong in practice,
+   * and Lighthouse scored /contact and /projects at 96 because of it.
+   *
+   * Still 1.53x dimmer than --color-text-muted, so the token keeps its role. */
+  --color-text-dim: #8a857c;
   --color-accent: #ff6b35;
   --color-accent-hover: #ff7e4f;
   --color-accent-secondary: #f5b041;
@@ -170,7 +180,10 @@
   --color-border-strong: #c9c5b8;
   --color-text: #111111;
   --color-text-muted: #56544d;
-  --color-text-dim: #908c82;
+  /* 5.17:1 on the light-mode canvas. Was #908c82 (3.22:1), which failed AA
+   * for the same reason as the dark value. Light mode is preview-only, but a
+   * token that fails in one mode is a trap for whoever ships it later. */
+  --color-text-dim: #6e6a62;
   --color-accent: #e55a26;
   --color-accent-secondary: #c8881e;
 }

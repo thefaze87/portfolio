@@ -22,7 +22,50 @@ import { ExperiencePrinciples } from '@/components/marketing/ExperiencePrinciple
 import { SelectedWork } from '@/components/marketing/SelectedWork';
 import { ExperienceRecommendations } from '@/components/marketing/ExperienceRecommendations';
 import { ExperienceLinks } from '@/components/marketing/ExperienceLinks';
-import { NAV_LINKS } from '@/lib/nav';
+import { Button } from '@/components/ui/Button';
+import { Field, Input, Select, Textarea } from '@/components/ui/Field';
+import { Card } from '@/components/ui/Card';
+import { StatusChip } from '@/components/products/StatusChip';
+import { Placeholder } from '@/components/products/Placeholder';
+import { PRODUCT_STATUSES } from '@/lib/content-schemas';
+import { ArticleHeader } from '@/components/content/ArticleHeader';
+import { Callout } from '@/components/content/Callout';
+import { PullQuote } from '@/components/content/PullQuote';
+import { SubstackPosts } from '@/components/content/SubstackPosts';
+import type { SubstackPost } from '@/lib/substack';
+// Aliased: this file has its own local <Section> for styleguide chrome.
+import { Section as LayoutSection } from '@/components/layout/Section';
+import { SectionHeader } from '@/components/layout/SectionHeader';
+import { PRIMARY_NAV } from '@/lib/nav';
+
+/**
+ * Fixture for the SubstackPosts specimen.
+ *
+ * Hard-coded rather than fetched: the styleguide must render identically
+ * offline and must never depend on a third party being reachable. These are
+ * real posts from the publication, shortened, so the specimen reflects the
+ * actual shape and length the adapter produces.
+ */
+const STYLEGUIDE_SUBSTACK_POSTS: SubstackPost[] = [
+  {
+    title: 'Most .NET Starter Kits Optimize for CRUD',
+    url: 'https://designingmodernsystems.substack.com/p/most-net-starter-kits-optimize-for',
+    guid: 'https://designingmodernsystems.substack.com/p/most-net-starter-kits-optimize-for',
+    publishedAt: '2026-02-24T23:35:40.000Z',
+    excerpt:
+      'Production failures don’t. Most starter templates are optimized for scaffolding. CRUD endpoints. And that’s fine — for a demo. But production systems don’t fail because CRUD is slow. They fail because decisions were unclear.',
+    author: 'Mark Fasel',
+  },
+  {
+    title: 'Stop Using Claude Like a Chatbot',
+    url: 'https://designingmodernsystems.substack.com/p/stop-using-claude-like-a-chatbot',
+    guid: 'https://designingmodernsystems.substack.com/p/stop-using-claude-like-a-chatbot',
+    publishedAt: '2026-02-12T11:21:27.000Z',
+    excerpt:
+      'Most engineers are underutilizing AI. Not because they don’t know how to prompt. But because they’re treating it like a conversational tool instead of infrastructure.',
+    author: 'Mark Fasel',
+  },
+];
 
 /* ============================================================================
  * Token registries
@@ -51,7 +94,7 @@ const COLOR_TOKENS: readonly ColorToken[] = [
   { group: 'Borders', name: 'border-strong', hex: '#3a3a3a', note: 'emphasis' },
   { group: 'Text', name: 'text', hex: '#f5f2eb', note: 'primary body' },
   { group: 'Text', name: 'text-muted', hex: '#aca79e', note: 'secondary' },
-  { group: 'Text', name: 'text-dim', hex: '#6b6760', note: '≥18pt only · ambient metadata' },
+  { group: 'Text', name: 'text-dim', hex: '#8a857c', note: 'ambient metadata · AA at all sizes' },
   { group: 'Accent', name: 'accent', hex: '#ff6b35', note: 'one per viewport' },
   { group: 'Accent', name: 'accent-hover', hex: '#ff7e4f', note: 'intensify on hover' },
   { group: 'Accent', name: 'accent-secondary', hex: '#f5b041', note: 'sparingly' },
@@ -252,7 +295,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
          * Header
          * ----------------------------------------------------------------- */}
         <header style={{ marginBottom: 'var(--space-10)' }}>
-          <EyebrowLabel>Styleguide · Internal · Phase 7</EyebrowLabel>
+          <EyebrowLabel>Styleguide · Internal</EyebrowLabel>
           <h1 className="type-display-lg" style={{ marginTop: 'var(--space-5)', maxWidth: '32ch' }}>
             Design system tokens.
           </h1>
@@ -835,7 +878,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
                 borderRadius: 'var(--radius-sm)',
               }}
             >
-              <MobileDrawer links={NAV_LINKS} />
+              <MobileDrawer links={PRIMARY_NAV} />
               <span
                 className="type-body-sm"
                 style={{ color: 'var(--color-text-muted)', maxWidth: '52ch' }}
@@ -1182,6 +1225,398 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           ))}
         </Section>
 
+        {/* §15b SubstackPosts — both states, because the empty one ships */}
+        <Section title="Substack posts" index="15b">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            Recent newsletter posts on <code>/writing</code>, fetched server-side from the
+            publication RSS feed by <code>lib/substack.ts</code> and cached for an hour. Titles and
+            excerpts only — every link opens the post on Substack, which stays canonical. The
+            excerpt is the article&apos;s own opening prose, lifted from{' '}
+            <code>content:encoded</code>; nothing is summarized or generated.
+          </p>
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            Both states are specimens because both ship. The empty state is what renders whenever
+            the feed is unreachable, times out, or returns nothing usable — it is a supported state,
+            not an error, and it never tells the visitor a fetch failed.
+          </p>
+
+          <div className="flex flex-col" style={{ gap: 'var(--space-8)' }}>
+            <div>
+              <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+                populated
+              </span>
+              <SubstackPosts posts={STYLEGUIDE_SUBSTACK_POSTS} />
+            </div>
+            <div>
+              <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+                empty · feed unavailable
+              </span>
+              <SubstackPosts posts={[]} />
+            </div>
+          </div>
+        </Section>
+
+        {/* §16 Button — the shared interactive affordance */}
+        <Section title="Button" index="16">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            Three variants × three sizes. <code>primary</code> is the one orange interactive element
+            per viewport — if a viewport already has one, the next button is <code>ghost</code>.
+            Size owns both padding and label type scale, so the two can never drift apart. Renders
+            as <code>next/link</code> for internal hrefs, <code>a</code> for external (adding rel +
+            a visually-hidden new-tab cue), and <code>button</code> otherwise.
+          </p>
+
+          <div className="flex flex-col" style={{ gap: 'var(--space-7)' }}>
+            {(['primary', 'ghost', 'text'] as const).map((variant) => (
+              <div key={variant}>
+                <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+                  {variant}
+                </span>
+                <div
+                  className="flex flex-wrap items-center"
+                  style={{ marginTop: 'var(--space-4)', gap: 'var(--space-5)' }}
+                >
+                  {(['sm', 'md', 'lg'] as const).map((size) => (
+                    <Button key={size} variant={variant} size={size}>
+                      {variant === 'text' ? 'Read the thinking →' : `Let's talk →`}
+                    </Button>
+                  ))}
+                  <Button variant={variant} disabled>
+                    Disabled
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* §17 Form controls + the full state matrix */}
+        <Section title="Form controls" index="17">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            <code>Field</code> owns the id wiring, so a control is always associated with its label
+            and its description/error are always reachable via <code>aria-describedby</code>. The
+            error state is driven off <code>aria-invalid</code>, which <code>Field</code> sets from
+            its own <code>error</code> prop — there is no second flag to keep in sync. Every state
+            below is what the contact form actually renders.
+          </p>
+
+          <div
+            className="grid grid-cols-1 lg:grid-cols-2"
+            style={{ gap: 'var(--space-7)', maxWidth: '900px' }}
+          >
+            <Field name="sg-default" label="Default" required>
+              {(p) => <Input {...p} placeholder="you@company.com" />}
+            </Field>
+
+            <Field
+              name="sg-described"
+              label="With description"
+              description="Helper text is announced with the control."
+            >
+              {(p) => <Input {...p} />}
+            </Field>
+
+            <Field name="sg-error" label="Error" required error="Enter a valid email address.">
+              {(p) => <Input {...p} defaultValue="not-an-email" />}
+            </Field>
+
+            <Field name="sg-disabled" label="Disabled">
+              {(p) => <Input {...p} disabled defaultValue="Locked" />}
+            </Field>
+
+            <Field name="sg-select" label="Select">
+              {(p) => (
+                <Select {...p}>
+                  <option value="">Select one</option>
+                  <option>Architecture advisory</option>
+                  <option>AI strategy</option>
+                </Select>
+              )}
+            </Field>
+
+            <Field name="sg-textarea" label="Textarea" required>
+              {(p) => <Textarea {...p} rows={4} placeholder="What are you working on?" />}
+            </Field>
+          </div>
+
+          <div style={{ marginTop: 'var(--space-8)' }}>
+            <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+              Form-level states
+            </span>
+            <div
+              className="grid grid-cols-1 lg:grid-cols-2"
+              style={{ marginTop: 'var(--space-5)', gap: 'var(--space-5)', maxWidth: '900px' }}
+            >
+              <div
+                className="type-body"
+                style={{
+                  padding: 'var(--space-4) var(--space-5)',
+                  border: 'var(--stroke-thin) solid var(--color-danger)',
+                  borderRadius: 'var(--radius-sm)',
+                }}
+              >
+                Something went wrong sending your message. Try again, or email me directly.
+              </div>
+              <div
+                style={{
+                  padding: 'var(--space-7)',
+                  border: 'var(--stroke-thin) solid var(--color-accent)',
+                  borderRadius: 'var(--radius-sm)',
+                }}
+              >
+                <p className="type-h3">Message sent.</p>
+                <p
+                  className="type-body"
+                  style={{ marginTop: 'var(--space-3)', color: 'var(--color-text-muted)' }}
+                >
+                  Focus moves here on success so the outcome is announced.
+                </p>
+              </div>
+              <Button variant="primary" size="lg" disabled>
+                Sending…
+              </Button>
+            </div>
+          </div>
+        </Section>
+
+        {/* §18 Layout primitives */}
+        <Section title="Layout primitives" index="18">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            <code>Container</code> owns the measure and gutters. <code>Section</code> wraps it with
+            the vertical rhythm and the leading hairline. <code>SectionHeader</code> is the label →
+            heading → lead triple that opens nearly every band. Together they replace the shell that
+            was previously hand-repeated in every section component — which is how the card padding
+            and button sizes drifted in the first place.
+          </p>
+
+          <div
+            style={{
+              border: 'var(--stroke-hairline) solid var(--color-border)',
+              borderRadius: 'var(--radius-sm)',
+              overflow: 'hidden',
+            }}
+          >
+            <LayoutSection labelledBy="sg-section-demo">
+              <SectionHeader
+                id="sg-section-demo"
+                label="DEMO.01"
+                title="A section opener."
+                lead="The lead paragraph sits at a capped measure below the heading, muted by default."
+              />
+            </LayoutSection>
+          </div>
+        </Section>
+
+        {/* §19 Card */}
+        <Section title="Card" index="19">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            The bordered, flat content block. Padding is a prop with a fixed scale (<code>md</code>{' '}
+            / <code>lg</code>) — before this existed the pattern was hand-rolled in four places with
+            three different paddings. <code>as</code> keeps semantics intact when a card needs to be
+            an <code>article</code>, <code>li</code>, or <code>figure</code>.{' '}
+            <code>interactive</code> adds the hover affordance, and is only correct when the card is
+            itself a link.
+          </p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3" style={{ gap: 'var(--space-5)' }}>
+            <Card>
+              <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+                padding=&quot;md&quot;
+              </span>
+              <h3 className="type-h3" style={{ marginTop: 'var(--space-5)' }}>
+                Default card
+              </h3>
+              <p
+                className="type-body"
+                style={{ marginTop: 'var(--space-3)', color: 'var(--color-text-muted)' }}
+              >
+                Used for principle grids and service lists.
+              </p>
+            </Card>
+
+            <Card padding="lg">
+              <span className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
+                padding=&quot;lg&quot;
+              </span>
+              <h3 className="type-h3" style={{ marginTop: 'var(--space-5)' }}>
+                Roomy card
+              </h3>
+              <p
+                className="type-body"
+                style={{ marginTop: 'var(--space-3)', color: 'var(--color-text-muted)' }}
+              >
+                Used where a card carries long-form content.
+              </p>
+            </Card>
+
+            <Card interactive>
+              <span className="type-mono-label" style={{ color: 'var(--color-accent)' }}>
+                interactive
+              </span>
+              <h3 className="type-h3 card-title" style={{ marginTop: 'var(--space-5)' }}>
+                Hover me
+              </h3>
+              <p
+                className="type-body"
+                style={{ marginTop: 'var(--space-3)', color: 'var(--color-text-muted)' }}
+              >
+                Border strengthens, title takes the accent. Nothing moves — translate-on-hover reads
+                as product UI, not publication.
+              </p>
+            </Card>
+          </div>
+        </Section>
+
+        {/* §20 Long-form content components */}
+        <Section title="Long-form content" index="20">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            MDX element overrides and the custom components available inside an essay or case study
+            without an import. Deliberately not <code>@tailwindcss/typography</code>:{' '}
+            <code>prose</code> ships its own type scale and color ramp, which would diverge from{' '}
+            <code>tokens.css</code> immediately. Every element resolves to a project token instead.
+          </p>
+
+          <div style={{ maxWidth: '72ch' }}>
+            <ArticleHeader
+              kicker="Architecture"
+              title="An article header specimen"
+              standfirst="The standfirst sits below the title at a capped measure and carries the excerpt — the same string used for the meta description and the index card."
+              meta={[
+                { label: 'Published', value: 'July 22, 2026', dateTime: '2026-07-22' },
+                { label: 'Reading time', value: '7 min' },
+              ]}
+              chips={['architecture', 'decision-making']}
+            />
+
+            <PullQuote>
+              The place where three services write to the same table is where nobody wanted to have
+              a conversation about ownership.
+            </PullQuote>
+
+            <Callout type="note">
+              <p style={{ margin: 0 }} className="type-body">
+                A muted aside. No signal color — this is the default tone.
+              </p>
+            </Callout>
+
+            <Callout type="insight">
+              <p style={{ margin: 0 }} className="type-body">
+                The critical takeaway. This spends the article&apos;s orange budget, so an essay
+                should carry at most one.
+              </p>
+            </Callout>
+
+            <Callout type="warning">
+              <p style={{ margin: 0 }} className="type-body">
+                A genuine caveat, on the amber status token — not emphasis-as-decoration.
+              </p>
+            </Callout>
+          </div>
+        </Section>
+
+        {/* §21 Product primitives */}
+        <Section title="Product primitives" index="21">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            <code>StatusChip</code> renders product lifecycle state from a closed enum, so &ldquo;In
+            development&rdquo; can never drift into &ldquo;WIP&rdquo;. Only <code>Launching</code>{' '}
+            takes the accent — it is the one state that is news, and orange stays a signal. The
+            marker is a 4px square rather than a circle; circles read as status LEDs, which is the
+            dashboard vocabulary this avoids.
+          </p>
+
+          <div className="flex flex-wrap items-center" style={{ gap: 'var(--space-4)' }}>
+            {PRODUCT_STATUSES.map((status) => (
+              <StatusChip key={status} status={status} />
+            ))}
+          </div>
+
+          <p
+            className="type-body"
+            style={{
+              marginTop: 'var(--space-8)',
+              marginBottom: 'var(--space-6)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            <code>Placeholder</code> reserves space for content that does not exist yet — product
+            galleries and links. A hairline frame carrying the same drafting grid as the hero
+            masthead, so an empty slot reads as part of the system rather than a failed image
+            request. No icon, no dashed border, no &ldquo;coming soon&rdquo; badge.
+          </p>
+
+          <div
+            className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr]"
+            style={{ gap: 'var(--space-7)' }}
+          >
+            <Placeholder
+              label="Gallery"
+              caption="Interface and architecture figures will appear here."
+            />
+            <Placeholder
+              label="Links"
+              aspect="flat"
+              caption="Links appear once there is somewhere to send you."
+            />
+          </div>
+        </Section>
+
         <footer
           style={{
             marginTop: 'var(--space-10)',
@@ -1190,7 +1625,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           }}
         >
           <p className="type-mono-label" style={{ color: 'var(--color-text-muted)' }}>
-            Mark Fasel · Phase 7 · {new Date().getFullYear()}
+            Mark Fasel · Internal · {new Date().getFullYear()}
           </p>
         </footer>
       </main>

@@ -127,21 +127,24 @@ export function ExperiencePortrait() {
       </span>
 
       <div className="exp-portrait-photo">
-        {/* unoptimized: tested both WebP and AVIF via next.config.ts and
-         * both Next/Sharp pipelines silently strip the alpha channel,
-         * baking the cutout's transparent background into white. Serving
-         * the source PNG directly preserves the silhouette. Trade-off:
-         * ~1MB hero file vs ~30KB optimized — but the optimized version
-         * destroys the artwork, so the trade-off is forced. priority
-         * preloads it during HTML stream; browser caches after first
-         * request. */}
+        {/* This was previously `unoptimized` on the belief that Next/Sharp
+         * strips the cutout's alpha channel. That was wrong, and verified so:
+         * sharp 0.34 encoding this exact source preserves alpha in both
+         * formats — AVIF 42KB and WebP 35KB against a 793KB PNG, both
+         * hasAlpha=true. The original failure was almost certainly lossy
+         * WebP (VP8), which does drop alpha; `formats: ['image/avif', …]` in
+         * next.config.ts already prevents that path.
+         *
+         * `sizes` matters here: without it Next serves the widest candidate
+         * to every device. The portrait is capped at 360px on mobile and
+         * 800px on desktop by .exp-portrait-photo. */}
         <Image
           src="/images/mark-fasel-portrait.png"
           alt="Mark Fasel"
           width={978}
           height={1023}
           priority
-          unoptimized
+          sizes="(max-width: 1023px) 360px, 800px"
           className="exp-portrait-img"
         />
       </div>

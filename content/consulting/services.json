@@ -1,0 +1,130 @@
+{
+  "paths": [
+    {
+      "id": "advisory",
+      "kicker": "PATH 01",
+      "title": "Technology & Architecture Advisory",
+      "audience": "For organizations with real systems, real constraints, and decisions that are expensive to get wrong.",
+      "description": "You have a platform that works but is getting harder to change. Teams are stepping on each other. An acquisition left you with two of everything. Someone needs to decide where AI actually belongs before the board asks again. This is that work.",
+      "services": [
+        {
+          "name": "Architecture review",
+          "detail": "An outside read on where your system is fragile, what will break next, and which fixes are worth the disruption."
+        },
+        {
+          "name": "AI strategy",
+          "detail": "Where AI creates leverage in your business and where it is a distraction. Evaluation criteria, build-vs-buy, and a sequence that compounds."
+        },
+        {
+          "name": "Platform modernization",
+          "detail": "Moving off what you have without stopping the business. Sequencing, strangler patterns, and the migrations that are safe to defer."
+        },
+        {
+          "name": "Integration architecture",
+          "detail": "System boundaries, API contracts, and durable synchronization between services that were never designed to talk to each other."
+        },
+        {
+          "name": "Technical leadership",
+          "detail": "Fractional architecture leadership for teams that need senior judgment without a full-time hire. Decision support, design review, and mentorship."
+        }
+      ]
+    },
+    {
+      "id": "automation",
+      "kicker": "PATH 02",
+      "title": "AI Automation for Growing Businesses",
+      "audience": "For owner-led businesses spending real money on work that software should be doing.",
+      "description": "Your team is retyping the same information into three systems. Quotes take two days because someone has to chase them. Scheduling is a phone tree. None of that is a technology problem you should have to think about — it is work that should not exist, and most of it can be removed in weeks, not quarters.",
+      "services": [
+        {
+          "name": "Workflow automation",
+          "detail": "Intake, scheduling, quoting, follow-up, and reporting — connected so information is entered once and moves on its own."
+        },
+        {
+          "name": "AI-assisted operations",
+          "detail": "Call summaries, document handling, triage, and drafting, applied where they save hours rather than where they demo well."
+        },
+        {
+          "name": "Systems integration",
+          "detail": "Making your CRM, scheduling, accounting, and phone systems behave like one system instead of five."
+        },
+        {
+          "name": "Custom internal tools",
+          "detail": "The small application that replaces a spreadsheet everyone is afraid of, built to fit how your business actually runs."
+        }
+      ],
+      "verticals": [
+        "Trades and home services",
+        "Restaurants and hospitality",
+        "Medical and dental offices",
+        "Spas and wellness",
+        "Marketing and creative agencies",
+        "Professional services"
+      ]
+    }
+  ],
+  "engagement": [
+    {
+      "n": "01",
+      "title": "Conversation",
+      "body": "A call. You describe the problem and the outcome you need. I tell you whether I am the right person, and if I am not, who might be.",
+      "duration": "Free · 30–45 minutes"
+    },
+    {
+      "n": "02",
+      "title": "Assessment",
+      "body": "A scoped, paid engagement where I go deep enough to be useful — reading the system, talking to the people who run it, and finding where the real constraint is.",
+      "duration": "1–3 weeks"
+    },
+    {
+      "n": "03",
+      "title": "Roadmap",
+      "body": "A written recommendation you own: what to do, in what order, what it will cost you to defer, and what I would do differently if I were wrong.",
+      "duration": "Delivered at assessment close"
+    },
+    {
+      "n": "04",
+      "title": "Build or advise",
+      "body": "Either I help execute the roadmap, or your team does and I stay on for design review and decision support. Both are legitimate. Neither requires the other.",
+      "duration": "Ongoing, by agreement"
+    }
+  ],
+  "fitFor": [
+    "You have a decision to make and the cost of getting it wrong is high.",
+    "You want a recommendation you can act on, not a deck.",
+    "You are willing to hear that the problem is organizational rather than technical.",
+    "You want your team stronger at the end of the engagement than at the start."
+  ],
+  "notFitFor": [
+    "You need staff augmentation — a pair of hands on a backlog someone else scoped.",
+    "The decision is already made and you want validation for it.",
+    "You want the lowest hourly rate available.",
+    "The timeline requires skipping the part where I understand your business."
+  ],
+  "faq": [
+    {
+      "question": "How do you price engagements?",
+      "answer": "By scope, not by hour. Assessments are fixed-price against a defined deliverable so you know the cost before we start. Ongoing advisory runs on a monthly retainer with a clear scope and an exit. I do not sell hourly blocks — it puts my incentive and yours on opposite sides."
+    },
+    {
+      "question": "How long is a typical engagement?",
+      "answer": "Assessments run one to three weeks. Advisory retainers usually run three to six months, which is about how long it takes for a change in how decisions get made to become permanent. Automation projects for smaller businesses are often measured in weeks."
+    },
+    {
+      "question": "Do you write code, or only advise?",
+      "answer": "Both, depending on what the engagement needs. I have spent twenty years in codebases and I stay in them — architecture that has not been checked against the actual code is fiction. For automation work I usually build. For enterprise advisory I more often design and review while your team builds."
+    },
+    {
+      "question": "We're a small business. Is this overkill?",
+      "answer": "No, but the second path is the right one. The automation work is deliberately scoped for owner-led businesses: shorter engagements, faster payback, and no architecture vocabulary required. The goal is that your team stops doing something by hand, not that you learn what a system boundary is."
+    },
+    {
+      "question": "What do you need from us to start?",
+      "answer": "Access to the people who actually run the process, and honesty about constraints — budget, politics, prior decisions you are not willing to revisit. I would rather know the real boundaries on day one than discover them in week three."
+    },
+    {
+      "question": "What if we already know what we want built?",
+      "answer": "Then say so and we can skip the assessment. I will still ask what outcome the build is meant to produce, because that is the question that occasionally changes what gets built. If the answer holds up, we get to work."
+    }
+  ]
+}

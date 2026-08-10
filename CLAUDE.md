@@ -6,65 +6,105 @@ Personal brand and consulting site for **Mark Fasel**, Solutions Architect & AI 
 
 ---
 
-## Stack (locked)
+## Stack
 
-- **Framework:** Next.js 15 (App Router, React 19, Server Components by default)
-- **Language:** TypeScript 5.5+, strict mode, `noUncheckedIndexedAccess: true`
-- **Styling:** Tailwind v4 with CSS-first config via `@theme` directive in `styles/tokens.css`. No `tailwind.config.ts` for tokens — use `@theme`.
-- **UI primitives:** shadcn/ui, selectively (Button, Input, Textarea, Dialog, Sheet, Form). Restyle to match the design system. Never use shadcn as-is.
-- **Animation:** Motion (formerly Framer Motion) v11+. Use sparingly. Honor `prefers-reduced-motion`.
-- **Content:** MDX via `next-mdx-remote/rsc` with frontmatter validated by Zod.
-- **Forms:** `react-hook-form` + `zod` + `@hookform/resolvers/zod`.
-- **Database:** Supabase (newsletter subscribers, contact submissions).
-- **Email:** Resend (newsletter + transactional).
-- **Analytics:** PostHog. Lazy-loaded after interactive.
+**This section describes what is actually installed.** Anything under "Planned"
+does not exist yet — do not import it, do not assume it, do not write code
+against it. If you need something from the Planned list, build it first or ask.
+
+### Installed and in use
+
+- **Framework:** Next.js 16 (App Router, React 19.2, Server Components by default, Turbopack)
+- **Language:** TypeScript 5, strict mode, `noUncheckedIndexedAccess: true`
+- **Styling:** Tailwind v4 with CSS-first config via `@theme` in `styles/tokens.css`. No `tailwind.config.ts` for tokens.
+- **UI primitives:** hand-built in `components/ui/` — `Button`, `Card`, `Field`/`Input`/`Textarea`/`Select`. **shadcn/ui is NOT installed and is not being used.** The primitives are token-pure and dependency-free; keep them that way rather than reaching for Radix.
+- **Layout primitives:** `components/layout/` — `Container`, `Section`, `SectionHeader`. Every new section must build on these rather than re-rolling the container/gutter/padding/divider shell.
+- **Forms:** `react-hook-form` + `zod` v4 + `@hookform/resolvers/zod`, submitting through a Next.js Server Action.
+- **Email:** Resend (`resend`), used by the contact Server Action.
+- **Animation:** **CSS only.** `motion` is installed but currently unused — all entrance/draw animation lives in `app/globals.css` behind `prefers-reduced-motion: no-preference`. Prefer CSS. Reach for Motion only when an interaction genuinely can't be expressed in CSS.
 - **Hosting:** Vercel.
-- **Package manager:** pnpm. Never run `npm install` or `yarn`.
+- **Package manager:** pnpm (workspace root — use `pnpm add -w`). Never `npm install` or `yarn`.
 - **Node:** 22+. Pinned in `.nvmrc`.
 
-If you need a library that isn't listed here, stop and ask before installing.
+### Content pipeline (wired)
+
+- **MDX:** `next-mdx-remote/rsc` + `remark-gfm` + `rehype-slug`, compiled at build time by `/projects/[slug]` and `/writing/[slug]`.
+- **Frontmatter:** parsed in `lib/mdx.ts`, validated by Zod in `lib/content-schemas.ts`. Malformed frontmatter fails `pnpm build` — that is deliberate.
+- **Syntax highlighting:** `shiki` via `components/content/CodeBlock.tsx`, an async Server Component. Runs at build time; ships no JS.
+- `rehype-autolink-headings` is installed but not yet enabled — heading ids come from `rehype-slug`; anchor links are a later addition.
+
+> **Frontmatter gotcha:** `pnpm format` runs Prettier over `.mdx`, and Prettier reflows YAML arrays onto multiple lines. `splitFrontmatter` normalizes for this. If you add a frontmatter shape beyond flat scalars/arrays/booleans, adopt a real YAML parser rather than extending that function.
+
+### Planned — NOT installed, do not reference
+
+- **Supabase.** Deliberately deferred. The contact form sends via Resend and stores nothing. Add Supabase only when lead history or pipeline querying is actually needed.
+- **PostHog.** Not installed. When it lands, load it after `requestIdleCallback`.
+- **Vitest / any test runner.** There is no `pnpm test`. See "Working with this repo".
+
+If you need a library that isn't listed under Installed, stop and ask before installing.
 
 ---
 
 ## File and directory conventions
 
+Directories marked ○ exist today. Directories marked · are the agreed shape for
+work not yet started — create them when you build into them, don't pre-scaffold.
+
 ```
 app/
-  (marketing)/              Marketing pages (home, about, consulting, etc.)
-  (content)/                Content-driven pages (writing, work, case studies)
-  (system)/                 Utility pages (now, uses, colophon, 404, styleguide)
-  api/                      Route handlers
-  llms.txt/route.ts         AI-readable site summary
-  llms-full.txt/route.ts
-  rss.xml/route.ts
-  sitemap.ts
-  robots.ts
-  layout.tsx
-  globals.css
+○ (marketing)/              Home, experience, about, consulting, contact
+    contact/
+      page.tsx              Server Component
+      actions.ts            'use server' — the contact Server Action
+      _components/          Page-scoped client islands (ContactForm)
+○ (content)/
+    projects/page.tsx, projects/[slug]/page.tsx Project index + detail
+    writing/page.tsx, writing/[slug]/page.tsx  Essay index + detail
+○ (system)/styleguide/      Internal design-system reference (noindex)
+○ layout.tsx                Root layout: metadata, JSON-LD, Header, Footer
+○ not-found.tsx             Branded 404
+○ sitemap.ts, robots.ts
+○ opengraph-image.tsx       Default social card (next/og)
+○ twitter-image.tsx         Re-exports the OG card
+· llms.txt/, rss.xml/, api/og/
 
 components/
-  ui/                       shadcn primitives (restyled)
-  brand/                    Logo, EyebrowLabel, GridOverlay, Submark
-  diagrams/                 TopologyHero, SystemDiagram, CriticalPath, Sparkline
-  content/                  MDXComponents, PullQuote, CodeBlock, Callout, ArticleHeader
-  marketing/                Hero, TrustBar, ServiceGrid, CaseStudyCard, etc.
-  navigation/               Header, MobileDrawer, ReadingProgress, Footer
+○ ui/                       Button, Card, Field (Input/Textarea/Select/Honeypot)
+○ layout/                   Container, Section, SectionHeader
+○ brand/                    Logo, Wordmark, Submark, EyebrowLabel, SectionLabel, GridOverlay
+○ diagrams/                 TopologyHero
+○ navigation/               Header, Footer, MobileDrawer, ReadingProgress, RoleLine
+○ marketing/                Page sections (home + experience)
+○ experience/               ExperiencePortrait
+○ content/                  MDXComponents, CodeBlock, PullQuote, Callout, ArticleHeader
 
 content/
-  essays/*.mdx
-  case-studies/*.mdx
-  experience/timeline.json
-  consulting/services.json
+○ experience/{timeline,career,work}.json
+○ essays/*.mdx, projects/*.mdx
+○ consulting/services.json, about/faq.json
 
-lib/                        mdx.ts, seo.ts, analytics.ts, newsletter.ts, etc.
+lib/
+○ nav.ts                    Navigation, identity, published-route gating
+○ seo.ts                    buildMetadata() + absoluteUrl()
+○ schema.ts                 JSON-LD builders
+○ rate-limit.ts             In-memory throttle for the contact action
+○ schemas/contact.ts        Zod contract shared by client + server
+○ contrast.ts, utils.ts
+○ mdx.ts                    Content loaders (fs, build-time only)
+○ content-schemas.ts        Zod frontmatter contracts + pillars
+· analytics.ts
+
 styles/tokens.css           Tailwind v4 @theme tokens — single source of truth
 public/fonts/               Self-hosted woff2 files
-docs/                       Brand spec, component specs, ADRs
+docs/                       Brand spec, component specs, audit, archive/
 ```
 
 **Rules:**
 
-- Server Components by default. Add `'use client'` only when you actually need client interactivity (state, effects, event handlers). The homepage hero is a Server Component with a client-island diagram, not a client component.
+- Server Components by default. Add `'use client'` only when you actually need client interactivity (state, effects, event handlers). Today there are exactly two client components: `MobileDrawer` and `ContactForm`. Keep it that way — scope islands to the interactive part, never the page.
+- **Never build a section's shell by hand.** Use `<Section>` + `<SectionHeader>` + `<Container>`. The copy-pasted shell is what let card padding and button sizes drift; the primitives exist to stop it.
+- **Never hand-roll a button or form control.** Use `<Button>` and `<Field>`. `<Field>` owns the label/description/error id wiring, which is why an unlabelled input can't ship.
+- **Never link to a route that doesn't render.** `lib/nav.ts` gates every nav entry behind `published`. Define the route there (locking URL, label, order), flip `published` to true only once the page actually exists. Same pattern for `RESUME.available`.
 - Co-locate component-specific types in the component file. Shared types go in `lib/types.ts`.
 - Every component file exports a named component matching the filename. No default exports except for Next.js page/layout files.
 - Imports order: react/next → third-party → `@/` aliases → relative. No relative imports across feature boundaries — use `@/`.
@@ -85,7 +125,7 @@ All tokens live in `styles/tokens.css` under Tailwind v4's `@theme` directive. *
 --color-border-strong:    #3A3A3A
 --color-text:             #F5F2EB
 --color-text-muted:       #ACA79E
---color-text-dim:         #6B6760
+--color-text-dim:         #8A857C
 --color-accent:           #FF6B35
 --color-accent-secondary: #F5B041
 ```
@@ -228,6 +268,38 @@ Button label examples that fail: `Get started!`, `Learn more`, `Click here`, `Co
 
 ---
 
+## Information architecture (approved 2026-08)
+
+Primary nav — and it stays at five text links plus the contact CTA:
+
+```
+Experience · Projects · Writing · Consulting · About   [ Let's Talk → ]
+```
+
+Rules that are settled; don't relitigate them:
+
+- **`/contact` is the canonical route. "Let's Talk" is the label.** Never the reverse.
+- **`/experience` and `/projects` are both first-class primary-nav members.** Experience = career progression, scope, and leadership. Projects = systems independently architected, built, or planned.
+- **Never collapse Experience into Projects.** The combination of enterprise career depth and independent product ownership is the differentiator.
+- **Opsly and TrustLaunch have no implementation repository.** Their product pages are architecture documents, not descriptions of shipped software. Every one must lead with a status callout and use the `buildState` split (Built / In development / Roadmap). Never present a roadmap item as a built feature.
+- **Products is live and is a first-class nav member.** The condition the IA set — "until a product actually exists" — was met when Helixon reached Launching.
+- **Products vs Projects is an OWNERSHIP line, and it is settled.**
+  - `/products` = ventures Mark owns (Helixon, TrustLaunch, Opsly, Clue Finder, PlainText, Shepherd). Lifecycle model: status enum, build state, timeline, roadmap.
+  - `/projects` = work he was hired to do (Roghnu ERP, Scorpion Shared UI, Aviation ↔ Intacct, LIFE SURGE, Ramsey) + Labs. Engagement model: client, role, period.
+  - Never list the same entity in both. Helixon, Opsly, Clue Finder, and TrustLaunch moved out of Projects with permanent redirects; `next.config.ts` redirect order is load-bearing (specific rules before the `/work/:slug` wildcard, or you get a two-hop chain).
+- **Product structured data lives in `content/products/index.json`, not frontmatter.** `splitFrontmatter` parses only flat scalars, string arrays, and booleans — links, timeline, and roadmap are objects. MDX bodies carry narrative only.
+- **`hasDetail` is derived, never authored.** It comes from whether a published MDX body exists, so a card can't link to a missing page and a Planned product can't leak into the sitemap.
+- **Newsletter is an external Substack link** in the footer's platform list, not a nav route.
+- **`/consulting` is a two-path entry point**, not one undifferentiated offer:
+  1. Technology & Architecture Advisory — architecture, AI strategy, platform modernization, integrations, technical leadership
+  2. AI Automation for Growing Businesses — trades, restaurants, medical offices, spas, agencies, professional services
+
+  Vertical landing pages (`/consulting/ai-automation`, `/consulting/restaurants`, …) come later. Do not build them speculatively.
+
+The primary pages are built. Remaining launch work is tracked in `PLAN.md`.
+
+---
+
 ## Component contract: styleguide-first
 
 Every component must be added to `/styleguide` before being used on a page. This is non-negotiable. The styleguide is the contract that prevents the homepage from drifting away from the inner pages.
@@ -280,11 +352,28 @@ Accessibility:
 - `pnpm lint` — ESLint + jsx-a11y
 - `pnpm typecheck` — `tsc --noEmit`
 - `pnpm format` — Prettier with `prettier-plugin-tailwindcss`
-- `pnpm test` — Vitest (added in Phase 6+)
 
-**Before committing:** Run `pnpm lint && pnpm typecheck && pnpm build`. Husky pre-commit hook enforces this.
+**There is no `pnpm test`.** No test runner is installed. Do not write tests
+against a runner that doesn't exist, and do not claim tests pass. When testing
+lands it will be Playwright smoke tests + `axe-core` in CI, not broad unit tests
+— a marketing site doesn't earn those.
 
-**Branch strategy:** Currently on an isolated test branch. Do not merge to main until Phase 8 acceptance.
+**Before committing:** Run `pnpm lint && pnpm typecheck && pnpm build`. Husky pre-commit hook enforces lint + typecheck.
+
+### Environment variables
+
+Server-only, never `NEXT_PUBLIC_`. Names documented in `.env.example`; real
+values go in `.env.local` (gitignored).
+
+- `RESEND_API_KEY` — contact form delivery
+- `CONTACT_TO_EMAIL` — inbox that receives submissions
+- `CONTACT_FROM_EMAIL` — From address, on a Resend-verified domain
+
+The contact action degrades safely: missing env logs server-side and returns a
+generic error to the visitor. It never breaks the build.
+
+**Branch strategy:** currently on `refresh-branding`. See `PLAN.md` for the
+launch roadmap and `docs/audit-2026-08.md` for the assessed state of the build.
 
 ---
 

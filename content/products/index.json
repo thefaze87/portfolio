@@ -1,0 +1,207 @@
+{
+  "products": [
+    {
+      "id": "helixon",
+      "name": "Helixon",
+      "tagline": "Research Without Compromise",
+      "category": "Research Commerce Platform",
+      "status": "Launching",
+      "summary": "A premium biotech ecommerce platform built around transparency, verification, and modern commerce architecture — lot verification, certificate transparency, and QR validation as first-class product features rather than compliance afterthoughts.",
+      "stack": [
+        "Ruby on Rails 8",
+        "Inertia.js",
+        "Vue 3",
+        "PostgreSQL",
+        "Tailwind",
+        "Cloudflare R2",
+        "Render",
+        "Stripe",
+        "Resend",
+        "Shippo"
+      ],
+      "highlights": [
+        "Custom commerce engine — cart, checkout, orders, promotions, refunds",
+        "Event-sourced inventory with lot and batch traceability",
+        "COA transparency and QR lot verification",
+        "Canonical QR routing so packaging never needs reprinting",
+        "Operational admin designed as a first-class product"
+      ],
+      "markets": [],
+      "timeline": [
+        { "date": "2025", "event": "Domain model, commerce engine, and storefront" },
+        { "date": "2025", "event": "Inventory ledger, lot and batch traceability, COA platform" },
+        { "date": "2026", "event": "Fulfillment, marketing integration, admin platform" },
+        { "date": "2026", "event": "Launching" }
+      ],
+      "links": []
+    },
+    {
+      "id": "trustlaunch",
+      "name": "TrustLaunch",
+      "tagline": "Trust, measured and earned",
+      "category": "Reputation Intelligence Platform",
+      "status": "In development",
+      "summary": "Helping businesses launch, measure, and grow customer trust through reviews, reputation, AI insights, verification, and trust intelligence. A trust layer for a business, not another review inbox.",
+      "stack": [
+        "Multi-tenant architecture",
+        "AI insights",
+        "Embeddable widgets",
+        "PostgreSQL",
+        "Event-driven design"
+      ],
+      "highlights": [
+        "Review collection and request workflows",
+        "Reputation dashboard and trust score",
+        "AI reputation assistant and sentiment analysis",
+        "Embeddable trust widgets and QR feedback",
+        "Verification and reputation analytics"
+      ],
+      "markets": [
+        "Healthcare",
+        "Dental",
+        "Medical offices",
+        "Med spas",
+        "Trades",
+        "Restaurants",
+        "Professional services"
+      ],
+      "buildState": {
+        "built": ["Platform architecture", "Multi-tenant data model"],
+        "inDevelopment": ["Review collection", "Review requests", "Reputation dashboard"],
+        "roadmap": [
+          "Trust score",
+          "AI reputation assistant",
+          "Customer sentiment",
+          "Verification",
+          "Review widgets",
+          "QR feedback",
+          "Analytics"
+        ]
+      },
+      "timeline": [
+        { "date": "2026", "event": "Platform architecture and tenancy model" },
+        { "date": "In progress", "event": "Review collection and reputation dashboard" },
+        { "date": "Next", "event": "Trust score and AI reputation assistant" }
+      ],
+      "links": []
+    },
+    {
+      "id": "opsly",
+      "name": "Opsly",
+      "tagline": "A business operating system, not another CRM",
+      "category": "Business Operating System",
+      "status": "In development",
+      "summary": "A modular, AI-powered operating system helping businesses automate operations, customer engagement, and growth. Businesses enable only the engines they need, on a shared architecture, identity, and operational foundation.",
+      "stack": [
+        "Multi-tenant architecture",
+        "Automation engine",
+        "AI workflows",
+        "Event-driven design",
+        "PostgreSQL"
+      ],
+      "highlights": [
+        "Composable engines rather than one monolithic CRM",
+        "Multi-tenant from the domain model up",
+        "Lead capture, scheduling, and workflow automation",
+        "AI assistants applied at decision points, not everywhere",
+        "Integrates with existing software rather than replacing it"
+      ],
+      "markets": [
+        "Local businesses",
+        "Home services",
+        "Dental practices",
+        "Medical practices",
+        "Med spas",
+        "Professional services"
+      ],
+      "buildState": {
+        "built": [
+          "Foundation architecture",
+          "Multi-tenant platform model",
+          "Organizations and permissions"
+        ],
+        "inDevelopment": ["Lead capture", "Workflow automation", "Authentication"],
+        "roadmap": [
+          "AI assistants",
+          "Scheduling",
+          "Marketing automation",
+          "Customer communication",
+          "Analytics",
+          "Integrations"
+        ]
+      },
+      "timeline": [
+        { "date": "2026", "event": "Foundation architecture and tenancy boundaries" },
+        { "date": "In progress", "event": "Lead capture and workflow automation engines" },
+        { "date": "Next", "event": "AI assistants and scheduling" }
+      ],
+      "links": []
+    },
+    {
+      "id": "clue-finder-tours",
+      "name": "Clue Finder Tours",
+      "tagline": "Turning physical locations into programmable experiences",
+      "category": "Location-Based Experience Platform",
+      "status": "In development",
+      "summary": "Self-guided scavenger-hunt tours that turn a city into a playable experience. The hard part is not rendering content — it is modelling progression: where a player is, what they have unlocked, and what happens when they solve the next clue.",
+      "stack": [
+        "Ruby on Rails",
+        "Laravel",
+        "React Native",
+        "PWA",
+        "PostgreSQL",
+        "Stripe",
+        "Turbo",
+        "Stimulus"
+      ],
+      "highlights": [
+        "Three product surfaces: tours web app, mobile app, and admin",
+        "Hunt engine separating authored content from player state",
+        "Checkpoint, clue, and progression architecture",
+        "Stripe purchase and access model"
+      ],
+      "markets": ["Tourism", "Events", "Team building", "Local experiences"],
+      "timeline": [
+        { "date": "2024", "event": "Tours web application and hunt engine" },
+        { "date": "2025", "event": "Mobile app, PWA, and admin authoring" },
+        { "date": "In progress", "event": "Progression model and content operations" }
+      ],
+      "links": []
+    },
+    {
+      "id": "plaintext",
+      "name": "PlainText",
+      "tagline": "Writing without the software getting in the way",
+      "category": "Digital Product",
+      "status": "In development",
+      "summary": "An AI-assisted writing platform built end to end — frontend, backend, UX, and LLM integration — on the premise that most writing tools spend the user's attention on the tool rather than the writing.",
+      "stack": [],
+      "highlights": [
+        "Built end to end: frontend, backend, and UX",
+        "LLM integration for AI-assisted drafting",
+        "Founded and developed solo"
+      ],
+      "markets": [],
+      "buildState": {
+        "built": ["Frontend", "Backend", "UX", "LLM integration"],
+        "inDevelopment": [],
+        "roadmap": []
+      },
+      "timeline": [{ "date": "2025–2026", "event": "Built end to end as sole founder" }],
+      "links": []
+    },
+    {
+      "id": "shepherd",
+      "name": "Shepherd",
+      "tagline": "Guidance for systems that need watching",
+      "category": "Digital Product",
+      "status": "Planned",
+      "summary": "An early-stage product concept. Scope and architecture will be documented here once the definition is settled enough to stand on its own.",
+      "stack": [],
+      "highlights": [],
+      "markets": [],
+      "timeline": [],
+      "links": []
+    }
+  ]
+}

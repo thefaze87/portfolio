@@ -1,18 +1,19 @@
 import { SectionLabel } from '@/components/brand/SectionLabel';
-import { PLATFORMS } from '@/lib/nav';
+import { Button } from '@/components/ui/Button';
+import { LINKEDIN_HREF } from '@/lib/nav';
 
 /**
  * ExperienceMore — EXP.03. A quiet editorial coda to the experience block:
  * the timeline shows the chapters; this points to the fuller record. No card,
- * no background, no icon — just label, statement, muted body, and a text CTA
- * (white → accent on hover, not an orange button). Links out to LinkedIn in a
- * new tab without any LinkedIn branding.
+ * no background, no icon — just label, statement, muted body, and text CTAs
+ * (white → accent on hover, not orange buttons).
+ *
+ * /experience leads and LinkedIn follows. Previously the only action here was
+ * the outbound LinkedIn link, which made an off-site link the last thing a
+ * visitor could do on the homepage. The on-site record comes first now.
  *
  * Server Component. Content block capped at 640px for editorial line length.
  */
-
-const FULL_EXPERIENCE_HREF =
-  PLATFORMS.find((p) => p.label === 'LinkedIn')?.href ?? 'https://linkedin.com/in/markfasel';
 
 export function ExperienceMore() {
   return (
@@ -41,15 +42,17 @@ export function ExperienceMore() {
             financial integrations, frontend architecture, and AI strategy.
           </p>
 
-          <a
-            href={FULL_EXPERIENCE_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cta-text type-body inline-flex"
-            style={{ marginTop: 'var(--space-6)' }}
+          <div
+            className="flex flex-wrap"
+            style={{ marginTop: 'var(--space-6)', gap: 'var(--space-5)' }}
           >
-            View Full Experience →<span className="sr-only"> (opens in a new tab)</span>
-          </a>
+            <Button href="/experience" variant="text">
+              View the full experience →
+            </Button>
+            <Button href={LINKEDIN_HREF} variant="text">
+              LinkedIn →
+            </Button>
+          </div>
         </div>
       </div>
     </section>

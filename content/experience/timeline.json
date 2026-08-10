@@ -1,37 +1,44 @@
-[
-  {
-    "org": "Life Surge / Oxlos",
-    "role": "Enterprise Solutions Architect",
-    "dates": "Oct 2025–Present"
-  },
-  {
-    "org": "Roghnu",
-    "role": "Senior Software Developer",
-    "dates": "Jan 2025–Oct 2025"
-  },
-  {
-    "org": "Scorpion",
-    "role": "Senior Frontend Engineer",
-    "dates": "Nov 2020–Oct 2024"
-  },
-  {
-    "org": "Ramsey Solutions",
-    "role": "Frontend Engineer",
-    "dates": "May 2018–Jan 2019"
-  },
-  {
-    "org": "Publix Super Markets",
-    "role": "Software Engineer",
-    "dates": "Apr 2019–Nov 2020"
-  },
-  {
-    "org": "Independent Consulting",
-    "role": "Solutions & Strategy Consultant",
-    "dates": "2005–Present"
-  },
-  {
-    "org": "Johns Hopkins All Children's Hospital",
-    "role": "Software Engineer",
-    "dates": "Aug 2014–May 2018"
+{
+  "roles": [
+    {
+      "org": "Life Surge",
+      "role": "Solutions Architect",
+      "dates": "Oct 2025–Present"
+    },
+    {
+      "org": "Roghnu",
+      "role": "Senior Software Developer",
+      "dates": "Jan 2025–Oct 2025"
+    },
+    {
+      "org": "Scorpion",
+      "role": "Senior Front-end Product Developer",
+      "dates": "Nov 2020–Oct 2024"
+    },
+    {
+      "org": "Publix Super Markets",
+      "role": "Software Engineer",
+      "dates": "Apr 2019–Nov 2020"
+    },
+    {
+      "org": "Ramsey Solutions",
+      "role": "Front-end Developer",
+      "dates": "Jun 2018–Jan 2019"
+    },
+    {
+      "org": "Johns Hopkins All Children's Hospital",
+      "role": "Senior Software Developer",
+      "dates": "Aug 2014–Jun 2018"
+    },
+    {
+      "org": "LawLytics",
+      "role": "Senior Front-End Developer → Creative Director",
+      "dates": "Jun 2012–Jul 2014"
+    }
+  ],
+  "parallel": {
+    "org": "Mark Fasel, LLC",
+    "role": "Independent Consultant",
+    "dates": "2014–Present"
   }
-]
+}

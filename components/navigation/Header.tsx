@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
+import { Button } from '@/components/ui/Button';
 import { MobileDrawer } from '@/components/navigation/MobileDrawer';
-import { NAV_LINKS, PRIMARY_CTA } from '@/lib/nav';
+import { PRIMARY_CTA, PRIMARY_NAV } from '@/lib/nav';
 
 /**
  * Header — sticky site header. Mark only (no wordmark, per the finalized
@@ -54,7 +55,7 @@ export function Header() {
           className="hidden items-center md:flex"
           style={{ gap: 'var(--space-6)' }}
         >
-          {NAV_LINKS.map((link) => (
+          {PRIMARY_NAV.map((link) => (
             <Link key={link.href} href={link.href} className="nav-link type-body-sm">
               {link.label}
             </Link>
@@ -62,14 +63,15 @@ export function Header() {
         </nav>
 
         <div className="flex items-center" style={{ gap: 'var(--space-4)' }}>
-          <Link
+          <Button
             href={PRIMARY_CTA.href}
-            className="cta-ghost type-body-sm hidden md:inline-flex md:items-center"
-            style={{ padding: 'var(--space-2) var(--space-4)' }}
+            variant="ghost"
+            size="sm"
+            className="hidden md:inline-flex"
           >
             {PRIMARY_CTA.label}
-          </Link>
-          <MobileDrawer links={NAV_LINKS} className="md:hidden" />
+          </Button>
+          <MobileDrawer links={PRIMARY_NAV} className="md:hidden" />
         </div>
       </div>
     </header>

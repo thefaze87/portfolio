@@ -1,0 +1,113 @@
+---
+title: Building the entire commerce platform instead of renting one
+excerpt: Why Helixon was built from the domain model up rather than assembled on Shopify — and what owning the commerce engine, inventory ledger, and traceability chain actually bought.
+publishedAt: 2026-02-18
+draft: false
+tags: [commerce, architecture, full-stack, rails, vue]
+---
+
+The default answer for a commerce business is Shopify. It is a good answer. It is the right answer for most people, and choosing it would have been defensible.
+
+I built the platform instead — and the reason is not that I wanted to write a shopping cart.
+
+## The problem underneath the request
+
+Helixon needed things that sit outside what a storefront platform models well: certificates of analysis tied to specific production batches, lot-level traceability from a physical package back to its documentation, QR codes printed on packaging that had to keep working after the destination changed, and customer identity that stayed authoritative in our own database rather than in a marketing vendor's.
+
+Each of those is available as an add-on somewhere. Assembled, you get six subscriptions, five integrations, and a business whose operational truth is scattered across systems that were never designed to agree — which is exactly the reconciliation problem I have spent years being hired to fix in other people's companies.
+
+<Callout type="insight">
+  The build-versus-buy question is rarely "can the platform do this." It is "where does the truth
+  live, and what does it cost me when two systems disagree about it."
+</Callout>
+
+So the decision was not storefront-versus-custom. It was whether this business's operational data would live in a domain I controlled or be distributed across vendors I did not.
+
+## Constraints
+
+- **One engineer.** Every architectural decision had to be affordable to build and maintain alone. Ambition had to be spent carefully.
+- **It has to actually take money.** This is a real business, not a portfolio piece. Checkout, payments, inventory, and fulfillment had to work correctly on day one.
+- **Documentation is a compliance surface, not a nice-to-have.** COAs must be traceable to the batch they describe.
+- **Physical packaging is permanent.** Once a QR code is printed and product ships, that URL cannot change. Ever.
+- **Vendors change.** The marketing platform, shipping provider, and payment processor all had to be replaceable without a rewrite.
+
+## The architecture
+
+### Rails owns the domain, Vue owns the interface
+
+Rails 8 with Inertia and Vue 3. Inertia is the load-bearing choice: it gives SPA-grade interactions without building and versioning a separate API for a single client. Rails keeps the domain, authorization, and validation; Vue renders it.
+
+The alternative — a JSON API plus a decoupled SPA — buys client independence I did not need and costs a second application to maintain. With one engineer, that trade is clear.
+
+### Inventory is a ledger, not a number
+
+This is the decision I would defend hardest.
+
+The naive model is a `quantity` column you increment and decrement. It works until the first cancellation-plus-partial-refund-plus-restock, at which point you cannot answer "why does this say 14?"
+
+Instead, inventory is modelled as events: reservations, allocations, adjustments, and ledger entries, against lots and production batches. Current stock is derived from the ledger rather than stored as an opinion. A cancellation writes a compensating entry; it does not edit history.
+
+That costs more up front and pays for itself the first time someone asks what happened to a unit.
+
+### Lots, batches, and traceability
+
+Structured canonical identifiers — `HX-LYYYY-####` for lots, `HX-BYYYY-####` for batches — anchor a chain that runs:
+
+```
+Product → Variant → Inventory → Lot / Batch → Certificate of Analysis → Order
+```
+
+Any physical unit can be walked back to the documentation that describes it. This is the capability that made a custom build worth it; it is not something you bolt onto a storefront afterward.
+
+### The QR decision
+
+All printed packaging points at one permanent URL: `helixon.co/scan`.
+
+That endpoint is a router controlled from admin settings. It can send a scan to COA verification, product information, instructions, a campaign, or the site — and that destination can change after product is already in customers' hands.
+
+The alternative was encoding a destination directly in each printed code. That works exactly until the first time you want to change it, and then it costs a print run.
+
+<PullQuote>
+  Physical assets are permanent. Software destinations are not. Never let the permanent thing depend
+  on the changeable one.
+</PullQuote>
+
+### Vendors are integrations, not architecture
+
+Klaviyo handles marketing lifecycle, but the application database is authoritative for customers and consent. Marketing sits behind a provider abstraction — `SyncProfile`, `TrackEvent`, backfills — so Klaviyo is a downstream consumer rather than the system of record.
+
+Same pattern for Shippo (shipping rates, labels, tracking, integrated directly into order management), Cloudflare R2 (object storage for media and documents, with public and protected classes), and payments (the checkout was designed so the provider can be swapped without touching the commerce domain).
+
+The rule: if a vendor disappeared tomorrow, the business keeps its data and loses a feature — not the other way round.
+
+### Imports built for operational safety
+
+Moving customer and marketing data in required real tooling rather than a throwaway script: CSV and database-to-database imports, cursor-based batch processing rather than loading everything into memory, dry-run mode that shows exactly what would be created, duplicate handling, masked logging, environment safeguards, and read-only connections to source databases.
+
+Dry-run is the feature that matters. A migration you can inspect before it writes is a migration you can run confidently.
+
+## The tradeoffs
+
+**Building the commerce engine cost months.** Shopify would have been live in weeks. What those months bought is a domain that models this business rather than a generic one, and no ceiling on what can be built next. For a business whose differentiator _is_ traceability and documentation, that was the right trade. For a business selling t-shirts, it would have been indefensible.
+
+**The event-sourced inventory is more complex than most stores need.** Justified here by lot/batch traceability and the refund-restock paths. On a simpler catalog it would be over-engineering, and I would not repeat it by default.
+
+**Inertia couples the frontend to Rails.** A future native mobile app would need a real API. Accepted knowingly: I traded a hypothetical second client for shipping one application well.
+
+**One engineer is the actual constraint.** The architecture is deliberately conservative — boring framework choices, heavy test coverage, few moving pieces — because the maintenance budget is one person's attention.
+
+## Reliability
+
+The test suite is the thing that makes a one-engineer platform sustainable: roughly 1,950 RSpec examples across 316 spec files and 580+ Vitest tests across 160 frontend spec files at the last milestone, plus clean RuboCop and Brakeman runs.
+
+Coverage is concentrated where regressions are expensive — inventory, orders, discounts, refunds, customer data, imports, and fulfillment. Nobody manually re-tests a refund path; the suite does.
+
+## Outcome
+
+A production platform where the customer experience, commerce engine, admin operations, inventory, fulfillment, traceability, documentation, marketing, and storage are one coherent system with a single source of truth — and every external vendor in it can be replaced without a rewrite.
+
+## What I would do differently
+
+I would have built the admin application earlier. I built the storefront first, because the storefront is what customers see — but the business runs on the admin, and every week it did not exist was a week of operational work happening in the console or in my head.
+
+The general lesson is one I already knew and still got wrong: the operational surface is a product, and treating it as something to add after launch means designing it under pressure instead of on purpose.

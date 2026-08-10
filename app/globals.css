@@ -1,3 +1,8 @@
+/* Up one level: this file is in app/, tokens.css is in styles/ at the repo
+ * root — they are siblings, not nested. `./styles/...` resolves to
+ * app/styles/, which does not exist. Note this import also pulls in
+ * `@import 'tailwindcss'` (declared inside tokens.css), so breaking it takes
+ * out the entire utility layer, not just the custom properties. */
 @import '../styles/tokens.css';
 
 /* ============================================================================
@@ -199,6 +204,200 @@ body {
   }
   .cta-primary:hover {
     background: var(--color-accent-hover);
+  }
+
+  /* Button size scale. Paired with the .cta-* variants by <Button>. Before
+   * this existed, padding was passed inline at each call site and had already
+   * drifted into three different sizes. `text` variant takes no size class. */
+  .btn-sm {
+    padding: var(--space-2) var(--space-4);
+  }
+  .btn-md {
+    padding: var(--space-3) var(--space-5);
+  }
+  .btn-lg {
+    padding: var(--space-4) var(--space-6);
+  }
+
+  /* Disabled / busy — applies across all variants. `cursor: not-allowed` is
+   * deliberately omitted: it reads as an error rather than as "working". */
+  .cta-primary:disabled,
+  .cta-ghost:disabled,
+  .cta-text:disabled,
+  .cta-primary[aria-disabled='true'],
+  .cta-ghost[aria-disabled='true'] {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* Card hover — only for cards that are themselves a link target. The border
+   * strengthens and the title picks up the accent; nothing moves, because
+   * translate-on-hover reads as a product UI, not a publication. */
+  .card-interactive {
+    transition: border-color 150ms var(--ease-out-soft);
+  }
+  .card-interactive:hover {
+    border-color: var(--color-border-strong);
+  }
+  .card-interactive:hover .card-title {
+    color: var(--color-accent);
+  }
+  .card-title {
+    transition: color 150ms var(--ease-out-soft);
+  }
+
+  /* --------------------------------------------------------------------------
+   * Form controls
+   *
+   * One class for input / textarea / select so border, radius, and focus are
+   * defined once. The error state keys off [aria-invalid], which <Field> sets
+   * from its own `error` prop — there's no second flag to keep in sync.
+   * ------------------------------------------------------------------------ */
+  .field-control {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: var(--stroke-thin) solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    transition:
+      border-color 150ms var(--ease-out-soft),
+      background-color 150ms var(--ease-out-soft);
+  }
+  .field-control::placeholder {
+    color: var(--color-text-dim);
+  }
+  .field-control:hover:not(:disabled) {
+    border-color: var(--color-text-dim);
+  }
+  /* Mouse + keyboard focus both get the accent border; the global
+   * :focus-visible rule adds the 2px ring for keyboard users on top. */
+  .field-control:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+  .field-control[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+  .field-control:disabled {
+    opacity: 0.55;
+    background: var(--color-bg);
+  }
+  /* select needs an explicit height to match input's computed box, since it
+   * doesn't derive height from padding identically across engines. */
+  select.field-control {
+    appearance: none;
+    /* Chevron drawn as two half-square gradients. The 5px geometry is
+     * sub-token ornament — it's a glyph, not layout, and the spacing scale
+     * starts at 4px — but the color is still a token. The two halves must sit
+     * exactly one background-size apart (5px) or the chevron renders split
+     * down the middle. */
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--color-text-muted) 50%),
+      linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%);
+    background-position:
+      calc(100% - var(--space-5) - 5px) calc(50% - 1px),
+      calc(100% - var(--space-5)) calc(50% - 1px);
+    background-size:
+      5px 5px,
+      5px 5px;
+    background-repeat: no-repeat;
+    padding-right: var(--space-8);
+  }
+
+  /* --------------------------------------------------------------------------
+   * Long-form prose (MDX)
+   *
+   * Deliberately NOT @tailwindcss/typography: `prose` ships its own type scale
+   * and color ramp, which would immediately diverge from tokens.css. These few
+   * rules cover what inline styles can't express — hover, markers, and the
+   * Shiki output we don't control.
+   * ------------------------------------------------------------------------ */
+  .prose-link {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-strong);
+    text-underline-offset: 0.2em;
+    transition:
+      color 150ms var(--ease-out-soft),
+      text-decoration-color 150ms var(--ease-out-soft);
+  }
+  .prose-link:hover {
+    color: var(--color-accent);
+    text-decoration-color: var(--color-accent);
+  }
+
+  /* Default MDX paragraph. A class rather than inline styles so containers
+   * that receive paragraphs as children can override with plain specificity. */
+  .prose-p {
+    margin-block: var(--space-5);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+  }
+
+  /* PullQuote body.
+   *
+   * MDX may hand PullQuote either raw inline text or — when Prettier has
+   * reformatted the source into an indented block — a full <p class="prose-p">.
+   * Both must look identical, so any paragraph inside adopts the quote's type
+   * and drops its own measure and margins. Two-class specificity (0,2,0) beats
+   * .prose-p and .type-body-lg without needing !important. */
+  .pullquote-body > .prose-p,
+  .pullquote-body > p {
+    margin: 0;
+    max-width: none;
+    color: inherit;
+    font: inherit;
+    font-style: inherit;
+  }
+  .pullquote-body > * + * {
+    margin-top: var(--space-4);
+  }
+
+  .prose-list {
+    padding-left: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .prose-list li::marker {
+    color: var(--color-accent);
+  }
+  .prose-list--ordered li::marker {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+
+  /* Callout bodies hold MDX <p>, which carries its own top margin. Collapse it
+   * so the first line sits against the label, not a gap below it. */
+  .callout-body > :first-child {
+    margin-top: 0;
+  }
+  .callout-body > :last-child {
+    margin-bottom: 0;
+  }
+
+  /* Shiki emits its own <pre>; strip its margin and background so the wrapper
+   * owns the surface and the code sits on our token, not the theme's. */
+  .code-block pre {
+    margin: 0;
+    background: transparent !important;
+  }
+  .code-block code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  /* Honeypot — off-screen rather than display:none, which some bots skip.
+   * aria-hidden + tabIndex -1 on the markup keep it out of AT and tab order. */
+  .honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   /* Hero headline — fluid Fraunces that holds three lines from 375px up.

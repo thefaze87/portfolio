@@ -1,0 +1,70 @@
+---
+title: A trust layer, not another review inbox
+excerpt: TrustLaunch helps businesses launch, measure, and grow customer trust — combining reviews, reputation, verification, and AI insight into something a business can actually act on.
+publishedAt: 2026-05-20
+draft: false
+tags: [reputation, ai, multi-tenant, saas]
+---
+
+<Callout type="note" label="Status">
+  TrustLaunch is in development. The build state below separates what exists from what is in
+  progress and what is planned — nothing here is a claim about shipped software.
+</Callout>
+
+Most businesses treat reviews as something that happens to them. A star rating drifts up or down, someone occasionally responds to an angry one, and nobody can say whether any of it is working.
+
+The tools reflect that. Review software is overwhelmingly an inbox: collect, display, reply. Useful, but it answers the wrong question. A business owner does not primarily want to read reviews — they want to know whether customers trust them, whether that is improving, and what to do about it.
+
+## The problem
+
+Trust is the actual asset, and it is almost never measured.
+
+A dental practice knows its rating. It does not know which of its two locations is losing patients at intake, that sentiment about wait times has moved sharply in six weeks, or that the reviews driving new bookings all mention one hygienist by name.
+
+That information exists. It sits in unstructured text nobody has time to read, on platforms that were designed to sell ads rather than to make a business better.
+
+<PullQuote>
+  A rating is a score. Trust is a system — and systems can be measured, diagnosed, and improved.
+</PullQuote>
+
+## The solution
+
+TrustLaunch treats trust as a measurable business property with inputs a business can control.
+
+**Collection that respects the customer.** Review requests and QR feedback placed where the experience actually ends, rather than a blast to a stale list. The goal is representative signal, not volume.
+
+**A trust score with a stated method.** A single number is only useful if you can see what moved it. The score decomposes into contributing factors, so it functions as a diagnostic rather than a vanity metric.
+
+**AI applied to reading, not writing.** Sentiment analysis and the reputation assistant exist to surface patterns across hundreds of reviews a human will never read in full. Drafting is available; deciding is not automated.
+
+**Verification as a first-class concept.** The long-term differentiator. A review is worth more when the reviewer is verifiably a customer, and that verification is a capability the platform can offer outward.
+
+**Embeddable trust experiences.** Widgets that carry proof onto the business's own site, where the buying decision actually happens.
+
+## Product vision
+
+The near-term product is reputation management done properly. The direction is broader.
+
+Trustpilot's real position is not that it collects reviews — it is that it became an arbiter of business credibility. That role is durable, and it is bigger than the reviews that created it.
+
+TrustLaunch is built with room for that: reputation scoring, business credibility, verification, and marketplace trust. The name was chosen to leave that door open. Whether it walks through it depends on whether the measurement layer earns enough trust to be worth citing.
+
+## Architecture
+
+Multi-tenant from the domain model up, for the same reason as every platform serving businesses: tenancy applied as a query filter is one forgotten `where` clause away from a data breach. It is an invariant, not a convention.
+
+Event-driven internally, so review collection, sentiment processing, and score computation stay independently deployable and independently debuggable. A slow AI pass must never block a review landing.
+
+TrustLaunch **integrates with** [Opsly](/products/opsly) through APIs and shared workflows. It is deliberately **not an Opsly module** — a business should be able to adopt either without the other, and coupling them would make both harder to sell and harder to change.
+
+## Who it is for
+
+Businesses where a single review measurably changes revenue: healthcare and dental practices, medical offices, med spas, trades, restaurants, and professional services.
+
+The common thread is a high-consideration purchase made by someone who researched first — which is exactly where trust does the most work.
+
+## Lessons so far
+
+The strongest lesson is one the architecture already reflects: **resist becoming a module.** The obvious move is to fold reputation into Opsly as one more engine. It would ship faster and it would permanently cap what TrustLaunch could become, because a feature inside an operations platform cannot credibly become an arbiter of trust for anyone outside it.
+
+Keeping them separate costs an integration boundary. It buys the option on the larger product.

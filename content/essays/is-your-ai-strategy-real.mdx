@@ -1,0 +1,65 @@
+---
+title: How to tell if your AI strategy is real
+excerpt: Most AI strategies are procurement plans wearing a strategy costume. Four questions separate the ones that will compound from the ones that will quietly be cancelled.
+pillar: ai
+publishedAt: 2026-05-14
+draft: false
+tags: [ai, strategy, decision-making]
+---
+
+I have now read a lot of documents titled "AI Strategy." Most of them are procurement plans. They name vendors, propose a budget, list use cases in descending order of how impressive they sound in a board meeting, and contain no mechanism by which the organization gets better at anything.
+
+That is not a criticism of the people writing them. The pressure to have an AI strategy arrived faster than the understanding of what one is. But the distinction matters, because the second kind compounds and the first kind gets quietly cancelled eighteen months later after a pilot that technically worked.
+
+Four questions tell them apart.
+
+## 1. Does it name a decision, or a task?
+
+The strongest AI applications improve a decision that was already being made badly — usually because the person making it lacked information, time, or consistency.
+
+The weakest ones automate a task nobody examined first. If a process is wasteful, applying a model to it produces waste faster and with more confidence. The automation makes it _harder_ to see the underlying problem, because the cost has moved from visible human hours into an invisible per-token line item.
+
+So: what decision gets better? Who makes it today? What do they currently get wrong, and how would you know if the model got it less wrong?
+
+If the answer is "it will save time on X," ask why X exists at all. Sometimes the correct AI strategy for a process is to delete the process.
+
+<Callout type="insight">
+  AI should improve decisions, not replace thinking. Most failed AI projects were never decision
+  problems — they were process problems with a model bolted on.
+</Callout>
+
+## 2. Can you tell whether it is working?
+
+This is where most strategies fall apart, and it fails in a particular way: the pilot succeeds and nobody can say what that means.
+
+An evaluation approach does not need to be sophisticated. It needs to exist before you build, and it needs to be something other than vibes. A set of real examples with known-good outcomes. A comparison against what a human currently produces. An agreed threshold below which you stop.
+
+The reason to define this first is not rigor for its own sake. It is that after you have spent six months and a budget, nobody in the room is neutral about whether it worked. Deciding the bar in advance is how you preserve the ability to say no.
+
+If your strategy has no evaluation section, you do not have a strategy. You have an intention.
+
+## 3. What happens when it is wrong?
+
+Every model is wrong sometimes. The question that separates a serious plan from an unserious one is what the system does about it.
+
+There is a real difference between a model that drafts something a person reviews, and a model that takes an action nobody sees. The first has a human check built into the workflow. The second needs its own detection, correction, and escalation path — and building that is most of the work, which is why it usually gets skipped in the pilot and discovered in production.
+
+Ask concretely: who notices, how fast, and what does the recovery cost? An error that a person catches in five seconds is cheap. An error that quietly corrupts a downstream record for three weeks is not, and no accuracy percentage tells you which one you have.
+
+## 4. Does it make the next thing easier?
+
+This is the question that separates strategy from a purchase.
+
+A real strategy leaves the organization more capable than it found it. That capability is rarely the model. It is the boring infrastructure around it: data that is accessible and understood, evaluation harnesses you can point at the next problem, a team that has developed judgment about where this technology helps, and a clear-eyed inventory of where it does not.
+
+A collection of point solutions from different vendors, each solving one use case, leaves you with several integrations and no accumulated capability. Every subsequent project starts from zero.
+
+So the test is: after this initiative, is the second one cheaper? If not, you have bought a feature rather than built a capability, and that can be fine — but you should know which one you are doing.
+
+## The uncomfortable version
+
+Running these four questions honestly will kill some initiatives. That is the point. The cost of an AI project is not just its budget; it is the attention of your best engineers and the organizational credibility you spend when it underdelivers.
+
+The organizations getting real value are not the ones doing the most AI. They are the ones who were most willing to say no to seven things in order to do one thing properly, and who built the evaluation infrastructure that let them tell the difference.
+
+That is less exciting than a roadmap with twelve initiatives on it. It also tends to still be running in two years.

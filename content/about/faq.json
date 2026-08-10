@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What does a solutions architect actually do?",
+    "answer": "I decide where the boundaries go. Which systems own which data, what the contracts between them look like, what gets built versus bought versus deleted, and which of those decisions will be expensive to reverse. The diagrams are a byproduct — the job is judgment under constraints, usually with incomplete information and a deadline."
+  },
+  {
+    "question": "What kind of work do you take on?",
+    "answer": "Two kinds. Technology and architecture advisory for organizations with real systems and real constraints — architecture reviews, AI strategy, platform modernization, integration design, and technical leadership. And AI automation for growing businesses that are drowning in manual work and want it to stop. They look different on the surface; underneath, both are about removing work that shouldn't exist."
+  },
+  {
+    "question": "Are you available for consulting?",
+    "answer": "Yes, selectively. I hold a limited number of engagements at a time so each one gets real attention. The fastest way to find out if there's a fit is to describe the problem and the outcome you need."
+  },
+  {
+    "question": "Do you work remotely?",
+    "answer": "Yes. I'm based in Palmetto, Florida, in the Tampa Bay area, and work with teams across the United States. Most engagements run remote, with onsite time when the work genuinely calls for it — usually early, when the goal is understanding how a team actually operates rather than how the org chart says it does."
+  },
+  {
+    "question": "What's your background?",
+    "answer": "Twenty years across healthcare, retail, ecommerce, media, education, and enterprise platforms — Johns Hopkins All Children's Hospital, Ramsey Solutions, Publix, Scorpion, Roghnu, and Life Surge, alongside the independent practice I've run through Mark Fasel, LLC since 2014. The range matters: the same architectural mistakes recur across industries, and having seen them in a regulated hospital and a high-volume retailer makes them easier to spot in a third place."
+  }
+]

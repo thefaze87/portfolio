@@ -1,0 +1,76 @@
+---
+title: Making two systems of record agree
+excerpt: An aviation operations platform and Sage Intacct each believed they owned the truth about the same transactions. The fix was not a better sync job — it was deciding who owns what.
+client: An aviation operations company (via Roghnu)
+role: Senior Software Developer
+period: 2025
+publishedAt: 2025-11-10
+draft: false
+stack: [Laravel, Vue, SQL Server, Azure, Sage Intacct, Enterprise APIs]
+outcomes:
+  [
+    Single owner defined for every shared entity,
+    Reconciliation moved from manual to automatic,
+    Failures became visible and replayable instead of silent,
+  ]
+tags: [integration, architecture, financial-systems]
+---
+
+Aviation operations generate financial events constantly — flights, maintenance, fuel, crew, parts. Those events lived in operational systems built for dispatchers. The money lived in Sage Intacct, built for accountants. Both were correct about their own world, and neither could be trusted about the other.
+
+The request I received was to "build a sync." That is almost never the actual problem.
+
+## The problem underneath the request
+
+When two systems exchange records on a schedule, a specific failure mode develops. Each side edits the shared data. Each side pushes its version. The last writer wins, and nobody can reconstruct why a number changed. Finance stops trusting the integration and starts keeping a spreadsheet. Once that spreadsheet exists, you no longer have an integration problem — you have a trust problem, and rebuilding the sync will not fix it.
+
+That is roughly where things stood. The symptoms were recurring manual reconciliation at close, and a growing set of hand corrections that existed because someone had learned not to believe the automated number.
+
+<Callout type="insight">
+  A synchronization bug is a technical problem. A reconciliation ritual is an organizational one. If
+  people have built habits around not trusting your data, fixing the transport layer changes
+  nothing.
+</Callout>
+
+## Constraints
+
+The constraints mattered more than the technology, so they came first:
+
+- **Sage Intacct is the system of record for anything auditable.** Not negotiable, and correctly so. Accounting systems are where you want the strict schema and the audit trail.
+- **Operations could not slow down.** Dispatchers work in real time. Any design that added a confirmation step to their workflow was going to be rejected, correctly, by the people who actually run the business.
+- **The integration had to survive being wrong.** Aviation data arrives late, out of order, and occasionally amended weeks after the fact. A design that assumed clean sequential events would fail in month two.
+- **No big-bang cutover.** The existing flow had to keep running while the new one was proven.
+
+## The architecture
+
+The decision that shaped everything else was ownership: for each shared entity, exactly one system owns each field. Not "both systems sync" — one owner, one direction, explicit.
+
+Operational systems own what happened. Intacct owns what it costs and what it means financially. Where both needed a value, one of them got the authority and the other got a read-only copy clearly labelled as derived.
+
+That single decision eliminated an entire category of conflict, because conflicts require two writers.
+
+On top of that:
+
+**An API-first boundary.** Rather than two systems reaching into each other's databases, both spoke to an explicit contract. Doing this made the coupling visible — you could read the contract and know precisely what crossed the boundary, instead of discovering it by grepping for table names.
+
+**Durable, replayable synchronization.** Every transfer was recorded as an event with an identifier, a payload, and a status. Idempotent handlers meant a replayed event produced the same result. This is unglamorous and it is the difference between "the sync broke last night" being a five-minute investigation or a five-hour one.
+
+**Reconciliation as a first-class feature.** The manual reconciliation was not deleted; it was automated and surfaced. The system continuously compared both sides and reported disagreement as data rather than waiting for a human to notice at close.
+
+## The tradeoffs
+
+**Explicit contracts cost more up front.** Direct database access would have shipped faster. It also would have meant that any schema change on either side could silently break the other. I traded initial speed for the ability to change either system independently — worth it on a platform expected to last, and the wrong trade for a throwaway prototype.
+
+**Single ownership frustrated people initially.** Someone always loses the ability to edit a field where they used to. That conversation is the actual work of integration architecture, and it is not a technical conversation. Having a written, defensible rule made it a discussion about the business rather than about personalities.
+
+**Event replay adds storage and complexity.** For a low-volume integration this would be over-engineering. Given the correction-after-the-fact pattern in aviation data, it was the feature that made everything else safe.
+
+## Outcome
+
+Reconciliation moved from a recurring manual ritual to an automated comparison with exceptions surfaced as they occurred. Failures became visible and replayable rather than silent. Most importantly, the ownership model gave the organization a rule to apply to the _next_ integration, rather than a bespoke solution to this one.
+
+## What I would do differently
+
+I would have written the ownership map before writing any code, and circulated it as a document requiring sign-off. I produced it early, but as a design artifact rather than an agreement. Field-ownership decisions get reopened later when the people affected were never asked to agree to them — not because the decisions were wrong, but because nobody signed anything.
+
+The lesson generalizes: in integration work, the document that matters most is not the architecture diagram. It is the one that says who owns what, signed by the people who own it.

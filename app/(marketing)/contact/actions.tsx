@@ -33,6 +33,19 @@ import { contactSchema, type ContactFormValues, type ContactResult } from '@/lib
  *   - Rate limited per IP (see lib/rate-limit.ts for its real limitations).
  *   - Error messages returned to the client are generic; the underlying cause
  *     is logged server-side only.
+ *
+ * ## Observability
+ *
+ * The generic error is deliberately uninformative, which makes a production
+ * failure invisible from the browser — by design, and the reason the log side
+ * has to carry the whole diagnosis. Every path emits one JSON line tagged
+ * `scope:"contact"` with a shared `submissionId`. See the diagnostics block
+ * below for what is and is not recorded.
+ *
+ * The contract is one-way: nothing added to a log line may ever be added to a
+ * returned `ContactResult`. If a future change wants to tell the visitor *why*
+ * something failed, that is a UX decision to make deliberately, not a side
+ * effect of improving logging.
  */
 
 const RATE_LIMIT = 5;
@@ -41,15 +54,141 @@ const RATE_WINDOW_MS = 10 * 60 * 1000;
 const GENERIC_ERROR =
   "Something went wrong sending your message. Try again, or email me directly and I'll pick it up.";
 
-/** Resolve the client IP from the hosting proxy headers. */
-async function getClientKey(): Promise<string> {
+/* ============================================================================
+ * Structured diagnostics
+ *
+ * Everything here goes to the server log and nowhere else. The value returned
+ * to the browser is GENERIC_ERROR in every failure path — these logs exist
+ * because that generic message is deliberately uninformative, which makes a
+ * production failure impossible to diagnose from the outside.
+ *
+ * One line per event, JSON-encoded, so Vercel's log viewer parses it into
+ * filterable fields instead of a wall of text. Every line carries the same
+ * `submissionId`, so one submission's whole story can be pulled up with a
+ * single filter even when requests interleave.
+ *
+ * ## What is never logged
+ *
+ * The API key's value. `describeApiKey` reports only presence, length, and
+ * whether the format looks right — enough to tell "unset" from "set to the
+ * wrong thing" from "set with a stray newline", without ever putting the
+ * secret in a log aggregator.
+ *
+ * ## What is logged, deliberately
+ *
+ * The visitor's email address, as sender/recipient. It is already in the
+ * message body being delivered, and without it a delivery failure cannot be
+ * traced to the person who hit the error. Note it is PII: if a log retention
+ * policy is ever written, these lines are in scope.
+ * ========================================================================== */
+
+type LogFields = Record<string, unknown>;
+
+function logEvent(level: 'info' | 'error', event: string, fields: LogFields): void {
+  // Single-line JSON: Vercel groups multi-line output as separate log entries,
+  // which would split one failure across several rows.
+  const line = JSON.stringify({ scope: 'contact', event, ...fields });
+  if (level === 'error') console.error(line);
+  else console.log(line);
+}
+
+/**
+ * Describe the API key without revealing it.
+ *
+ * Length and prefix are the two things that distinguish the failure modes that
+ * look identical from the outside: a missing variable, a variable pasted with
+ * surrounding quotes or a trailing newline (a very common Vercel paste error —
+ * the key is "present" but every request 401s), and a key from the wrong
+ * account. `re_` is Resend's public key prefix, not a secret.
+ */
+function describeApiKey(raw: string | undefined): LogFields {
+  if (raw === undefined) return { hasResendKey: false, keyIssue: 'env-var-undefined' };
+  if (raw === '') return { hasResendKey: false, keyIssue: 'env-var-empty-string' };
+
+  const trimmed = raw.trim();
+  return {
+    hasResendKey: true,
+    keyLength: raw.length,
+    keyPrefixValid: trimmed.startsWith('re_'),
+    // Any of these means the variable holds something other than the bare key.
+    keyHasSurroundingWhitespace: trimmed.length !== raw.length,
+    keyHasQuotes: /^["']|["']$/.test(trimmed),
+  };
+}
+
+/**
+ * Flatten a Resend SDK error or a thrown value into loggable fields.
+ *
+ * The SDK resolves with `{ data, error }` rather than throwing for API-level
+ * failures, so the interesting cases arrive as a plain object with `name`,
+ * `message`, and sometimes `statusCode`. Unknown shapes are stringified rather
+ * than dropped — an unrecognised error is exactly when the raw value matters.
+ */
+function describeFailure(cause: unknown): LogFields {
+  if (cause instanceof Error) {
+    return {
+      errorName: cause.name,
+      errorMessage: cause.message,
+      stack: cause.stack,
+      ...(cause.cause === undefined ? {} : { errorCause: String(cause.cause) }),
+    };
+  }
+
+  if (cause && typeof cause === 'object') {
+    const record = cause as Record<string, unknown>;
+    return {
+      errorName: record.name ?? 'ResendError',
+      errorMessage: record.message ?? null,
+      // Resend's status code is the fastest read on root cause: 401 invalid
+      // key · 403 domain not verified · 422 invalid payload · 429 rate limit.
+      statusCode: record.statusCode ?? record.status ?? null,
+      raw: safeStringify(record),
+    };
+  }
+
+  return { errorName: 'UnknownError', raw: String(cause) };
+}
+
+function safeStringify(value: unknown): string {
+  try {
+    return JSON.stringify(value) ?? String(value);
+  } catch {
+    // Circular reference or a non-serializable field — never let a logging
+    // helper be the thing that throws inside a catch block.
+    return String(value);
+  }
+}
+
+/**
+ * Request-scoped identifiers.
+ *
+ * `x-vercel-id` is the platform's own request id and is the value that ties a
+ * log line to a specific invocation in the Vercel dashboard. It is absent
+ * locally, which is why `submissionId` exists as well — a self-generated
+ * correlation id that works in every environment.
+ */
+async function getRequestContext(): Promise<{
+  clientKey: string;
+  requestId: string | null;
+  deployment: string | null;
+}> {
   const h = await headers();
   const forwarded = h.get('x-forwarded-for');
   const ip = forwarded?.split(',')[0]?.trim() || h.get('x-real-ip') || 'unknown';
-  return `contact:${ip}`;
+
+  return {
+    clientKey: `contact:${ip}`,
+    requestId: h.get('x-vercel-id'),
+    deployment: process.env.VERCEL_ENV ?? null,
+  };
 }
 
 export async function submitContact(values: ContactFormValues): Promise<ContactResult> {
+  // Correlates every log line for this submission. Generated before any work
+  // so even the earliest rejection is traceable.
+  const submissionId = crypto.randomUUID().slice(0, 8);
+  const startedAt = Date.now();
+
   const parsed = contactSchema.safeParse(values);
 
   if (!parsed.success) {
@@ -60,16 +199,25 @@ export async function submitContact(values: ContactFormValues): Promise<ContactR
         fieldErrors[key as keyof ContactFormValues] = issue.message;
       }
     }
+    logEvent('info', 'validation_rejected', {
+      submissionId,
+      fields: Object.keys(fieldErrors),
+    });
     return { ok: false, error: 'Check the highlighted fields and try again.', fieldErrors };
   }
 
   const data = parsed.data;
 
   // Honeypot tripped. Report success so bots get no signal to adapt to.
-  if (data.website) return { ok: true };
+  if (data.website) {
+    logEvent('info', 'honeypot_discarded', { submissionId });
+    return { ok: true };
+  }
 
-  const { allowed, retryAfter } = checkRateLimit(await getClientKey(), RATE_LIMIT, RATE_WINDOW_MS);
+  const { clientKey, requestId, deployment } = await getRequestContext();
+  const { allowed, retryAfter } = checkRateLimit(clientKey, RATE_LIMIT, RATE_WINDOW_MS);
   if (!allowed) {
+    logEvent('info', 'rate_limited', { submissionId, requestId, retryAfter });
     const minutes = Math.max(1, Math.ceil(retryAfter / 60));
     return {
       ok: false,
@@ -86,10 +234,34 @@ export async function submitContact(values: ContactFormValues): Promise<ContactR
   // Vercel. Case matters: process.env is case-sensitive on Linux, so
   // RESEND_API_KEY would read undefined in production.
   const apiKey = process.env.resend_api;
+  const keyDiagnostics = describeApiKey(apiKey);
+
+  // Emitted before every send attempt, success or failure, so a working
+  // submission and a broken one produce comparable evidence. Without a
+  // baseline from a healthy request there is nothing to diff a failure
+  // against.
+  logEvent('info', 'send_attempt', {
+    submissionId,
+    requestId,
+    deployment,
+    notificationFrom: NOTIFICATION_FROM,
+    notificationTo: INBOX,
+    notificationReplyTo: data.email,
+    notificationSubject: `New website inquiry — ${data.name}`,
+    acknowledgementFrom: ACKNOWLEDGEMENT_FROM,
+    acknowledgementTo: data.email,
+    ...keyDiagnostics,
+  });
 
   if (!apiKey) {
     // Misconfiguration, not user error. Loud in logs, generic to the visitor.
-    console.error('[contact] Missing env: resend_api');
+    logEvent('error', 'config_missing', {
+      submissionId,
+      requestId,
+      deployment,
+      ...keyDiagnostics,
+      hint: 'Set `resend_api` (lowercase) for this environment in Vercel, then redeploy — env changes do not apply to existing deployments.',
+    });
     return { ok: false, error: GENERIC_ERROR };
   }
 
@@ -125,11 +297,12 @@ export async function submitContact(values: ContactFormValues): Promise<ContactR
     // HTML-only mail scores worse with spam filters and renders as nothing in
     // text-only clients.
     // ------------------------------------------------------------------
-    const { error } = await resend.emails.send({
+    const notificationSubject = `New website inquiry — ${data.name}`;
+    const { data: notificationResult, error } = await resend.emails.send({
       from: NOTIFICATION_FROM,
       to: INBOX,
       replyTo: data.email,
-      subject: `New website inquiry — ${data.name}`,
+      subject: notificationSubject,
       html: await render(<ContactNotification {...notificationProps} />),
       text: contactNotificationText(notificationProps),
     });
@@ -137,9 +310,31 @@ export async function submitContact(values: ContactFormValues): Promise<ContactR
     if (error) {
       // The message did not reach Mark. Saying "sent" here would be a lie the
       // visitor cannot detect, so this is a hard failure.
-      console.error('[contact] Notification failed:', error);
+      logEvent('error', 'notification_failed', {
+        submissionId,
+        requestId,
+        deployment,
+        from: NOTIFICATION_FROM,
+        to: INBOX,
+        replyTo: data.email,
+        subject: notificationSubject,
+        durationMs: Date.now() - startedAt,
+        ...keyDiagnostics,
+        ...describeFailure(error),
+      });
       return { ok: false, error: GENERIC_ERROR };
     }
+
+    logEvent('info', 'notification_sent', {
+      submissionId,
+      requestId,
+      // Resend's message id. This is the value to paste into the Resend
+      // dashboard to see delivery, bounce, and complaint status for this
+      // specific message — the API accepting it is not the same as an inbox
+      // receiving it.
+      messageId: notificationResult?.id ?? null,
+      durationMs: Date.now() - startedAt,
+    });
 
     // ------------------------------------------------------------------
     // 2. Visitor acknowledgement — SECONDARY.
@@ -159,22 +354,58 @@ export async function submitContact(values: ContactFormValues): Promise<ContactR
         timeline: data.timeline,
       };
 
-      const { error: ackError } = await resend.emails.send({
+      const acknowledgementSubject = "Thanks for reaching out — I'll be in touch soon";
+      const { data: ackResult, error: ackError } = await resend.emails.send({
         from: ACKNOWLEDGEMENT_FROM,
         to: data.email,
         replyTo: INBOX,
-        subject: "Thanks for reaching out — I'll be in touch soon",
+        subject: acknowledgementSubject,
         html: await render(<ContactAcknowledgement {...acknowledgementProps} />),
         text: contactAcknowledgementText(acknowledgementProps),
       });
-      if (ackError) console.error('[contact] Acknowledgement failed:', ackError);
+
+      if (ackError) {
+        logEvent('error', 'acknowledgement_failed', {
+          submissionId,
+          requestId,
+          from: ACKNOWLEDGEMENT_FROM,
+          to: data.email,
+          subject: acknowledgementSubject,
+          ...describeFailure(ackError),
+        });
+      } else {
+        logEvent('info', 'acknowledgement_sent', {
+          submissionId,
+          requestId,
+          messageId: ackResult?.id ?? null,
+        });
+      }
     } catch (ackCause) {
-      console.error('[contact] Acknowledgement threw:', ackCause);
+      logEvent('error', 'acknowledgement_threw', {
+        submissionId,
+        requestId,
+        to: data.email,
+        ...describeFailure(ackCause),
+      });
     }
 
+    logEvent('info', 'submission_ok', {
+      submissionId,
+      requestId,
+      durationMs: Date.now() - startedAt,
+    });
     return { ok: true };
   } catch (cause) {
-    console.error('[contact] Unexpected failure:', cause);
+    // Reached only for a throw the SDK did not convert into `{ error }` —
+    // a network fault, a DNS failure, or a bug in the render step.
+    logEvent('error', 'unexpected_failure', {
+      submissionId,
+      requestId,
+      deployment,
+      durationMs: Date.now() - startedAt,
+      ...keyDiagnostics,
+      ...describeFailure(cause),
+    });
     return { ok: false, error: GENERIC_ERROR };
   }
 }

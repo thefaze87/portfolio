@@ -77,32 +77,47 @@ export function Footer() {
            * the wordmark rather than off the mark. Aligning it to the mark
            * instead would read as a third element in the lockup rather than a
            * subtitle to the name. */}
-          <div className="flex flex-col" style={{ gap: 'var(--space-2)' }}>
-            <div className="flex items-center" style={{ gap: 'var(--space-3)' }}>
-              <Logo height={28} />
-              <span style={{ display: 'inline-flex', transform: 'translateY(1px)' }}>
-                <Wordmark size="sm" />
+          <div className="flex flex-col" style={{ gap: 'var(--space-7)' }}>
+            <div className="flex flex-col" style={{ gap: 'var(--space-2)' }}>
+              <div className="flex items-center" style={{ gap: 'var(--space-3)' }}>
+                <Logo height={28} />
+                <span style={{ display: 'inline-flex', transform: 'translateY(1px)' }}>
+                  <Wordmark size="sm" />
+                </span>
+              </div>
+              <span
+                className="type-mono-label"
+                style={{
+                  color: 'var(--color-text-muted)',
+                  paddingInlineStart: 'calc(28px * 1.374 + var(--space-3))',
+                }}
+              >
+                {LEGAL_ENTITY.name}
               </span>
             </div>
-            <span
-              className="type-mono-label"
-              style={{
-                color: 'var(--color-text-muted)',
-                paddingInlineStart: 'calc(28px * 1.374 + var(--space-3))',
-              }}
-            >
-              {LEGAL_ENTITY.name}
-            </span>
-          </div>
 
-          {/* Nav + social */}
-          <div className="flex flex-col" style={{ gap: 'var(--space-6)' }}>
+            {/* Navigation sits under the lockup rather than beside the contact
+             * block. Two reasons it belongs here:
+             *
+             *   - It fills the column. The lockup alone left roughly 500px of
+             *     dead space under it while the right column carried four
+             *     stacked blocks, which read as an accident rather than as
+             *     restraint.
+             *   - It groups by kind. The left column is now identity and
+             *     wayfinding — who this is and where everything lives. The
+             *     right column is contact: one prompt, one primary path, one
+             *     address, and the platforms. A visitor scanning the footer is
+             *     doing one of those two things, not both.
+             *
+             * The grid stays two columns so the seven links read as a block
+             * under the wordmark rather than a seven-item ladder. */}
             <nav aria-label="Footer">
               <div
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
                   gap: 'var(--space-3) var(--space-8)',
+                  maxWidth: '22rem',
                 }}
               >
                 {FOOTER_NAV_LINKS.map((link) => (
@@ -112,7 +127,10 @@ export function Footer() {
                 ))}
               </div>
             </nav>
+          </div>
 
+          {/* Contact column */}
+          <div className="flex flex-col" style={{ gap: 'var(--space-6)' }}>
             {/* Contact block: prompt → primary path → direct address.
              *
              * The prompt names both audiences in one line. The site has two
@@ -203,7 +221,17 @@ export function Footer() {
            *
            * Privacy and Terms are links inside the copyright line rather than
            * a second nav block, which is what keeps them subordinate to the
-           * footer navigation above. */}
+           * footer navigation above.
+           *
+           * They use `prose-link`, NOT `nav-link`. `nav-link` resolves to
+           * --color-text-muted, which is the exact colour of the copyright
+           * text wrapping them — so the links were literally indistinguishable
+           * from the plain text around them and read as part of the copyright
+           * string. `prose-link` is the site's established treatment for a
+           * link sitting inside a line of prose: full-strength text plus a
+           * hairline underline. That gives an affordance that does not depend
+           * on colour alone, which is what WCAG 1.4.1 asks for when a link is
+           * embedded in surrounding text. */}
           <p
             className="type-mono-label flex flex-wrap"
             style={{ color: 'var(--color-text-muted)', margin: 0, gap: '0 var(--space-2)' }}
@@ -216,7 +244,7 @@ export function Footer() {
             {LEGAL_NAV_LINKS.map((link) => (
               <Fragment key={link.href}>
                 <span aria-hidden="true">·</span>
-                <Link href={link.href} className="nav-link">
+                <Link href={link.href} className="prose-link">
                   {link.label}
                 </Link>
               </Fragment>

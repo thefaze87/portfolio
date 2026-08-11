@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
 import { Header } from '@/components/navigation/Header';
 import { Footer } from '@/components/navigation/Footer';
 import { jsonLd, personSchema, webSiteSchema } from '@/lib/schema';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from '@/lib/seo';
 import { SITE_URL } from '@/lib/nav';
+import { GA_MEASUREMENT_ID, isAnalyticsEnabled } from '@/lib/analytics';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -110,6 +112,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Footer />
       </body>
+
+      {/* Google Analytics 4 — mounted once, here, for every route.
+       *
+       * The official @next/third-parties component rather than a hand-rolled
+       * next/script pair: it emits the gtag bootstrap and the loader at the
+       * `afterInteractive` strategy, so nothing competes with hydration, and
+       * it is the surface Next.js keeps current as gtag changes.
+       *
+       * Rendering it here — inside <html>, after <body>, per the Next.js
+       * docs — guarantees exactly one initialization. Do not add it to a page
+       * or a nested layout as well; a second mount means a second
+       * `gtag('config')` and every page_view is counted twice.
+       *
+       * Gated on the measurement ID being set, so a fork, a preview deploy, or
+       * a local checkout without the variable ships no analytics at all rather
+       * than a broken tag. See lib/analytics.ts.
+       *
+       * Route-change page views come from GA4 Enhanced Measurement, not from
+       * application code — see lib/analytics.client.ts before adding any
+       * page_view tracking. */}
+      {isAnalyticsEnabled && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </html>
   );
 }

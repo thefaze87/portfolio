@@ -1,0 +1,245 @@
+- generic [active] [ref=e1]:
+    - banner [ref=e2]:
+        - link "Skip to content" [ref=e3] [cursor=pointer]:
+            - /url: '#main-content'
+        - generic [ref=e4]:
+            - link "Mark Fasel — home" [ref=e5] [cursor=pointer]:
+                - /url: /
+                - img "Mark Fasel" [ref=e6]
+            - navigation "Primary" [ref=e8]:
+                - link "Experience" [ref=e9] [cursor=pointer]:
+                    - /url: /experience
+                - link "Projects" [ref=e10] [cursor=pointer]:
+                    - /url: /projects
+                - link "Products" [ref=e11] [cursor=pointer]:
+                    - /url: /products
+                - link "Writing" [ref=e12] [cursor=pointer]:
+                    - /url: /writing
+                - link "Consulting" [ref=e13] [cursor=pointer]:
+                    - /url: /consulting
+                - link "About" [ref=e14] [cursor=pointer]:
+                    - /url: /about
+            - link "Let's Talk →" [ref=e16] [cursor=pointer]:
+                - /url: /contact
+    - main [ref=e17]:
+        - generic [ref=e18]:
+            - generic:
+                - generic: SYSTEMS
+                - generic: ARCH.01
+                - generic: NODE.12
+                - generic: SYS.04
+            - generic [ref=e19]:
+                - generic [ref=e20]:
+                    - generic [ref=e23]:
+                        - generic [ref=e24]: Systems Architect ·
+                        - generic [ref=e25]: AI Strategist ·
+                        - text: Engineering Leader
+                    - heading [level=1] [ref=e26]:
+                        - text: Better systems.Better decisions.Built to
+                        - emphasis [ref=e27]: scale
+                        - text: .
+                    - paragraph [ref=e28]: I help organizations design scalable systems, leverage AI effectively, and align technology with business outcomes.
+                    - paragraph [ref=e29]: With 20+ years across enterprise software, architecture, UX, and product strategy, I help teams make better technical decisions that stand the test of time.
+                    - generic [ref=e30]:
+                        - link "View Experience" [ref=e31] [cursor=pointer]:
+                            - /url: /experience
+                        - link "Let's Talk" [ref=e32] [cursor=pointer]:
+                            - /url: /contact
+                - img "System topology A four-layer architecture — Interface, Intelligence, Services, and Foundation — of twelve nodes. An orange critical path traces the flow diagonally from the interface layer down through to the foundation." [ref=e34]:
+                    - generic [ref=e49]: Interface
+                    - generic [ref=e50]: Intelligence
+                    - generic [ref=e51]: Services
+                    - generic [ref=e52]: Foundation
+                    - generic [ref=e53]: FIG. 01
+                    - generic [ref=e54]: 4L · 12N
+        - generic [ref=e56]:
+            - generic [ref=e57]: Trusted by organizations including
+            - list [ref=e60]:
+                - listitem [ref=e61]: LifeSurge
+                - listitem [ref=e62]: Ramsey Solutions
+                - listitem [ref=e63]: Johns Hopkins All Children's Hospital
+                - listitem [ref=e64]: Publix
+                - listitem [ref=e65]: Scorpion
+        - generic [ref=e67]:
+            - generic [ref=e68]: ARCH.01
+            - heading "Architecture is not technology. It's decision-making." [level=2] [ref=e70]: Architecture is not technology.It's decision-making.
+            - generic [ref=e71]:
+                - paragraph [ref=e72]: The best systems are not the ones that scale the most.
+                - paragraph [ref=e73]: They're the ones that can adapt, evolve, and create clarity.
+            - generic [ref=e74]:
+                - article [ref=e75]:
+                    - generic [ref=e76]: '01'
+                    - heading "Systems Over Tools" [level=3] [ref=e77]
+                    - paragraph [ref=e78]: Frameworks change. Principles last.
+                - article [ref=e79]:
+                    - generic [ref=e80]: '02'
+                    - heading "Business Before Code" [level=3] [ref=e81]
+                    - paragraph [ref=e82]: Technology exists to create outcomes.
+                - article [ref=e83]:
+                    - generic [ref=e84]: '03'
+                    - heading "AI With Intent" [level=3] [ref=e85]
+                    - paragraph [ref=e86]: AI should improve decisions, not replace thinking.
+                - article [ref=e87]:
+                    - generic [ref=e88]: '04'
+                    - heading "Alignment Creates Scale" [level=3] [ref=e89]
+                    - paragraph [ref=e90]: Most scaling problems begin as communication problems.
+        - generic [ref=e92]:
+            - generic [ref=e93]: EXP.01
+            - heading "20+ years designing systems, teams, and platforms." [level=2] [ref=e95]
+            - generic [ref=e96]:
+                - paragraph [ref=e97]: From enterprise healthcare and ecommerce to architecture leadership, AI initiatives, and large-scale business systems.
+                - paragraph [ref=e98]: My work has focused on helping organizations make better technical decisions and build systems that endure.
+            - list [ref=e99]:
+                - listitem [ref=e101]:
+                    - generic [ref=e104]:
+                        - text: Oct 2025–Present
+                        - heading "Life Surge" [level=3] [ref=e105]
+                        - paragraph [ref=e106]: Solutions Architect
+                - listitem [ref=e107]:
+                    - generic [ref=e110]:
+                        - text: Jan 2025–Oct 2025
+                        - heading "Roghnu" [level=3] [ref=e111]
+                        - paragraph [ref=e112]: Senior Software Developer
+                - listitem [ref=e113]:
+                    - generic [ref=e116]:
+                        - text: Nov 2020–Oct 2024
+                        - heading "Scorpion" [level=3] [ref=e117]
+                        - paragraph [ref=e118]: Senior Front-end Product Developer
+                - listitem [ref=e119]:
+                    - generic [ref=e122]:
+                        - text: Apr 2019–Nov 2020
+                        - heading "Publix Super Markets" [level=3] [ref=e123]
+                        - paragraph [ref=e124]: Software Engineer
+                - listitem [ref=e125]:
+                    - generic [ref=e128]:
+                        - text: Jun 2018–Jan 2019
+                        - heading "Ramsey Solutions" [level=3] [ref=e129]
+                        - paragraph [ref=e130]: Front-end Developer
+                - listitem [ref=e131]:
+                    - generic [ref=e134]:
+                        - text: Aug 2014–Jun 2018
+                        - heading "Johns Hopkins All Children's Hospital" [level=3] [ref=e135]
+                        - paragraph [ref=e136]: Senior Software Developer
+                - listitem [ref=e137]:
+                    - generic [ref=e140]:
+                        - text: Jun 2012–Jul 2014
+                        - heading "LawLytics" [level=3] [ref=e141]
+                        - paragraph [ref=e142]: Senior Front-End Developer → Creative Director
+            - generic [ref=e143]:
+                - generic [ref=e144]: Parallel practice · 2014–Present
+                - heading "Mark Fasel, LLC" [level=3] [ref=e145]
+                - paragraph [ref=e146]: Independent Consultant — running alongside every role above.
+        - generic [ref=e148]:
+            - generic [ref=e149]: EXP.02
+            - heading "Industries and systems I've helped build." [level=2] [ref=e151]
+            - list [ref=e152]:
+                - listitem [ref=e153]: Healthcare
+                - listitem [ref=e154]: Retail
+                - listitem [ref=e155]: Ecommerce
+                - listitem [ref=e156]: Events
+                - listitem [ref=e157]: Education
+                - listitem [ref=e158]: Media
+                - listitem [ref=e159]: SaaS
+                - listitem [ref=e160]: Enterprise Software
+                - listitem [ref=e161]: AI
+        - generic [ref=e164]:
+            - generic [ref=e165]: EXP.03
+            - heading "The timeline highlights key chapters." [level=2] [ref=e167]
+            - paragraph [ref=e168]: My full experience spans healthcare, ecommerce, education, SaaS, enterprise platforms, financial integrations, frontend architecture, and AI strategy.
+            - generic [ref=e169]:
+                - link "View the full experience →" [ref=e170] [cursor=pointer]:
+                    - /url: /experience
+                - link "LinkedIn → (opens in a new tab)" [ref=e171] [cursor=pointer]:
+                    - /url: https://linkedin.com/in/markfasel
+                    - text: LinkedIn →
+                    - generic [ref=e172]: (opens in a new tab)
+        - region [ref=e173]:
+            - generic [ref=e175]:
+                - generic [ref=e176]: EXP.04
+                - heading "Start with the problem." [level=2] [ref=e178]
+                - paragraph [ref=e180]: If something here matches what you're dealing with, describe it and the outcome you need. If I'm not the right person, I'll say so and point you somewhere better.
+                - generic [ref=e181]:
+                    - link "Let's Talk →" [ref=e182] [cursor=pointer]:
+                        - /url: /contact
+                    - link "Subscribe to Designing Modern Systems (opens in a new tab)" [ref=e183] [cursor=pointer]:
+                        - /url: https://designingmodernsystems.substack.com/
+                        - text: Subscribe to Designing Modern Systems
+                        - generic [ref=e184]: (opens in a new tab)
+                - generic [ref=e185]:
+                    - generic [ref=e186]:
+                        - generic [ref=e187]: Explore
+                        - heading [level=3] [ref=e189]:
+                            - link "The work" [ref=e190] [cursor=pointer]:
+                                - /url: /projects
+                        - paragraph [ref=e191]: Platforms architected end to end — commerce, location-based experiences, and enterprise data tooling.
+                    - generic [ref=e192]:
+                        - generic [ref=e193]: Explore
+                        - heading [level=3] [ref=e195]:
+                            - link "The record" [ref=e196] [cursor=pointer]:
+                                - /url: /experience
+                        - paragraph [ref=e197]: Twenty years across healthcare, retail, media, and enterprise platforms, role by role.
+                    - generic [ref=e198]:
+                        - generic [ref=e199]: Explore
+                        - heading [level=3] [ref=e201]:
+                            - link "The thinking" [ref=e202] [cursor=pointer]:
+                                - /url: /writing
+                        - paragraph [ref=e203]: Essays on architecture, AI, and the systems thinking underneath both.
+    - contentinfo [ref=e204]:
+        - generic [ref=e205]:
+            - generic [ref=e206]:
+                - generic [ref=e207]:
+                    - img "Mark Fasel" [ref=e208]
+                    - generic [ref=e210]: Mark Fasel
+                - generic [ref=e212]:
+                    - navigation "Footer" [ref=e213]:
+                        - generic [ref=e214]:
+                            - link "Experience" [ref=e215] [cursor=pointer]:
+                                - /url: /experience
+                            - link "Projects" [ref=e216] [cursor=pointer]:
+                                - /url: /projects
+                            - link "Products" [ref=e217] [cursor=pointer]:
+                                - /url: /products
+                            - link "Writing" [ref=e218] [cursor=pointer]:
+                                - /url: /writing
+                            - link "Consulting" [ref=e219] [cursor=pointer]:
+                                - /url: /consulting
+                            - link "About" [ref=e220] [cursor=pointer]:
+                                - /url: /about
+                            - link "Let's Talk" [ref=e221] [cursor=pointer]:
+                                - /url: /contact
+                    - link "hello@markfasel.dev" [ref=e222] [cursor=pointer]:
+                        - /url: mailto:hello@markfasel.dev?subject=Hello%20from%20markfasel.dev&body=Hi%20Mark%2C%0A%0AI%27m%20reaching%20out%20because...%0A%0A%0ABest%2C%0A
+                    - list "Platforms" [ref=e223]:
+                        - listitem [ref=e224]:
+                            - link "Newsletter (opens in a new tab)" [ref=e225] [cursor=pointer]:
+                                - /url: https://designingmodernsystems.substack.com/
+                                - text: Newsletter
+                                - generic [ref=e226]: (opens in a new tab)
+                        - listitem [ref=e227]:
+                            - link "LinkedIn (opens in a new tab)" [ref=e228] [cursor=pointer]:
+                                - /url: https://linkedin.com/in/markfasel
+                                - text: LinkedIn
+                                - generic [ref=e229]: (opens in a new tab)
+                        - listitem [ref=e230]:
+                            - link "YouTube (opens in a new tab)" [ref=e231] [cursor=pointer]:
+                                - /url: https://www.youtube.com/@DesigningModernSystems
+                                - text: YouTube
+                                - generic [ref=e232]: (opens in a new tab)
+                        - listitem [ref=e233]:
+                            - link "GitHub (opens in a new tab)" [ref=e234] [cursor=pointer]:
+                                - /url: https://github.com/thefaze87
+                                - text: GitHub
+                                - generic [ref=e235]: (opens in a new tab)
+                        - listitem [ref=e236]:
+                            - link "X (opens in a new tab)" [ref=e237] [cursor=pointer]:
+                                - /url: https://x.com/markfasel
+                                - text: X
+                                - generic [ref=e238]: (opens in a new tab)
+            - generic [ref=e239]:
+                - paragraph [ref=e240]:
+                    - generic [ref=e241]: Solutions Architect ·
+                    - generic [ref=e242]: Engineering Leader ·
+                    - generic [ref=e243]: Systems Thinker ·
+                    - text: AI Strategist
+                - paragraph [ref=e244]: © 2026 Mark Fasel · Palmetto, FL
+    - alert [ref=e245]

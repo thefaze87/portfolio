@@ -37,16 +37,31 @@ pnpm dev                     # http://localhost:3000
 
 ### Environment variables
 
-All server-only — none are exposed to the client. See `.env.example`.
+Two, and only one is a secret. See `.env.example` for the full notes.
 
-| Variable             | Purpose                                            |
-| -------------------- | -------------------------------------------------- |
-| `RESEND_API_KEY`     | Contact form delivery                              |
-| `CONTACT_TO_EMAIL`   | Inbox that receives submissions                    |
-| `CONTACT_FROM_EMAIL` | From address — must be on a Resend-verified domain |
+| Variable                        | Scope            | Purpose                                     |
+| ------------------------------- | ---------------- | ------------------------------------------- |
+| `resend_api`                    | Server-only      | Contact form delivery via Resend            |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Public (bundled) | Google Analytics 4 property, `G-XXXXXXXXXX` |
 
-Without them the site builds and runs fine; the contact form returns a generic
-error and logs the missing config server-side.
+`resend_api` is lowercase on purpose — it matches the name provisioned in
+Vercel, and `process.env` is case-sensitive on Linux, so `RESEND_API_KEY`
+would read as `undefined` in production.
+
+Email **addresses** are not environment variables. They are public, non-secret
+configuration and live in `lib/email.ts` (public aliases) and
+`lib/email.server.ts` (the private inbox and From identities) — putting a
+non-secret address behind an env var adds a deployment step that can be missed
+silently, producing a contact form that appears to work and delivers nowhere.
+
+Both variables are optional. Without `resend_api` the site builds and runs
+fine; the contact form returns a generic error and logs the missing config
+server-side. Without `NEXT_PUBLIC_GA_MEASUREMENT_ID` no analytics script
+loads, no cookies are set, and no requests go to Google — which is the
+intended state for local development.
+
+`NEXT_PUBLIC_` values are inlined at build time, so changing the measurement
+ID requires a redeploy rather than a restart.
 
 ---
 

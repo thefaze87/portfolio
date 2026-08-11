@@ -5,7 +5,8 @@ import { SectionHeader } from '@/components/layout/SectionHeader';
 import { SectionLabel } from '@/components/brand/SectionLabel';
 import { Button } from '@/components/ui/Button';
 import { SubstackPosts } from '@/components/content/SubstackPosts';
-import { buildMetadata } from '@/lib/seo';
+import { buildMetadata, absoluteUrl } from '@/lib/seo';
+import { collectionPageSchema, jsonLd } from '@/lib/schema';
 import { formatDate, getAllEssays } from '@/lib/mdx';
 import { PILLARS, PILLAR_LABELS } from '@/lib/content-schemas';
 import { NEWSLETTER } from '@/lib/nav';
@@ -69,6 +70,39 @@ export default async function WritingPage() {
 
   return (
     <main id="main-content">
+      {/* Collection graph covering both sources this page surfaces, in the
+       * order they appear. Substack posts carry their canonical Substack URL —
+       * this site indexes them, it does not host them, so they get a `url`
+       * rather than an `@id` pointing at a node we do not own. Local essays
+       * resolve to the Article node on their own page. */}
+      <script
+        type="application/ld+json"
+        // Build-time / ISR JSON from validated frontmatter and the parsed
+        // feed. No user input reaches this string.
+        dangerouslySetInnerHTML={{
+          __html: jsonLd(
+            collectionPageSchema({
+              name: 'Writing by Mark Fasel',
+              description:
+                'Essays on software architecture, systems thinking, AI, engineering leadership, and product development.',
+              path: '/writing',
+              items: [
+                ...posts.map((post) => ({
+                  name: post.title,
+                  description: post.excerpt,
+                  url: post.url,
+                })),
+                ...essays.map((essay) => ({
+                  name: essay.frontmatter.title,
+                  description: essay.frontmatter.excerpt,
+                  id: absoluteUrl(`/writing/${essay.slug}#article`),
+                })),
+              ],
+            }),
+          ),
+        }}
+      />
+
       <Section divider={false} labelledBy="writing-heading">
         <SectionHeader
           id="writing-heading"

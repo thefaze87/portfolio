@@ -5,7 +5,8 @@ import { SectionHeader } from '@/components/layout/SectionHeader';
 import { SectionLabel } from '@/components/brand/SectionLabel';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { buildMetadata } from '@/lib/seo';
+import { buildMetadata, absoluteUrl } from '@/lib/seo';
+import { collectionPageSchema, jsonLd } from '@/lib/schema';
 import { getProjectsIndex } from '@/lib/mdx';
 import type { ProjectCard } from '@/lib/content-schemas';
 
@@ -355,8 +356,38 @@ function LabProject({ project }: { project: ProjectCard }) {
 export default function ProjectsPage() {
   const { featured, selected, labs } = getProjectsIndex();
 
+  // Order matches the page: featured, then selected, then labs.
+  const allProjects = [...featured, ...selected, ...labs];
+
   return (
     <main id="main-content">
+      {/* Collection graph. A card with a published case study resolves to the
+       * Article node on that page; a card without one carries name +
+       * positioning only. Deliberately not typed as CreativeWork/Article at
+       * this level — the index describes engagements, and only the ones with a
+       * written case study are actually articles. */}
+      <script
+        type="application/ld+json"
+        // Build-time JSON from the validated projects registry. No user input.
+        dangerouslySetInnerHTML={{
+          __html: jsonLd(
+            collectionPageSchema({
+              name: 'Projects by Mark Fasel',
+              description:
+                'Client and independent engineering work — platforms, integrations, and design systems architected by Mark Fasel.',
+              path: '/projects',
+              items: allProjects.map((project) => ({
+                name: project.title,
+                description: project.positioning,
+                ...(project.caseStudy
+                  ? { id: absoluteUrl(`/projects/${project.caseStudy}#article`) }
+                  : {}),
+              })),
+            }),
+          ),
+        }}
+      />
+
       <Section divider={false} labelledBy="projects-heading">
         <SectionHeader
           id="projects-heading"

@@ -58,7 +58,7 @@ Every AI touchpoint in the design has a human review path or a defined blast rad
 
 ### The stack follows Helixon's shape
 
-The likely build is the pattern that has already proven itself on [Helixon](/projects/helixon): a monolithic repository with a clear admin and API layer separation, PostgreSQL, and background jobs as first-class infrastructure.
+The likely build is the pattern that has already proven itself on [Helixon](/products/helixon): a monolithic repository with a clear admin and API layer separation, PostgreSQL, and background jobs as first-class infrastructure.
 
 Frontend is the genuinely open question — Rails with Inertia and Vue, or a Next.js/React front end against an API layer. Both are viable. The decision waits on whether tenants need any client the server does not render, because that is the only requirement that actually distinguishes them. Choosing before the requirement exists would be picking a technology and then justifying it.
 

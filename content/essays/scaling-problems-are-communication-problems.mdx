@@ -40,6 +40,8 @@ The durable fix is to assign ownership explicitly. One team owns this capability
 
 That conversation is harder than any refactor, because it takes something away from someone. It is also the only version that lasts, and it is why architecture at senior levels stops being primarily technical work. The diagrams are easy. Getting four directors to agree on which one of them owns checkout is the job.
 
+The same move works at the level of systems rather than teams. When [two systems of record disagreed about the same transactions](/projects/aviation-financial-integration), no amount of synchronization logic fixed it; assigning each field exactly one owner did, because conflicts require two writers.
+
 ## What this means for how you work
 
 Three practical consequences.

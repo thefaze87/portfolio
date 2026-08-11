@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
 import { Button } from '@/components/ui/Button';
@@ -175,6 +176,19 @@ export default function AboutPage() {
                 in-house roles since 2014. It is the part of the résumé that best explains how I
                 think: I have spent twenty years walking into systems I did not build and being
                 asked what to do about them.
+              </p>
+              <p className="type-body-lg" style={{ color: 'var(--color-text-muted)' }}>
+                The other half is the work nobody assigns. I design and build{' '}
+                <Link href="/products" className="prose-link">
+                  products of my own
+                </Link>{' '}
+                — commerce, reputation intelligence, business automation — which is where the
+                architecture stops being advice and starts being something I have to live with. What
+                I learn doing it ends up in{' '}
+                <Link href="/writing" className="prose-link">
+                  the writing
+                </Link>
+                .
               </p>
             </div>
           }

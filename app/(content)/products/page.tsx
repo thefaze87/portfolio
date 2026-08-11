@@ -6,7 +6,8 @@ import { SectionLabel } from '@/components/brand/SectionLabel';
 import { StatusChip } from '@/components/products/StatusChip';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { buildMetadata } from '@/lib/seo';
+import { buildMetadata, absoluteUrl } from '@/lib/seo';
+import { collectionPageSchema, jsonLd } from '@/lib/schema';
 import { getProducts } from '@/lib/mdx';
 import { PRODUCT_STATUSES, type Product } from '@/lib/content-schemas';
 
@@ -170,6 +171,32 @@ export default function ProductsPage() {
 
   return (
     <main id="main-content">
+      {/* Collection graph. Products with a published detail page resolve to the
+       * SoftwareApplication node declared there (by @id) rather than being
+       * described twice; the rest carry name + summary only, which is all the
+       * page itself claims about them. */}
+      <script
+        type="application/ld+json"
+        // Build-time JSON from the validated product registry. No user input.
+        dangerouslySetInnerHTML={{
+          __html: jsonLd(
+            collectionPageSchema({
+              name: 'Products by Mark Fasel',
+              description:
+                'Software ventures owned and built by Mark Fasel, with their current lifecycle status.',
+              path: '/products',
+              items: products.map((product) => ({
+                name: product.name,
+                description: product.tagline,
+                ...(product.hasDetail
+                  ? { id: absoluteUrl(`/products/${product.id}#product`) }
+                  : {}),
+              })),
+            }),
+          ),
+        }}
+      />
+
       <Section divider={false} labelledBy="products-heading">
         <SectionHeader
           id="products-heading"

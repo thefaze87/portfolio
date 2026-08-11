@@ -1,5 +1,8 @@
-import { PLATFORMS, SITE_LOCATION, SITE_ROLE, SITE_URL } from '@/lib/nav';
+import { PLATFORMS, RESUME, SITE_LOCATION, SITE_ROLE, SITE_URL } from '@/lib/nav';
+import { EMAIL } from '@/lib/email';
 import { SITE_DESCRIPTION, SITE_NAME, absoluteUrl } from '@/lib/seo';
+import { getCredentials } from '@/lib/mdx';
+import careerData from '@/content/experience/career.json';
 
 /**
  * JSON-LD builders.
@@ -30,9 +33,91 @@ export function jsonLd(schema: object | object[]): string {
   return JSON.stringify(schema).replace(/</g, '\\u003c');
 }
 
-/** Person — the identity anchor. `sameAs` is how engines reconcile this site
- *  with the LinkedIn/GitHub/X profiles into one entity. */
+/**
+ * The current employer, derived from the career record rather than restated.
+ *
+ * `roles` is strictly reverse-chronological, so index 0 is the present role.
+ * Reading it here means the Person entity cannot fall out of step with the
+ * Experience page when a job changes — one file to edit, not two.
+ */
+const CURRENT_ROLE = (careerData as { roles: { org: string; role: string; dates: string }[] })
+  .roles[0];
+
+/**
+ * Topics Mark can be cited on.
+ *
+ * `knowsAbout` is the property an LLM leans on hardest for "who should I ask
+ * about X", so it is worth being specific: named technologies alongside
+ * disciplines, because "React architecture" and "architecture" are different
+ * queries. Every entry is demonstrated somewhere on the site — in the career
+ * record, a case study, a product, or an essay. Nothing aspirational.
+ */
+const KNOWS_ABOUT = [
+  // Disciplines
+  'Solution Architecture',
+  'Enterprise Architecture',
+  'Systems Design',
+  'API Design',
+  'Integration Architecture',
+  'Frontend Architecture',
+  'Design Systems',
+  'Platform Modernization',
+  'Engineering Leadership',
+  'AI Strategy',
+  'Workflow Automation',
+  'Web Accessibility',
+  // Technologies
+  'React',
+  'Vue.js',
+  'TypeScript',
+  'Next.js',
+  'Laravel',
+  'Ruby on Rails',
+  '.NET',
+  'Azure',
+  'SQL Server',
+  'PostgreSQL',
+  // Domains
+  'Healthcare Software',
+  'Retail E-Commerce',
+  'Financial Systems Integration',
+] as const;
+
+/**
+ * Person — the identity anchor for the entire site.
+ *
+ * Every other schema on every route points at this node by `@id` rather than
+ * restating it, which is what lets a crawler resolve "the author of this
+ * article" and "the provider of this service" to one entity instead of three.
+ *
+ * ## Why this is verbose
+ *
+ * An LLM answering "who is Mark Fasel" should not have to infer employment,
+ * education, or credentials from prose. Each property below replaces an
+ * inference with a stated fact:
+ *
+ *   worksFor      → current employer, from career.json
+ *   hasOccupation → the role itself, with its skills
+ *   alumniOf      → degrees, from credentials.json
+ *   hasCredential → certifications, from credentials.json
+ *   subjectOf     → the résumé, as a retrievable document
+ *   image         → a face for entity reconciliation across the web
+ *   sameAs        → the profiles that resolve to the same person
+ *
+ * Everything here traces to published site content or the résumé. Nothing is
+ * inferred, rounded, or aspirational.
+ *
+ * ## Employment history is deliberately NOT here
+ *
+ * `worksFor` names only the current employer. Listing seven organizations
+ * would read as seven concurrent jobs — schema.org has no "past employer"
+ * property. The full history lives on /experience as an ItemList of
+ * `OrganizationRole` nodes with start and end dates, which is the correct
+ * shape for time-bounded relationships, and it links back to this node.
+ */
 export function personSchema() {
+  const { education, certifications } = getCredentials();
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -41,6 +126,11 @@ export function personSchema() {
     url: SITE_URL,
     jobTitle: SITE_ROLE,
     description: SITE_DESCRIPTION,
+    // A public alias, never the private inbox — see lib/email.ts. Publishing
+    // a contactable address is a strong identity signal; publishing the real
+    // one would hand it to every scraper that reads JSON-LD.
+    email: `mailto:${EMAIL.public}`,
+    image: absoluteUrl('/images/mark-fasel-portrait.png'),
     address: {
       '@type': 'PostalAddress',
       addressLocality: SITE_LOCATION.split(',')[0]?.trim(),
@@ -48,14 +138,64 @@ export function personSchema() {
       addressCountry: 'US',
     },
     sameAs: PLATFORMS.map((p) => p.href),
-    knowsAbout: [
-      'Solution Architecture',
-      'Enterprise Architecture',
-      'AI Strategy',
-      'Frontend Architecture',
-      'Systems Design',
-      'Engineering Leadership',
+
+    ...(CURRENT_ROLE
+      ? {
+          worksFor: {
+            '@type': 'Organization',
+            name: CURRENT_ROLE.org,
+          },
+          hasOccupation: {
+            '@type': 'Occupation',
+            name: CURRENT_ROLE.role,
+            occupationalCategory: 'Solutions Architect',
+            skills: KNOWS_ABOUT.join(', '),
+          },
+        }
+      : {}),
+
+    // One node per institution rather than per degree — two degrees from the
+    // same university is one alumni relationship stated twice otherwise.
+    alumniOf: [...new Set(education.map((e) => e.institution))].map((institution) => ({
+      '@type': 'CollegeOrUniversity',
+      name: institution,
+    })),
+
+    hasCredential: [
+      ...education.map((e) => ({
+        '@type': 'EducationalOccupationalCredential',
+        credentialCategory: 'degree',
+        name: `${e.credential}, ${e.field}`,
+        recognizedBy: { '@type': 'CollegeOrUniversity', name: e.institution },
+      })),
+      ...certifications.map((c) => ({
+        '@type': 'EducationalOccupationalCredential',
+        credentialCategory: 'certificate',
+        name: c.name,
+        recognizedBy: { '@type': 'Organization', name: c.issuer },
+        ...(c.url ? { url: c.url } : {}),
+      })),
     ],
+
+    knowsAbout: [...KNOWS_ABOUT],
+    knowsLanguage: { '@type': 'Language', name: 'English', alternateName: 'en' },
+
+    // The résumé as a retrievable document about this person. Gated on the
+    // same flag as the download button, so the graph can never advertise a
+    // file that is not published.
+    ...(RESUME.available
+      ? {
+          subjectOf: {
+            '@type': 'DigitalDocument',
+            name: `${SITE_NAME} — Résumé`,
+            url: absoluteUrl(RESUME.href),
+            encodingFormat: 'application/pdf',
+            about: { '@id': `${SITE_URL}/#person` },
+          },
+        }
+      : {}),
+
+    mainEntityOfPage: { '@id': absoluteUrl('/about#page') },
   };
 }
 
@@ -208,6 +348,144 @@ export function softwareApplicationSchema(product: {
     // release version we do not have.
     creativeWorkStatus: product.status,
   };
+}
+
+/* ============================================================================
+ * Collection pages
+ *
+ * /experience, /projects, /products, and /writing each enumerate entities.
+ * Without an ItemList a crawler sees a page of prose and has to guess at the
+ * boundaries between items; with one, the enumeration is stated.
+ *
+ * Every list references entities that are actually rendered on the page —
+ * never a superset, and never a type the content does not support.
+ * ========================================================================== */
+
+/**
+ * One entry in a collection. Exactly one of the three linkage forms applies:
+ *
+ *   id    → the entity is declared elsewhere (an Article or
+ *           SoftwareApplication on its own detail page). Reference it rather
+ *           than describing it twice.
+ *   node  → the entity exists only here, so it is embedded inline. Used for
+ *           employment roles, which have no page of their own.
+ *   url   → there is a destination but no schema node we own, e.g. a post
+ *           that lives on Substack.
+ */
+export interface CollectionItem {
+  name: string;
+  url?: string;
+  id?: string;
+  node?: object;
+  description?: string;
+}
+
+/**
+ * CollectionPage wrapping an ItemList.
+ *
+ * `ItemListOrderAscending` is deliberately not claimed — these lists are
+ * curated or reverse-chronological, and asserting an order semantics we do not
+ * honour is worse than leaving it unspecified.
+ */
+export function collectionPageSchema(collection: {
+  name: string;
+  description: string;
+  path: string;
+  items: readonly CollectionItem[];
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': absoluteUrl(`${collection.path}#page`),
+    url: absoluteUrl(collection.path),
+    name: collection.name,
+    description: collection.description,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    about: { '@id': `${SITE_URL}/#person` },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: collection.items.length,
+      itemListElement: collection.items.map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.name,
+        ...(item.description ? { description: item.description } : {}),
+        ...(item.node
+          ? { item: item.node }
+          : item.id
+            ? { item: { '@id': item.id } }
+            : item.url
+              ? { url: absoluteUrl(item.url) }
+              : {}),
+      })),
+    },
+  };
+}
+
+/**
+ * Parse a display date range into schema.org start/end dates.
+ *
+ * career.json stores human strings ("Nov 2020–Oct 2024", "2014–Present")
+ * because that is what renders. Rather than duplicate the same fact in an
+ * ISO field that could drift, the machine form is derived here.
+ *
+ * Returns partial dates ("2020-11"), which schema.org accepts — inventing a
+ * day-of-month would be fabricating precision the résumé does not have. An
+ * unparseable segment is omitted rather than guessed.
+ */
+function parseDateRange(range: string): { startDate?: string; endDate?: string } {
+  const MONTHS: Record<string, string> = {
+    jan: '01',
+    feb: '02',
+    mar: '03',
+    apr: '04',
+    may: '05',
+    jun: '06',
+    jul: '07',
+    aug: '08',
+    sep: '09',
+    oct: '10',
+    nov: '11',
+    dec: '12',
+  };
+
+  const toIso = (part: string): string | undefined => {
+    const trimmed = part.trim();
+    if (/^present$/i.test(trimmed)) return undefined;
+
+    const withMonth = /^([A-Za-z]{3})[a-z]*\s+(\d{4})$/.exec(trimmed);
+    if (withMonth) {
+      const month = MONTHS[(withMonth[1] ?? '').toLowerCase()];
+      return month ? `${withMonth[2]}-${month}` : undefined;
+    }
+
+    const yearOnly = /^(\d{4})$/.exec(trimmed);
+    return yearOnly ? yearOnly[1] : undefined;
+  };
+
+  // En dash is the separator used throughout the content files.
+  const [start = '', end = ''] = range.split('–');
+  const startDate = toIso(start);
+  const endDate = toIso(end);
+
+  return { ...(startDate ? { startDate } : {}), ...(endDate ? { endDate } : {}) };
+}
+
+/**
+ * The employment history, as time-bounded roles.
+ *
+ * `OrganizationRole` is the schema.org pattern for "this person held this
+ * position at this organization between these dates" — the thing a plain
+ * `worksFor` array cannot express without implying seven concurrent jobs.
+ * A role with no `endDate` is current.
+ */
+export function employmentItemList(roles: readonly { org: string; role: string; dates: string }[]) {
+  return roles.map((entry) => ({
+    '@type': 'OrganizationRole',
+    roleName: entry.role,
+    ...parseDateRange(entry.dates),
+    worksFor: { '@type': 'Organization', name: entry.org },
+  }));
 }
 
 /**

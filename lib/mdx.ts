@@ -7,8 +7,10 @@ import {
   productFrontmatterSchema,
   productsIndexSchema,
   projectsIndexSchema,
+  credentialsSchema,
   type Project,
   type ContentEntry,
+  type Credentials,
   type Essay,
   type Pillar,
   type Product,
@@ -17,6 +19,7 @@ import {
 } from '@/lib/content-schemas';
 import projectsIndexData from '@/content/projects/index.json';
 import productsIndexData from '@/content/products/index.json';
+import credentialsData from '@/content/experience/credentials.json';
 
 /**
  * File-based content loaders.
@@ -224,6 +227,28 @@ export function getProducts(): Product[] {
 
 export function getProductById(id: string): Product | undefined {
   return getProducts().find((product) => product.id === id);
+}
+
+/* ============================================================================
+ * Credentials
+ * ========================================================================== */
+
+/**
+ * Load and validate education + certifications.
+ *
+ * Validated for the same reason the other registries are: this data is read by
+ * both the Experience page and the Person JSON-LD, so a typo would ship a
+ * malformed credential into the knowledge graph rather than fail a build.
+ */
+export function getCredentials(): Credentials {
+  const parsed = credentialsSchema.safeParse(credentialsData);
+  if (!parsed.success) {
+    const issues = parsed.error.issues
+      .map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`)
+      .join('; ');
+    throw new Error(`Invalid content/experience/credentials.json — ${issues}`);
+  }
+  return parsed.data;
 }
 
 /* ============================================================================

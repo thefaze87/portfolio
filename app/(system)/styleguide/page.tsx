@@ -18,6 +18,7 @@ import { ExperienceMore } from '@/components/marketing/ExperienceMore';
 import { ExperienceHero } from '@/components/marketing/ExperienceHero';
 import { ExperienceCompetencies } from '@/components/marketing/ExperienceCompetencies';
 import { ExperienceCareer } from '@/components/marketing/ExperienceCareer';
+import { ExperienceCredentials } from '@/components/marketing/ExperienceCredentials';
 import { ExperiencePrinciples } from '@/components/marketing/ExperiencePrinciples';
 import { SelectedWork } from '@/components/marketing/SelectedWork';
 import { ExperienceRecommendations } from '@/components/marketing/ExperienceRecommendations';
@@ -1206,6 +1207,7 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
             <ExperienceHero key="hero" />,
             <ExperienceCompetencies key="competencies" />,
             <ExperienceCareer key="career" />,
+            <ExperienceCredentials key="credentials" />,
             <ExperiencePrinciples key="principles" />,
             <SelectedWork key="work" />,
             <ExperienceRecommendations key="recs" />,

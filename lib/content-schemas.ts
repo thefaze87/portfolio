@@ -89,6 +89,45 @@ export type Essay = ContentEntry<EssayFrontmatter>;
 export type Project = ContentEntry<ProjectFrontmatter>;
 
 /* ============================================================================
+ * Credentials — education and certifications
+ *
+ * Sourced from the published résumé. Kept as data rather than JSX because two
+ * consumers need it and they must never disagree: the Experience page renders
+ * it, and lib/schema.ts turns it into `alumniOf` / `hasCredential` on the
+ * Person entity. A fact stated twice in two files is a fact that eventually
+ * contradicts itself.
+ * ========================================================================== */
+
+const educationSchema = z.object({
+  /** The award itself, e.g. "Master of Science". */
+  credential: z.string().min(1),
+  /** Field of study, e.g. "Internet Marketing". */
+  field: z.string().min(1),
+  institution: z.string().min(1),
+  location: z.string().optional(),
+});
+
+const certificationSchema = z.object({
+  /** Certification name without the issuer — the issuer is its own field so
+   *  the pair can render as "Microsoft · Azure Fundamentals" or feed
+   *  `recognizedBy` in JSON-LD without string surgery. */
+  name: z.string().min(1),
+  issuer: z.string().min(1),
+  /** Public page describing the credential, when one exists. Omitted rather
+   *  than guessed — a dead link is worse than no link. */
+  url: z.string().url().optional(),
+});
+
+export const credentialsSchema = z.object({
+  education: z.array(educationSchema),
+  certifications: z.array(certificationSchema),
+});
+
+export type Education = z.infer<typeof educationSchema>;
+export type Certification = z.infer<typeof certificationSchema>;
+export type Credentials = z.infer<typeof credentialsSchema>;
+
+/* ============================================================================
  * Projects index
  *
  * The /projects listing is authored as JSON rather than derived from the MDX

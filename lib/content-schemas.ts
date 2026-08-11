@@ -197,8 +197,28 @@ const projectCardSchema = z.object({
  * Lifecycle status. A closed set so the badge can be styled consistently and
  * so "In development" can never drift into "in-dev" / "WIP" / "Building".
  * Only `Launching` carries the accent — it is the one state that is news.
+ *
+ * ## Array order is display order
+ *
+ * /products derives STATUS_ORDER from this array, so the position of a status
+ * here decides where its products sort on the index. Adding a status to the
+ * end would silently sort it last; place it where it belongs in the ramp.
+ *
+ * ## Why `Coming Soon` sits second
+ *
+ * It is the odd one out: the other three describe how much is *built*, while
+ * this one describes whether the product has been *announced*. A product that
+ * is deep in design but not yet named is less built than one In development,
+ * and more imminent as news.
+ *
+ * It ranks by imminence rather than by build depth, because that is what the
+ * label tells a reader — "Coming Soon" beneath three In-development products
+ * would read as a contradiction. The overclaim this risks is handled where it
+ * belongs: the product's own `buildState` says exactly what exists, and its
+ * page says it is in design and validation. The chip promises an announcement,
+ * not a shipped feature.
  */
-export const PRODUCT_STATUSES = ['Launching', 'In development', 'Planned'] as const;
+export const PRODUCT_STATUSES = ['Launching', 'Coming Soon', 'In development', 'Planned'] as const;
 export type ProductStatus = (typeof PRODUCT_STATUSES)[number];
 
 /** MDX frontmatter for a product. Deliberately minimal — everything

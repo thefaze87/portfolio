@@ -29,6 +29,12 @@ const STATIC_ROUTES: readonly Entry[] = [
   { path: '/about', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/experience', changeFrequency: 'monthly', priority: 0.7 },
   { path: '/contact', changeFrequency: 'yearly', priority: 0.7 },
+  // Legal pages are indexable — a visitor deciding whether to send a message
+  // should be able to find the privacy policy from a search engine, and
+  // hiding it would undercut the point of publishing it. Low priority and
+  // yearly, because that is honestly how often they change.
+  { path: '/privacy', changeFrequency: 'yearly', priority: 0.3 },
+  { path: '/terms', changeFrequency: 'yearly', priority: 0.3 },
 ];
 
 /** Parse a YYYY-MM-DD content date into a Date at UTC midnight. */

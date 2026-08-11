@@ -1,8 +1,17 @@
-import { PLATFORMS, RESUME, SITE_LOCATION, SITE_ROLE, SITE_URL } from '@/lib/nav';
+import {
+  LEGAL_ENTITY,
+  NEWSLETTER,
+  PLATFORMS,
+  RESUME,
+  SITE_LOCATION,
+  SITE_ROLE,
+  SITE_URL,
+} from '@/lib/nav';
 import { EMAIL } from '@/lib/email';
 import { SITE_DESCRIPTION, SITE_NAME, absoluteUrl } from '@/lib/seo';
 import { getCredentials } from '@/lib/mdx';
 import careerData from '@/content/experience/career.json';
+import servicesData from '@/content/consulting/services.json';
 
 /**
  * JSON-LD builders.
@@ -33,6 +42,35 @@ export function jsonLd(schema: object | object[]): string {
   return JSON.stringify(schema).replace(/</g, '\\u003c');
 }
 
+/* ============================================================================
+ * Node identifiers
+ *
+ * Every cross-reference in this file goes through one of these constants. They
+ * were string literals repeated across a dozen builders, which is how an `@id`
+ * typo becomes a silently dangling reference — JSON-LD has no link checker, so
+ * a misspelled `#persson` does not error, it just severs the entity from the
+ * graph.
+ *
+ * The fragment convention: `#person`, `#organization`, `#website` are
+ * site-wide singletons on the origin; page-scoped nodes hang off their own URL
+ * (`/writing#blog`, `/contact#page`).
+ * ========================================================================== */
+
+export const PERSON_ID = `${SITE_URL}/#person`;
+export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+export const WEBSITE_ID = `${SITE_URL}/#website`;
+export const BLOG_ID = absoluteUrl('/writing#blog');
+
+/**
+ * The newsletter's identifier is its own canonical URL, on Substack.
+ *
+ * Minting an `@id` under markfasel.dev for a publication hosted elsewhere
+ * would create a second identity for something that already has one. Using the
+ * resource's own URL is the recommended practice and lets any crawler that has
+ * seen the Substack reconcile the two without a `sameAs` hop.
+ */
+export const NEWSLETTER_ID = NEWSLETTER.href;
+
 /**
  * The current employer, derived from the career record rather than restated.
  *
@@ -42,6 +80,17 @@ export function jsonLd(schema: object | object[]): string {
  */
 const CURRENT_ROLE = (careerData as { roles: { org: string; role: string; dates: string }[] })
   .roles[0];
+
+/**
+ * The parallel independent practice — the operating description of the LLC.
+ *
+ * Read from the same record the Experience page renders, so the Organization's
+ * description and the timeline entry cannot disagree.
+ */
+const PARALLEL_PRACTICE = (careerData as { parallel: { role: string; summary: string } }).parallel;
+
+/** The two consulting paths, used to hang the Organization's offer catalog. */
+const SERVICE_PATHS = (servicesData as { paths: { id: string; title: string }[] }).paths;
 
 /**
  * Topics Mark can be cited on.
@@ -121,7 +170,7 @@ export function personSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': `${SITE_URL}/#person`,
+    '@id': PERSON_ID,
     name: SITE_NAME,
     url: SITE_URL,
     jobTitle: SITE_ROLE,
@@ -138,6 +187,13 @@ export function personSchema() {
       addressCountry: 'US',
     },
     sameAs: PLATFORMS.map((p) => p.href),
+
+    // The independent practice, as an entity rather than a sentence. Not
+    // `worksFor`: that names the current employer, and a second organization
+    // there would read as two competing day jobs. `affiliation` is the
+    // property for a standing relationship that is not employment, and it is
+    // the inverse of `founder` on the Organization node.
+    affiliation: { '@id': ORGANIZATION_ID },
 
     ...(CURRENT_ROLE
       ? {
@@ -190,7 +246,7 @@ export function personSchema() {
             name: `${SITE_NAME} — Résumé`,
             url: absoluteUrl(RESUME.href),
             encodingFormat: 'application/pdf',
-            about: { '@id': `${SITE_URL}/#person` },
+            about: { '@id': PERSON_ID },
           },
         }
       : {}),
@@ -199,17 +255,114 @@ export function personSchema() {
   };
 }
 
-/** WebSite — names the site and binds it to the Person. */
+/**
+ * Organization — Mark Fasel, LLC. The commercial half of the identity graph.
+ *
+ * ## Why a second node rather than more properties on the Person
+ *
+ * Consulting is bought from a company, not from a human being. Until this
+ * existed, a crawler reading /consulting saw services provided by a Person and
+ * had no entity to attach a business address, an offer catalog, or a founding
+ * date to. Splitting them lets each carry what it actually owns:
+ *
+ *   Person       → career, education, credentials, writing, profiles
+ *   Organization → services, products, contact point, founding date
+ *
+ * ## The two are joined, not merged
+ *
+ * `founder` here and `affiliation` on the Person make the edge traversable in
+ * both directions. What is deliberately NOT copied across:
+ *
+ *   - `sameAs`. The LinkedIn, GitHub, and X profiles are a person's, not a
+ *     company's. Giving them to the Organization would tell a crawler the two
+ *     nodes are the same entity and undo the split.
+ *   - `image` / the portrait. A company does not have a face.
+ *   - `alternateName: 'Mark Fasel'`. The single most tempting line to write,
+ *     and the one that would make "Mark Fasel" ambiguous between a human and
+ *     an LLC in every downstream index.
+ *
+ * ## Products are reached from the other side
+ *
+ * There is no correct forward edge for "this organization makes these
+ * products". `owns` takes a `Product`, and a SoftwareApplication is a
+ * CreativeWork, not a Product; `makesOffer` would assert the products are for
+ * sale, which is false for everything not yet launched. The honest expression
+ * is `publisher` on each SoftwareApplication pointing back here, plus the
+ * /products collection declaring itself `about` this node.
+ */
+export function organizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': ORGANIZATION_ID,
+    name: LEGAL_ENTITY.name,
+    legalName: LEGAL_ENTITY.name,
+    url: SITE_URL,
+    description: PARALLEL_PRACTICE.summary,
+    foundingDate: LEGAL_ENTITY.foundingYear,
+    founder: { '@id': PERSON_ID },
+    // The brand mark on its dark square. A raster asset, not the site's SVG:
+    // Google's logo guidance requires a bitmap, and this one already exists at
+    // 180×180 for home screens rather than being generated for the graph.
+    logo: {
+      '@type': 'ImageObject',
+      url: absoluteUrl('/apple-touch-icon.png'),
+      width: 180,
+      height: 180,
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: SITE_LOCATION.split(',')[0]?.trim(),
+      addressRegion: SITE_LOCATION.split(',')[1]?.trim(),
+      addressCountry: 'US',
+    },
+    areaServed: { '@type': 'Country', name: 'United States' },
+    knowsAbout: [...KNOWS_ABOUT],
+    // The Organization → Contact edge. Uses the consulting alias rather than
+    // the general one: a crawler surfacing this is answering a commercial
+    // question, and inbound mail arrives pre-sorted by intent (lib/email.ts).
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'Sales',
+      email: EMAIL.consulting,
+      url: absoluteUrl('/contact'),
+      areaServed: 'US',
+      availableLanguage: 'English',
+    },
+    // The Organization → Consulting edge. Two entries only — this is the
+    // top level of a two-level catalog, and each Service declares its own
+    // sub-offers. Listing the leaf services here as well would state the same
+    // offer twice at different depths.
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Consulting services',
+      itemListElement: SERVICE_PATHS.map((path) => ({
+        '@type': 'Offer',
+        itemOffered: { '@id': absoluteUrl(`/consulting#${path.id}`) },
+      })),
+    },
+  };
+}
+
+/**
+ * WebSite — names the site and binds it to the people and entities behind it.
+ *
+ * `publisher` stays the Person: this is a personal site with a body of writing,
+ * and the writing is his. `copyrightHolder` is the Organization, which is what
+ * the footer's fine print asserts — the two properties are answering different
+ * questions and it would be wrong to collapse them onto one node.
+ */
 export function webSiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': `${SITE_URL}/#website`,
+    '@id': WEBSITE_ID,
     url: SITE_URL,
     name: SITE_NAME,
     description: SITE_DESCRIPTION,
     inLanguage: 'en-US',
-    publisher: { '@id': `${SITE_URL}/#person` },
+    publisher: { '@id': PERSON_ID },
+    copyrightHolder: { '@id': ORGANIZATION_ID },
   };
 }
 
@@ -225,7 +378,7 @@ export function profilePageSchema() {
     '@id': absoluteUrl('/about#page'),
     url: absoluteUrl('/about'),
     name: `About ${SITE_NAME}`,
-    mainEntity: { '@id': `${SITE_URL}/#person` },
+    mainEntity: { '@id': PERSON_ID },
   };
 }
 
@@ -247,12 +400,16 @@ export function faqSchema(items: readonly { question: string; answer: string }[]
 }
 
 /**
- * Service — one node per consulting path, each provided by the Person entity.
+ * Service — one node per consulting path, each provided by the Organization.
  *
  * Modelled as two distinct Services rather than one with a long description,
  * because they target genuinely different buyers. Keeping them separate lets a
  * search engine surface the right one for "ai automation consultant" versus
  * "enterprise architecture consultant" instead of averaging the two.
+ *
+ * `provider` is Mark Fasel, LLC and not the Person: an engagement is contracted
+ * with the company. The Person is still one hop away via the Organization's
+ * `founder`, and listing both here would assert two providers for one service.
  */
 export function servicesSchema(
   paths: readonly { id: string; title: string; audience: string; services: { name: string }[] }[],
@@ -263,7 +420,7 @@ export function servicesSchema(
     '@id': absoluteUrl(`/consulting#${path.id}`),
     name: path.title,
     description: path.audience,
-    provider: { '@id': `${SITE_URL}/#person` },
+    provider: { '@id': ORGANIZATION_ID },
     areaServed: { '@type': 'Country', name: 'United States' },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
@@ -282,6 +439,14 @@ export function servicesSchema(
  * `author` and `publisher` both point at the Person node declared at the root
  * rather than restating it, which is what lets a crawler connect an article to
  * the identity graph instead of treating each page as a separate entity.
+ *
+ * ## Two kinds of article, one builder
+ *
+ * Essays are `BlogPosting` — a subtype of Article, so nothing is lost by
+ * narrowing, and it is what makes them eligible to be a Blog's `blogPost`.
+ * Case studies stay `Article`: they document an engagement, they are not
+ * instalments of a publication, and typing them as blog posts would put client
+ * work into a feed it does not belong in.
  */
 export function articleSchema(article: {
   title: string;
@@ -294,10 +459,16 @@ export function articleSchema(article: {
    *  original. Keeps `url` consistent with the rel="canonical" the page emits;
    *  a mismatch between the two is a contradictory signal to a crawler. */
   canonicalUrl?: string;
+  /** Narrower type where the content warrants it. Defaults to Article. */
+  type?: 'Article' | 'BlogPosting';
+  /** `@id` of the publication this belongs to, for content that is part of
+   *  one. Added alongside the WebSite rather than replacing it — an essay is
+   *  genuinely part of both. */
+  partOf?: string;
 }) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': article.type ?? 'Article',
     '@id': absoluteUrl(`${article.path}#article`),
     headline: article.title,
     description: article.description,
@@ -305,9 +476,82 @@ export function articleSchema(article: {
     datePublished: article.publishedAt,
     dateModified: article.updatedAt ?? article.publishedAt,
     articleSection: article.section,
-    author: { '@id': `${SITE_URL}/#person` },
-    publisher: { '@id': `${SITE_URL}/#person` },
-    isPartOf: { '@id': `${SITE_URL}/#website` },
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': PERSON_ID },
+    isPartOf: article.partOf
+      ? [{ '@id': WEBSITE_ID }, { '@id': article.partOf }]
+      : { '@id': WEBSITE_ID },
+  };
+}
+
+/* ============================================================================
+ * Publications
+ *
+ * Two of them, and the distinction is where the content actually lives:
+ *
+ *   /writing#blog        essays authored for this site, canonical here
+ *   the Substack         the newsletter, canonical there
+ *
+ * Both are authored by the same Person, which is the fact that makes them one
+ * body of work rather than two unrelated feeds.
+ * ========================================================================== */
+
+/**
+ * Blog — the site's own writing, as a publication rather than a page.
+ *
+ * A `CollectionPage` says "this URL enumerates things". A `Blog` says "this is
+ * a publication with instalments", which is the entity an LLM matches against
+ * "does he write about X". /writing carries both: they describe different
+ * things (a page and a publication) and are joined by `mainEntityOfPage`, so
+ * there is no duplicate definition — only two views of one URL.
+ *
+ * `blogPost` references the essay nodes by `@id`; the bodies stay declared on
+ * their own pages.
+ */
+export function blogSchema(postIds: readonly string[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': BLOG_ID,
+    url: absoluteUrl('/writing'),
+    name: `Writing — ${SITE_NAME}`,
+    description:
+      'Essays on software architecture, systems thinking, AI, engineering leadership, and product development.',
+    inLanguage: 'en-US',
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': ORGANIZATION_ID },
+    isPartOf: { '@id': WEBSITE_ID },
+    mainEntityOfPage: { '@id': absoluteUrl('/writing#page') },
+    ...(postIds.length > 0 ? { blogPost: postIds.map((id) => ({ '@id': id })) } : {}),
+  };
+}
+
+/**
+ * Blog — the newsletter, which lives on Substack.
+ *
+ * Identity only: name, URL, author. Deliberately no `blogPost` children.
+ * The individual posts are canonical to Substack and are already marked up
+ * there; re-declaring them here would be marking up content this page does not
+ * host, which is both a guidelines risk and a second copy to keep in sync. The
+ * posts still appear on /writing as ItemList entries pointing at their real
+ * URLs — enumerated, not claimed.
+ *
+ * `publisher` is the Person, not the Organization: the newsletter is Mark's
+ * writing, not a company publication, and Substack is the host rather than the
+ * publisher.
+ */
+export function newsletterSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': NEWSLETTER_ID,
+    url: NEWSLETTER.href,
+    name: NEWSLETTER.name,
+    description:
+      'A newsletter on software architecture, engineering leadership, AI, and building better systems.',
+    inLanguage: 'en-US',
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': PERSON_ID },
   };
 }
 
@@ -323,6 +567,11 @@ export function articleSchema(article: {
  * `offers` is omitted on purpose. Nothing here is priced yet, and an empty or
  * zero-price Offer is worse than none — it signals "free" rather than
  * "unannounced".
+ *
+ * `author` is the Person and `publisher` is the Organization — Mark built
+ * these, Mark Fasel, LLC owns them. This is also the only correct way to state
+ * the Organization → Products relationship: `owns` takes a `Product` and a
+ * SoftwareApplication is a CreativeWork, so the edge has to run this way.
  */
 export function softwareApplicationSchema(product: {
   id: string;
@@ -341,9 +590,9 @@ export function softwareApplicationSchema(product: {
     applicationCategory: product.category,
     description: product.summary,
     url: absoluteUrl(`/products/${product.id}`),
-    author: { '@id': `${SITE_URL}/#person` },
-    publisher: { '@id': `${SITE_URL}/#person` },
-    isPartOf: { '@id': `${SITE_URL}/#website` },
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': ORGANIZATION_ID },
+    isPartOf: { '@id': WEBSITE_ID },
     // Lifecycle stated as a creative-work status rather than invented into a
     // release version we do not have.
     creativeWorkStatus: product.status,
@@ -386,12 +635,20 @@ export interface CollectionItem {
  * `ItemListOrderAscending` is deliberately not claimed — these lists are
  * curated or reverse-chronological, and asserting an order semantics we do not
  * honour is worse than leaving it unspecified.
+ *
+ * `about` defaults to the Person, which is right for the collections that are
+ * a record of him — experience, projects, writing. /products passes the
+ * Organization instead, because those ventures belong to the company. It is a
+ * small distinction that does real work: it is what tells a crawler which of
+ * the two entities a given body of work should accrue to.
  */
 export function collectionPageSchema(collection: {
   name: string;
   description: string;
   path: string;
   items: readonly CollectionItem[];
+  /** `@id` of the entity this collection is about. Defaults to the Person. */
+  about?: string;
 }) {
   return {
     '@context': 'https://schema.org',
@@ -400,8 +657,8 @@ export function collectionPageSchema(collection: {
     url: absoluteUrl(collection.path),
     name: collection.name,
     description: collection.description,
-    isPartOf: { '@id': `${SITE_URL}/#website` },
-    about: { '@id': `${SITE_URL}/#person` },
+    isPartOf: { '@id': WEBSITE_ID },
+    about: { '@id': collection.about ?? PERSON_ID },
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: collection.items.length,
@@ -506,7 +763,14 @@ export function breadcrumbSchema(trail: readonly { name: string; path: string }[
   };
 }
 
-/** ContactPage — marks /contact as the canonical way to reach Mark. */
+/**
+ * ContactPage — the canonical way to reach Mark, and the business.
+ *
+ * `about` names both entities because both are genuinely reachable here: a
+ * recruiter is contacting the person, a client is contacting the company, and
+ * the same form serves both. The Organization's own `contactPoint` points back
+ * at this URL, so the edge closes in both directions.
+ */
 export function contactPageSchema() {
   return {
     '@context': 'https://schema.org',
@@ -514,6 +778,7 @@ export function contactPageSchema() {
     '@id': absoluteUrl('/contact#page'),
     url: absoluteUrl('/contact'),
     name: `Contact ${SITE_NAME}`,
-    about: { '@id': `${SITE_URL}/#person` },
+    about: [{ '@id': PERSON_ID }, { '@id': ORGANIZATION_ID }],
+    isPartOf: { '@id': WEBSITE_ID },
   };
 }

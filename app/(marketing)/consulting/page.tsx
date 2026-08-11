@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
 import { SectionLabel } from '@/components/brand/SectionLabel';
@@ -87,11 +88,20 @@ export default function ConsultingPage() {
                 look nothing alike. The cause is usually the same: nobody has been paid to think
                 about the whole thing at once.
               </p>
+              {/* The credibility link. A consulting page that never says where
+               * the judgment came from is asking to be taken on faith; one
+               * contextual link to the record is enough, and it belongs in the
+               * sentence that makes the claim rather than in a CTA row. */}
               <p
                 className="type-body-lg"
                 style={{ marginTop: 'var(--space-4)', color: 'var(--color-text-muted)' }}
               >
-                That&apos;s what I do. Two paths, depending on the shape of your problem.
+                That&apos;s what I do, and have for{' '}
+                <Link href="/experience" className="prose-link">
+                  twenty years
+                </Link>{' '}
+                across healthcare, retail, media, and enterprise platforms. Two paths, depending on
+                the shape of your problem.
               </p>
             </>
           }
@@ -188,7 +198,30 @@ export default function ConsultingPage() {
           label="CONS.03"
           title="How engagements work."
           titleMaxCh={22}
-          lead="No open-ended hourly arrangements. Every step has a defined end and something you keep."
+          lead={
+            <>
+              <p className="type-body-lg" style={{ color: 'var(--color-text-muted)' }}>
+                No open-ended hourly arrangements. Every step has a defined end and something you
+                keep.
+              </p>
+              {/* The pointer to /terms. This page describes how the work goes;
+               * the boundary — that nothing here is an offer and paid work
+               * starts only under a signed agreement — is stated once, on the
+               * legal page, and referenced from here. Keeping contract
+               * language off this page is what lets it stay readable. */}
+              <p
+                className="type-body-lg"
+                style={{ marginTop: 'var(--space-4)', color: 'var(--color-text-muted)' }}
+              >
+                Steps 01 to 03 commit neither of us to anything. Paid work begins at step 04, under
+                a written agreement — the{' '}
+                <Link href="/terms" className="prose-link">
+                  terms
+                </Link>{' '}
+                spell that out.
+              </p>
+            </>
+          }
         />
 
         <ol

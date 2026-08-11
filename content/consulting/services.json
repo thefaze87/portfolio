@@ -84,6 +84,12 @@
     },
     {
       "n": "04",
+      "title": "Agreement",
+      "body": "Scope, commercial terms, responsibilities, and what done looks like, confirmed in writing before any paid work starts — a proposal, a statement of work, or a services agreement, depending on the shape of the engagement. Nothing before this point is a commitment on either side.",
+      "duration": "Before work begins"
+    },
+    {
+      "n": "05",
       "title": "Build or advise",
       "body": "Either I help execute the roadmap, or your team does and I stay on for design review and decision support. Both are legitimate. Neither requires the other.",
       "duration": "Ongoing, by agreement"

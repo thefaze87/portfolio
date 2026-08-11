@@ -1,6 +1,14 @@
 import { EMAIL } from '@/lib/email';
 import { getCredentials, getProducts, getProjectsIndex } from '@/lib/mdx';
-import { NEWSLETTER, PLATFORMS, RESUME, SITE_LOCATION, SITE_ROLE, SITE_URL } from '@/lib/nav';
+import {
+  LEGAL_ENTITY,
+  NEWSLETTER,
+  PLATFORMS,
+  RESUME,
+  SITE_LOCATION,
+  SITE_ROLE,
+  SITE_URL,
+} from '@/lib/nav';
 import { SITE_NAME, SITE_TAGLINE, absoluteUrl } from '@/lib/seo';
 import careerData from '@/content/experience/career.json';
 
@@ -35,6 +43,18 @@ function section(heading: string, lines: string[]): string {
   return lines.length > 0 ? `## ${heading}\n\n${lines.join('\n')}\n` : '';
 }
 
+/**
+ * Append a full stop unless the text already ends in punctuation.
+ *
+ * Taglines and positioning lines are authored copy: most are fragments with no
+ * terminal punctuation ("Trust, measured and earned"), but some are complete
+ * sentences that end in a period ("The next product is already in motion.").
+ * Concatenating "." unconditionally turned the second kind into "motion..".
+ */
+function sentence(text: string): string {
+  return /[.!?]$/.test(text.trim()) ? text.trim() : `${text.trim()}.`;
+}
+
 export function GET(): Response {
   const { roles, parallel } = careerData as {
     roles: { org: string; role: string; dates: string }[];
@@ -59,7 +79,7 @@ export function GET(): Response {
     `- Canonical site: ${SITE_URL}`,
     `- Roles: ${SITE_ROLE}`,
     ...(current ? [`- Current position: ${current.role}, ${current.org} (${current.dates})`] : []),
-    `- Independent practice: ${parallel.org}, ${parallel.role} (${parallel.dates})`,
+    `- Independent practice: ${LEGAL_ENTITY.name}, ${parallel.role} (${parallel.dates}) — the legal entity behind the consulting and product work`,
     `- Contact: ${EMAIL.public}`,
     ...(RESUME.available ? [`- Résumé (PDF): ${absoluteUrl(RESUME.href)}`] : []),
     '',
@@ -89,11 +109,11 @@ export function GET(): Response {
     ]),
 
     section('Products', [
-      'Ventures owned and built by Mark Fasel.',
+      `Ventures owned and built through ${LEGAL_ENTITY.name}.`,
       '',
       ...products.map(
         (p) =>
-          `- ${p.name} (${p.status}) — ${p.tagline}.` +
+          `- ${p.name} (${p.status}) — ${sentence(p.tagline)}` +
           (p.hasDetail ? ` ${absoluteUrl(`/products/${p.id}`)}` : ''),
       ),
       '',
@@ -105,7 +125,7 @@ export function GET(): Response {
       '',
       ...[...featured, ...selected, ...labs].map(
         (p) =>
-          `- ${p.title} — ${p.positioning}.` +
+          `- ${p.title} — ${sentence(p.positioning)}` +
           (p.caseStudy ? ` ${absoluteUrl(`/projects/${p.caseStudy}`)}` : ''),
       ),
       '',

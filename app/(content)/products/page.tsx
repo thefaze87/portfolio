@@ -7,7 +7,7 @@ import { StatusChip } from '@/components/products/StatusChip';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { buildMetadata, absoluteUrl } from '@/lib/seo';
-import { collectionPageSchema, jsonLd } from '@/lib/schema';
+import { ORGANIZATION_ID, collectionPageSchema, jsonLd } from '@/lib/schema';
 import { getProducts } from '@/lib/mdx';
 import { PRODUCT_STATUSES, type Product } from '@/lib/content-schemas';
 
@@ -174,7 +174,12 @@ export default function ProductsPage() {
       {/* Collection graph. Products with a published detail page resolve to the
        * SoftwareApplication node declared there (by @id) rather than being
        * described twice; the rest carry name + summary only, which is all the
-       * page itself claims about them. */}
+       * page itself claims about them.
+       *
+       * `about` is the Organization, not the Person — this is the one
+       * collection on the site that belongs to the company rather than to the
+       * man. It is the forward half of the Organization → Products edge; the
+       * return half is `publisher` on each SoftwareApplication. */}
       <script
         type="application/ld+json"
         // Build-time JSON from the validated product registry. No user input.
@@ -185,6 +190,7 @@ export default function ProductsPage() {
               description:
                 'Software ventures owned and built by Mark Fasel, with their current lifecycle status.',
               path: '/products',
+              about: ORGANIZATION_ID,
               items: products.map((product) => ({
                 name: product.name,
                 description: product.tagline,

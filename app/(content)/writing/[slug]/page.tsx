@@ -11,7 +11,7 @@ import { SectionLabel } from '@/components/brand/SectionLabel';
 import { ArticleHeader } from '@/components/content/ArticleHeader';
 import { mdxComponents } from '@/components/content/MDXComponents';
 import { buildMetadata } from '@/lib/seo';
-import { articleSchema, breadcrumbSchema, jsonLd } from '@/lib/schema';
+import { BLOG_ID, articleSchema, breadcrumbSchema, jsonLd } from '@/lib/schema';
 import { formatDate, getAllEssays, getEssayBySlug } from '@/lib/mdx';
 import { PILLAR_LABELS } from '@/lib/content-schemas';
 import { NEWSLETTER } from '@/lib/nav';
@@ -83,6 +83,11 @@ export default async function EssayPage({ params }: PageProps) {
         // Static, build-time JSON from lib/schema.ts. No user input reaches this.
         dangerouslySetInnerHTML={{
           __html: jsonLd([
+            // BlogPosting rather than plain Article, and a member of the
+            // /writing Blog. Both are what make this an instalment of a
+            // publication instead of a standalone page — the Blog node lists
+            // this @id as one of its `blogPost` entries, and this is the other
+            // half of that edge. Case studies deliberately stay `Article`.
             articleSchema({
               title: frontmatter.title,
               description: frontmatter.excerpt,
@@ -90,6 +95,8 @@ export default async function EssayPage({ params }: PageProps) {
               publishedAt: frontmatter.publishedAt,
               updatedAt: frontmatter.updatedAt,
               section: PILLAR_LABELS[frontmatter.pillar],
+              type: 'BlogPosting',
+              partOf: BLOG_ID,
               ...(frontmatter.canonicalUrl ? { canonicalUrl: frontmatter.canonicalUrl } : {}),
             }),
             breadcrumbSchema([

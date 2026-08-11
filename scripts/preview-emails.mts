@@ -29,10 +29,23 @@ const full = {
   receivedAt: 'Aug 8, 2026, 2:14 PM',
 };
 
-// Minimal submission — only the three required fields.
+// Minimal submission — every required field, and nothing else.
+//
+// "Minimal" now means six fields, not three: project type, budget, and
+// timeline became required, so the leanest message a visitor can send still
+// carries all three. Company and role are the only fields that can be absent,
+// which is what this fixture exists to show.
+//
+// The uncertainty options are used deliberately. This is the shape of a real
+// minimal submission — someone who does not yet know what they need — and it
+// is the case worth eyeballing, because it proves requiring the fields does
+// not force a visitor to invent a budget.
 const minimal = {
   name: 'Tom',
   email: 'tom@example.com',
+  projectType: "Not sure yet / Let's figure it out",
+  budget: 'Not sure / Need guidance',
+  timeline: 'Not sure yet',
   message: 'Do you take on shorter engagements? We have a two-week question.',
   receivedAt: 'Aug 8, 2026, 2:20 PM',
 };
@@ -55,7 +68,14 @@ const files: [string, string][] = [
   ],
   [
     'acknowledgement-minimal.html',
-    await render(ContactAcknowledgement({ firstName: 'Tom', message: minimal.message })),
+    await render(
+      ContactAcknowledgement({
+        firstName: 'Tom',
+        message: minimal.message,
+        projectType: minimal.projectType,
+        timeline: minimal.timeline,
+      }),
+    ),
   ],
   [
     'acknowledgement-full.txt',

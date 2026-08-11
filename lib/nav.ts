@@ -92,15 +92,41 @@ export const NEWSLETTER = {
  * channels the site funnels toward; ordered by that priority. All open in a
  * new tab. `primary` is available for surfaces that want to emphasize the
  * lead channels.
+ *
+ * ## `active` gates rendering, exactly like `published` gates routes
+ *
+ * A platform link is a promise that there is something worth clicking to. An
+ * empty channel is worse than an absent one: it costs a visitor a click to
+ * learn nothing, and in JSON-LD a `sameAs` pointing at a dormant profile is a
+ * weak identity signal rather than a strong one.
+ *
+ * YouTube is defined here — URL and position locked — but inactive, because
+ * there is no channel we intend to promote yet. Flip `active` to true the day
+ * there is one, and it appears in the footer, in `Person.sameAs`, and in
+ * llms.txt at once. Never flip it before the channel has content.
  */
-export type Platform = { href: string; label: string; primary?: boolean };
-export const PLATFORMS: readonly Platform[] = [
-  { href: NEWSLETTER.href, label: 'Newsletter', primary: true },
-  { href: 'https://linkedin.com/in/markfasel', label: 'LinkedIn', primary: true },
-  { href: 'https://www.youtube.com/@DesigningModernSystems', label: 'YouTube' },
-  { href: 'https://github.com/thefaze87', label: 'GitHub' },
-  { href: 'https://x.com/markfasel', label: 'X' },
+export type Platform = { href: string; label: string; primary?: boolean; active: boolean };
+
+const PLATFORMS_TARGET: readonly Platform[] = [
+  { href: NEWSLETTER.href, label: 'Newsletter', primary: true, active: true },
+  { href: 'https://linkedin.com/in/markfasel', label: 'LinkedIn', primary: true, active: true },
+  { href: 'https://www.youtube.com/@DesigningModernSystems', label: 'YouTube', active: false },
+  { href: 'https://github.com/thefaze87', label: 'GitHub', active: true },
+  { href: 'https://x.com/markfasel', label: 'X', active: true },
 ];
+
+/** Platforms as rendered and as published to the knowledge graph. */
+export const PLATFORMS: readonly Platform[] = PLATFORMS_TARGET.filter((p) => p.active);
+
+/**
+ * Legal routes. Kept out of PRIMARY_NAV and FOOTER_NAV_LINKS on purpose —
+ * these belong in the footer's fine-print row, visually subordinate to
+ * navigation, not competing with it.
+ */
+export const LEGAL_NAV_LINKS: readonly NavLink[] = [
+  { href: '/privacy', label: 'Privacy', published: true },
+  { href: '/terms', label: 'Terms', published: true },
+].filter((link) => link.published);
 
 /** LinkedIn, resolved once — several sections link to it directly. */
 export const LINKEDIN_HREF =
@@ -146,6 +172,29 @@ export const SITE_ROLE = SITE_ROLES.join(' · ');
 /** Footer copyright location. Matches the résumé header exactly — the two are
  *  read side by side often enough that a mismatch reads as carelessness. */
 export const SITE_LOCATION = 'Palmetto, FL';
+
+/**
+ * The legal entity behind the practice.
+ *
+ * Deliberately separate from the personal name and from the brand wordmark:
+ *
+ *   - The wordmark stays "MARK FASEL". It is the brand mark, and the logo
+ *     system (docs/components/wordmark.md) does not admit a second form.
+ *   - The LLC belongs in the fine print, where a legal entity belongs. That is
+ *     the only place the footer states it.
+ *   - In JSON-LD the two are separate nodes — a Person and an Organization
+ *     joined by `founder`. Collapsing them (giving the Organization the
+ *     person's name, profiles, or portrait) would leave a crawler unable to
+ *     tell whether "Mark Fasel" is a human or a company, which is exactly the
+ *     ambiguity this phase exists to remove.
+ *
+ * `foundingYear` matches the start of the parallel practice in
+ * content/experience/career.json. If one moves, move the other.
+ */
+export const LEGAL_ENTITY = {
+  name: 'Mark Fasel, LLC',
+  foundingYear: '2014',
+} as const;
 
 /**
  * Canonical origin — the single source of truth for every absolute URL.

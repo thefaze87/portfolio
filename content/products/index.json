@@ -36,6 +36,30 @@
       "links": []
     },
     {
+      "id": "project-atlas",
+      "name": "Project Atlas",
+      "tagline": "The next product is already in motion.",
+      "category": "AI-Native Financial Operations",
+      "status": "Coming Soon",
+      "summary": "An AI-native platform designed to help businesses recover receivables, automate follow-up, and improve cash flow without replacing the accounting systems they already use. The final product name has not yet been announced.",
+      "stack": [],
+      "highlights": [
+        "Recovers outstanding invoices rather than only issuing them",
+        "Automates follow-up after an invoice is sent",
+        "Understands how customers respond, not just whether they paid",
+        "Improves payment velocity as the measured outcome",
+        "Augments existing accounting systems instead of replacing them"
+      ],
+      "markets": [],
+      "buildState": {
+        "built": [],
+        "inDevelopment": ["Product design", "Problem and market validation"],
+        "roadmap": []
+      },
+      "timeline": [{ "date": "2026", "event": "Product design and validation" }],
+      "links": []
+    },
+    {
       "id": "trustlaunch",
       "name": "TrustLaunch",
       "tagline": "Trust, measured and earned",

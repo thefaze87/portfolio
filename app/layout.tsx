@@ -3,7 +3,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
 import { Header } from '@/components/navigation/Header';
 import { Footer } from '@/components/navigation/Footer';
-import { jsonLd, personSchema, webSiteSchema } from '@/lib/schema';
+import { jsonLd, organizationSchema, personSchema, webSiteSchema } from '@/lib/schema';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from '@/lib/seo';
 import { SITE_URL } from '@/lib/nav';
 import { GA_MEASUREMENT_ID, isAnalyticsEnabled } from '@/lib/analytics';
@@ -97,15 +97,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
        * it only ignores the body element's own attributes, never its
        * descendants — so real hydration bugs in page content still surface. */}
       <body suppressHydrationWarning>
-        {/* Identity graph. Person + WebSite are site-wide facts, so they're
-         * emitted once here rather than per-page. Page-specific schemas
-         * (Article, FAQPage, BreadcrumbList) belong on their own routes. */}
+        {/* Identity graph. Person, Organization, and WebSite are site-wide
+         * facts, so they're emitted once here rather than per-page — which is
+         * also what guarantees each @id is defined exactly once no matter how
+         * many routes reference it. Page-specific schemas (Article, Blog,
+         * FAQPage, BreadcrumbList) belong on their own routes.
+         *
+         * The Organization is emitted site-wide rather than only on /consulting
+         * because Service, SoftwareApplication, ContactPage, and WebSite all
+         * reference it. A node referenced from four routes but declared on one
+         * is a dangling @id on the other three. */}
         <script
           type="application/ld+json"
           // Static, build-time JSON from lib/schema.ts. No user input
           // reaches this string.
           dangerouslySetInnerHTML={{
-            __html: jsonLd([personSchema(), webSiteSchema()]),
+            __html: jsonLd([personSchema(), organizationSchema(), webSiteSchema()]),
           }}
         />
         <Header />

@@ -26,11 +26,18 @@ import { color, font, link, space, text } from './theme';
 export interface ContactNotificationProps {
   name: string;
   email: string;
+  /** Genuinely optional on the form, so genuinely optional here. DetailRow
+   *  renders nothing for an empty value, which is what keeps a blank row out
+   *  of the summary. */
   company?: string | undefined;
   role?: string | undefined;
-  projectType?: string | undefined;
-  budget?: string | undefined;
-  timeline?: string | undefined;
+  /** Required on the form and guaranteed by contactSchema after a successful
+   *  parse — so these are stated as required rather than optional. If the
+   *  qualification fields ever go back to optional, this type is what will
+   *  fail the build instead of the email quietly losing three rows. */
+  projectType: string;
+  budget: string;
+  timeline: string;
   message: string;
   /** Pre-formatted for display. Passed in so the template stays pure and the
    *  rendered output is deterministic for snapshot/preview purposes. */

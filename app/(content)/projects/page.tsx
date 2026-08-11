@@ -412,7 +412,11 @@ export default function ProjectsPage() {
                   Experience
                 </Link>
                 . This is the other half: what twenty years of that produces when the constraint is
-                only time.
+                only time. Ventures I own outright are on{' '}
+                <Link href="/products" className="prose-link">
+                  Products
+                </Link>
+                .
               </p>
             </>
           }

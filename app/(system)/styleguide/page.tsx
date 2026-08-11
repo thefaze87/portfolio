@@ -28,6 +28,7 @@ import { Field, Input, Select, Textarea } from '@/components/ui/Field';
 import { Card } from '@/components/ui/Card';
 import { StatusChip } from '@/components/products/StatusChip';
 import { Placeholder } from '@/components/products/Placeholder';
+import { LegalDocument, LegalList, LegalP } from '@/components/legal/LegalDocument';
 import { PRODUCT_STATUSES } from '@/lib/content-schemas';
 import { ArticleHeader } from '@/components/content/ArticleHeader';
 import { Callout } from '@/components/content/Callout';
@@ -1329,6 +1330,20 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
             its own <code>error</code> prop — there is no second flag to keep in sync. Every state
             below is what the contact form actually renders.
           </p>
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            Required fields carry an orange <code>*</code>; optional fields carry{' '}
+            <code>· optional</code>. Both are marked so neither state is inferred from the absence
+            of the other. The asterisk is <code>aria-hidden</code> — assistive tech gets the state
+            from <code>aria-required</code> on the control instead, so the marking never depends on
+            colour or on a glyph alone.
+          </p>
 
           <div
             className="grid grid-cols-1 lg:grid-cols-2"
@@ -1577,9 +1592,13 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
           >
             <code>StatusChip</code> renders product lifecycle state from a closed enum, so &ldquo;In
             development&rdquo; can never drift into &ldquo;WIP&rdquo;. Only <code>Launching</code>{' '}
-            takes the accent — it is the one state that is news, and orange stays a signal. The
-            marker is a 4px square rather than a circle; circles read as status LEDs, which is the
-            dashboard vocabulary this avoids.
+            takes the accent — it is the one state that is news, and orange stays a signal. The rest
+            step down the text ramp (<code>text</code> → <code>text-muted</code> →{' '}
+            <code>text-dim</code>), so the index reads as a hierarchy of readiness without becoming
+            a traffic light. <code>Coming Soon</code> is the brightest non-accent state rather than
+            a second hue; amber would read as a warning everywhere else in the system. The marker is
+            a 4px square rather than a circle; circles read as status LEDs, which is the dashboard
+            vocabulary this avoids.
           </p>
 
           <div className="flex flex-wrap items-center" style={{ gap: 'var(--space-4)' }}>
@@ -1617,6 +1636,52 @@ export default async function StyleguidePage({ searchParams }: StyleguidePagePro
               caption="Links appear once there is somewhere to send you."
             />
           </div>
+        </Section>
+
+        {/* §22 Legal document */}
+        <Section title="Legal document" index="22">
+          <p
+            className="type-body"
+            style={{
+              marginBottom: 'var(--space-7)',
+              color: 'var(--color-text-muted)',
+              maxWidth: '64ch',
+            }}
+          >
+            <code>LegalDocument</code> is the shared shell for <code>/privacy</code> and{' '}
+            <code>/terms</code>. Both render through it so they cannot drift apart on type scale,
+            measure, or heading order — the specific way legal pages usually rot. Numbered rows on
+            hairlines, the same treatment the career record uses, at a 68ch prose measure. The
+            numbers are <code>aria-hidden</code>: they index visually, while the <code>h2</code>s
+            carry the structure a screen reader navigates.
+          </p>
+
+          <LegalDocument
+            sections={[
+              {
+                id: 'sg-legal-one',
+                heading: 'A section with prose',
+                body: (
+                  <LegalP>
+                    Body copy sits at 68ch on <code>--color-text-muted</code>, one step down from
+                    the heading. No cards, no bordered callouts, no legal-template chrome.
+                  </LegalP>
+                ),
+              },
+              {
+                id: 'sg-legal-two',
+                heading: 'A section with a list',
+                body: (
+                  <LegalList
+                    items={[
+                      'Em-dash markers, matching the consulting fit lists',
+                      'Muted body copy at the same measure as the prose',
+                    ]}
+                  />
+                ),
+              },
+            ]}
+          />
         </Section>
 
         <footer

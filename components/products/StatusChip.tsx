@@ -6,9 +6,19 @@ import type { ProductStatus } from '@/lib/content-schemas';
  * Deliberately editorial rather than a SaaS-dashboard pill: hairline border,
  * mono label, sharp radius, no fill. The brand rule is that orange is a signal
  * colour, so only `Launching` gets the accent — it is the one state that is
- * news. `In development` and `Planned` sit at muted and dim respectively, so a
- * products index reads as a hierarchy of readiness at a glance without turning
- * into a traffic light.
+ * news. The rest step down through the text ramp, so a products index reads as
+ * a hierarchy of readiness at a glance without turning into a traffic light:
+ *
+ *   Launching        accent      shipping now
+ *   Coming Soon      text        announced next, full-strength but not orange
+ *   In development   text-muted  being built
+ *   Planned          text-dim    a concept
+ *
+ * `Coming Soon` deliberately does NOT get the amber accent-secondary token.
+ * A second hue on this index is exactly the traffic light the chip avoids, and
+ * amber reads as a warning everywhere else in the system. Full-strength text on
+ * a strong border makes it the brightest non-accent state, which is the whole
+ * job — noticeable, not news.
  *
  * The dot is a 4px square, not a circle: circles read as status LEDs, which is
  * the product-dashboard vocabulary this is avoiding.
@@ -18,6 +28,7 @@ import type { ProductStatus } from '@/lib/content-schemas';
 
 const TONE: Record<ProductStatus, { color: string; border: string }> = {
   Launching: { color: 'var(--color-accent)', border: 'var(--color-accent)' },
+  'Coming Soon': { color: 'var(--color-text)', border: 'var(--color-border-strong)' },
   'In development': { color: 'var(--color-text-muted)', border: 'var(--color-border-strong)' },
   Planned: { color: 'var(--color-text-dim)', border: 'var(--color-border)' },
 };

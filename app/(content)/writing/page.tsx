@@ -6,7 +6,7 @@ import { SectionLabel } from '@/components/brand/SectionLabel';
 import { Button } from '@/components/ui/Button';
 import { SubstackPosts } from '@/components/content/SubstackPosts';
 import { buildMetadata, absoluteUrl } from '@/lib/seo';
-import { collectionPageSchema, jsonLd } from '@/lib/schema';
+import { blogSchema, collectionPageSchema, jsonLd, newsletterSchema } from '@/lib/schema';
 import { formatDate, getAllEssays } from '@/lib/mdx';
 import { PILLARS, PILLAR_LABELS } from '@/lib/content-schemas';
 import { NEWSLETTER } from '@/lib/nav';
@@ -70,17 +70,23 @@ export default async function WritingPage() {
 
   return (
     <main id="main-content">
-      {/* Collection graph covering both sources this page surfaces, in the
-       * order they appear. Substack posts carry their canonical Substack URL —
-       * this site indexes them, it does not host them, so they get a `url`
-       * rather than an `@id` pointing at a node we do not own. Local essays
-       * resolve to the Article node on their own page. */}
+      {/* Three nodes, describing three different things about this URL:
+       *
+       *   CollectionPage  the page, and everything enumerated on it
+       *   Blog            the publication those essays are instalments of
+       *   Blog (Substack) the newsletter, identified by its own canonical URL
+       *
+       * A page and a publication are not the same entity, which is why both
+       * exist without duplicating each other — `mainEntityOfPage` on the Blog
+       * joins them. The newsletter is identity-only: its posts are canonical to
+       * Substack, so they appear here as ItemList entries pointing at their
+       * real URLs rather than as content this page claims to host. */}
       <script
         type="application/ld+json"
         // Build-time / ISR JSON from validated frontmatter and the parsed
         // feed. No user input reaches this string.
         dangerouslySetInnerHTML={{
-          __html: jsonLd(
+          __html: jsonLd([
             collectionPageSchema({
               name: 'Writing by Mark Fasel',
               description:
@@ -99,7 +105,9 @@ export default async function WritingPage() {
                 })),
               ],
             }),
-          ),
+            blogSchema(essays.map((essay) => absoluteUrl(`/writing/${essay.slug}#article`))),
+            newsletterSchema(),
+          ]),
         }}
       />
 
@@ -153,7 +161,17 @@ export default async function WritingPage() {
             title="Essays"
             titleMaxCh={20}
             leadMaxCh={58}
-            lead="Longer pieces written for this site. These live here rather than in the newsletter."
+            lead={
+              <p className="type-body-lg" style={{ color: 'var(--color-text-muted)' }}>
+                Longer pieces written for this site. These live here rather than in the newsletter,
+                and most of them started as a decision on a real system — the ones with a write-up
+                are on{' '}
+                <Link href="/projects" className="prose-link">
+                  Projects
+                </Link>
+                .
+              </p>
+            }
           />
 
           {/* Pillar coverage across the local essays. Descriptive, not
@@ -286,7 +304,27 @@ export default async function WritingPage() {
           title={NEWSLETTER.name}
           titleMaxCh={24}
           leadMaxCh={58}
-          lead="Essays on architecture, engineering leadership, AI, and building better systems. No promotions, no cadence for its own sake."
+          lead={
+            <>
+              <p className="type-body-lg" style={{ color: 'var(--color-text-muted)' }}>
+                Essays on architecture, engineering leadership, AI, and building better systems. No
+                promotions, no cadence for its own sake.
+              </p>
+              {/* The one link from the writing to the work. A reader who has
+               * got this far is either subscribing or recognising their own
+               * problem in an essay; this is the second path, stated once. */}
+              <p
+                className="type-body-lg"
+                style={{ marginTop: 'var(--space-4)', color: 'var(--color-text-muted)' }}
+              >
+                If a piece here describes a problem you are actually living with, that is what the{' '}
+                <Link href="/consulting" className="prose-link">
+                  consulting work
+                </Link>{' '}
+                is for.
+              </p>
+            </>
+          }
         />
         <div style={{ marginTop: 'var(--space-7)' }}>
           <Button href={SUBSTACK_URL} variant="primary">

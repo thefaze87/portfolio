@@ -25,9 +25,11 @@ import { color, font, space, text } from './theme';
 export interface ContactAcknowledgementProps {
   firstName: string;
   message: string;
+  /** Optional on the form; DetailRow drops it when absent. */
   company?: string | undefined;
-  projectType?: string | undefined;
-  timeline?: string | undefined;
+  /** Required on the form and guaranteed by contactSchema after parse. */
+  projectType: string;
+  timeline: string;
 }
 
 export function ContactAcknowledgement({
@@ -37,8 +39,6 @@ export function ContactAcknowledgement({
   projectType,
   timeline,
 }: ContactAcknowledgementProps) {
-  const hasDetails = Boolean(company || projectType || timeline);
-
   return (
     <EmailLayout preview="I received your message and will review it personally.">
       <Heading
@@ -84,16 +84,17 @@ export function ContactAcknowledgement({
       <SectionHeading>Your message</SectionHeading>
       <MessagePanel>{message}</MessagePanel>
 
-      {/* Only rendered when at least one optional field was supplied — an
-       * empty "Details" heading over nothing reads as a template error. */}
-      {hasDetails && (
-        <Section style={{ marginBottom: space[5] }}>
-          <SectionHeading>Details</SectionHeading>
-          <DetailRow label="Company" value={company} />
-          <DetailRow label="Project type" value={projectType} />
-          <DetailRow label="Timeline" value={timeline} />
-        </Section>
-      )}
+      {/* Always rendered: project type and timeline are required on the form,
+       * so this section can no longer be empty. The old `hasDetails` guard
+       * existed for when all three were optional and an empty "Details"
+       * heading over nothing would have read as a template error. Company
+       * still drops out on its own via DetailRow. */}
+      <Section style={{ marginBottom: space[5] }}>
+        <SectionHeading>Details</SectionHeading>
+        <DetailRow label="Company" value={company} />
+        <DetailRow label="Project type" value={projectType} />
+        <DetailRow label="Timeline" value={timeline} />
+      </Section>
 
       <Hr
         style={{

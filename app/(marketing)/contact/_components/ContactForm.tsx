@@ -145,6 +145,15 @@ export function ContactForm() {
       )}
 
       <div className="flex flex-col" style={{ gap: 'var(--space-6)' }}>
+        {/* Required-field legend. Placed BEFORE the first field, in DOM order,
+         * so a screen-reader user meets the convention before the first
+         * asterisk rather than after the last one. The asterisk here is not
+         * aria-hidden — unlike the ones on the labels, this is the single
+         * place where the glyph itself is the subject of the sentence. */}
+        <p className="type-body-sm" style={{ color: 'var(--color-text-muted)', margin: 0 }}>
+          <span style={{ color: 'var(--color-accent)' }}>*</span> indicates a required field
+        </p>
+
         <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: 'var(--space-6)' }}>
           <Field name="name" label="Name" required error={errors.name?.message}>
             {(p) => <Input {...p} {...register('name')} type="text" autoComplete="name" />}
@@ -166,10 +175,27 @@ export function ContactForm() {
             )}
           </Field>
 
-          <Field name="projectType" label="Project type" error={errors.projectType?.message}>
+          {/* The three qualification selects.
+           *
+           * Each placeholder is `disabled` so it cannot be chosen again once
+           * the visitor has answered — a required field whose empty state is
+           * re-selectable invites exactly the error the requirement exists to
+           * prevent. It stays rendered (not removed) because it is what shows
+           * "nothing chosen yet" on first paint.
+           *
+           * Every list ends with a genuine uncertainty option, so requiring an
+           * answer never forces an invented one. See lib/schemas/contact.ts. */}
+          <Field
+            name="projectType"
+            label="Project type"
+            required
+            error={errors.projectType?.message}
+          >
             {(p) => (
               <Select {...p} {...register('projectType')}>
-                <option value="">Select one</option>
+                <option value="" disabled>
+                  Select one
+                </option>
                 {PROJECT_TYPES.map((t) => (
                   <option key={t} value={t}>
                     {t}
@@ -179,10 +205,12 @@ export function ContactForm() {
             )}
           </Field>
 
-          <Field name="budget" label="Budget range" error={errors.budget?.message}>
+          <Field name="budget" label="Budget range" required error={errors.budget?.message}>
             {(p) => (
               <Select {...p} {...register('budget')}>
-                <option value="">Select one</option>
+                <option value="" disabled>
+                  Select one
+                </option>
                 {BUDGET_RANGES.map((b) => (
                   <option key={b} value={b}>
                     {b}
@@ -192,10 +220,12 @@ export function ContactForm() {
             )}
           </Field>
 
-          <Field name="timeline" label="Timeline" error={errors.timeline?.message}>
+          <Field name="timeline" label="Timeline" required error={errors.timeline?.message}>
             {(p) => (
               <Select {...p} {...register('timeline')}>
-                <option value="">Select one</option>
+                <option value="" disabled>
+                  Select one
+                </option>
                 {TIMELINES.map((t) => (
                   <option key={t} value={t}>
                     {t}

@@ -102,7 +102,17 @@ export default function ExperiencePage() {
           title="The other half of the record."
           titleMaxCh={22}
           leadMaxCh={60}
-          lead="Twenty years of this is what a résumé shows. What it doesn't show is what I build when nobody assigns it — platforms architected end to end, from domain model through deployment."
+          lead={
+            <p className="type-body-lg" style={{ color: 'var(--color-text-muted)' }}>
+              Twenty years of this is what a résumé shows. What it doesn&apos;t show is what I build
+              when nobody assigns it — platforms architected end to end, from domain model through
+              deployment, and the{' '}
+              <Link href="/products" className="prose-link">
+                products I own outright
+              </Link>
+              .
+            </p>
+          }
         />
         <div
           className="flex flex-wrap"

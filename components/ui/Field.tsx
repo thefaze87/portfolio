@@ -57,9 +57,26 @@ export function Field({
 
   return (
     <div className={cn('flex flex-col', className)} style={{ gap: 'var(--space-2)' }}>
+      {/* Required is marked twice over, and neither marker is load-bearing on
+       * its own:
+       *
+       *   - the orange asterisk, for sighted users scanning the form
+       *   - `aria-required` on the control (set below), for assistive tech
+       *
+       * The asterisk is aria-hidden so a screen reader is not made to read
+       * "Name star" on every field — it already announces "required" from the
+       * control. Colour is not doing the work either: the glyph itself is the
+       * signal, and the legend above the form spells out what it means. That
+       * is what keeps this clear of WCAG 1.4.1 (use of colour) and 3.3.2
+       * (labels or instructions). */}
       <label htmlFor={id} className="type-body-sm" style={{ color: 'var(--color-text)' }}>
         {label}
-        {!required && (
+        {required ? (
+          <span aria-hidden="true" style={{ color: 'var(--color-accent)' }}>
+            {' '}
+            *
+          </span>
+        ) : (
           <span style={{ color: 'var(--color-text-dim)' }}>
             {' '}
             <span aria-hidden="true">·</span> optional

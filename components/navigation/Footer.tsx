@@ -64,29 +64,84 @@ export function Footer() {
           gap: 'var(--space-7)',
         }}
       >
-        {/* Top: lockup + nav/social */}
+        {/* Top: nav + lockup on the left, contact + platforms on the right */}
         <div
           className="flex flex-col justify-between md:flex-row"
           style={{ gap: 'var(--space-8)' }}
         >
-          {/* Lockup + legal entity. Cap-center already sits at the mark's
-           * geometric center (verified ~0.25px), but the mark is bottom-heavy
-           * (the filled peak), so the wordmark is nudged 1px down onto the
-           * mark's optical center. Purely an optical alignment of two brand
-           * elements.
+          {/* Left column: navigation, then the lockup beneath it.
            *
-           * The entity line is indented to the wordmark's left edge — mark
-           * width (28px × 1.374 ratio) plus the space-3 gap — so it hangs off
-           * the wordmark rather than off the mark. Aligning it to the mark
-           * instead would read as a third element in the lockup rather than a
-           * subtitle to the name. */}
-          {/* md:flex-1 — the left column grows to fill whatever the contact
-           * column does not use. Without it the column is content-sized, the
-           * nav hugs the left edge, and `justify-between` dumps the remainder
-           * into a single void in the middle. Growing the column lets the nav
-           * grid distribute across it instead. */}
-          <div className="flex flex-col md:min-w-0 md:flex-1" style={{ gap: 'var(--space-6)' }}>
-            <div className="flex flex-col" style={{ gap: 'var(--space-2)' }}>
+           * Nav first is the deliberate order. The lockup is a sign-off, not a
+           * heading — putting the wordmark last lets the brand close the
+           * column the way a signature closes a letter, and it puts the links
+           * at the top of the block where a visitor who scrolled here to
+           * navigate meets them first.
+           *
+           * It also aligns the two columns at the top: nav and the contact
+           * prompt now start on the same line, so the footer reads as two
+           * parallel blocks rather than one tall one beside one short one.
+           *
+           * ## The order flips back on mobile
+           *
+           * Stacked in a single column, nav-then-lockup buries the brand mark
+           * in the middle of the footer, so below md the two swap back via
+           * flex `order` and the lockup leads again.
+           *
+           * Reordering with CSS normally risks splitting visual order from
+           * focus order (WCAG 2.4.3). It is safe here for a specific reason:
+           * the lockup is not a link. The mark and wordmark in the footer are
+           * inert — the block contains zero focusable elements — so there is
+           * no tab stop to get out of sequence. If the lockup is ever made
+           * clickable, this reorder has to go.
+           *
+           * `md:flex-1` — the column grows to fill whatever the contact column
+           * does not use. Without it the column is content-sized, the nav hugs
+           * the left edge, and `justify-between` dumps the remainder into a
+           * single void in the middle. Growing the column lets the nav grid
+           * distribute across it instead. */}
+          <div className="flex flex-col md:min-w-0 md:flex-1" style={{ gap: 'var(--space-7)' }}>
+            {/* ## Why the column count changes at lg
+             *
+             * Two columns held the seven links in four rows and roughly 350px
+             * of a 1280px container. That produced both desktop problems at
+             * once: `justify-between` had ~490px of nothing to distribute, and
+             * the block was 100px taller than it needed to be.
+             *
+             * Four columns at lg lays the same links out in two rows and about
+             * 780px, which absorbs the gap and shortens the footer. Reading
+             * order is unchanged — the grid flows by row, so it still reads
+             * Experience → Projects → Products → Writing, then Consulting →
+             * About → Let's Talk.
+             *
+             * At lg the columns are `1fr` and the parent grows, so the nav
+             * distributes across the column rather than hugging its left edge.
+             * Mobile keeps two `max-content` columns so the links stay paired
+             * tightly instead of stretching across a phone screen. */}
+            <nav aria-label="Footer" className="order-2 md:order-1">
+              <div
+                className="grid grid-cols-[repeat(2,max-content)] lg:grid-cols-4"
+                style={{ gap: 'var(--space-4) var(--space-8)', maxWidth: '46rem' }}
+              >
+                {FOOTER_NAV_LINKS.map((link) => (
+                  <Link key={link.href} href={link.href} className="nav-link type-body-sm">
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </nav>
+
+            {/* Lockup + legal entity. Cap-center already sits at the mark's
+             * geometric center (verified ~0.25px), but the mark is bottom-heavy
+             * (the filled peak), so the wordmark is nudged 1px down onto the
+             * mark's optical center. Purely an optical alignment of two brand
+             * elements.
+             *
+             * The entity line is indented to the wordmark's left edge — mark
+             * width (28px × 1.374 ratio) plus the space-3 gap — so it hangs off
+             * the wordmark rather than off the mark. Aligning it to the mark
+             * instead would read as a third element in the lockup rather than a
+             * subtitle to the name. */}
+            <div className="order-1 flex flex-col md:order-2" style={{ gap: 'var(--space-2)' }}>
               <div className="flex items-center" style={{ gap: 'var(--space-3)' }}>
                 <Logo height={28} />
                 <span style={{ display: 'inline-flex', transform: 'translateY(1px)' }}>
@@ -103,51 +158,6 @@ export function Footer() {
                 {LEGAL_ENTITY.name}
               </span>
             </div>
-
-            {/* Navigation sits under the lockup rather than beside the contact
-             * block. Two reasons it belongs here:
-             *
-             *   - It fills the column. The lockup alone left roughly 500px of
-             *     dead space under it while the right column carried four
-             *     stacked blocks, which read as an accident rather than as
-             *     restraint.
-             *   - It groups by kind. The left column is now identity and
-             *     wayfinding — who this is and where everything lives. The
-             *     right column is contact: one prompt, one primary path, one
-             *     address, and the platforms. A visitor scanning the footer is
-             *     doing one of those two things, not both.
-             *
-             * ## Why the column count changes at lg
-             *
-             * Two columns held the seven links in four rows and roughly 350px
-             * of a 1280px container. That is what produced both desktop
-             * complaints at once: `justify-between` had ~490px of nothing to
-             * distribute between the columns, and the left block was 100px
-             * taller than it needed to be.
-             *
-             * Four columns at lg lays the same links out in two rows and about
-             * 600px, which absorbs most of the gap and shortens the footer.
-             * Reading order is unchanged — the grid flows by row, so it still
-             * reads Experience → Projects → Products → Writing, then
-             * Consulting → About → Let's Talk.
-             *
-             * At lg the columns are `1fr` and the parent grows (md:flex-1), so
-             * the nav distributes across the column rather than hugging its
-             * left edge — which is what closes the middle void. Mobile keeps
-             * two `max-content` columns so the links stay paired tightly
-             * instead of stretching across a phone screen. */}
-            <nav aria-label="Footer">
-              <div
-                className="grid grid-cols-[repeat(2,max-content)] lg:grid-cols-4"
-                style={{ gap: 'var(--space-4) var(--space-8)', maxWidth: '46rem' }}
-              >
-                {FOOTER_NAV_LINKS.map((link) => (
-                  <Link key={link.href} href={link.href} className="nav-link type-body-sm">
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </nav>
           </div>
 
           {/* Contact column */}

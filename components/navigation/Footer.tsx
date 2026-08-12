@@ -58,7 +58,10 @@ export function Footer() {
           maxWidth: 'var(--container-default)',
           paddingInline: 'var(--container-gutter)',
           paddingBlock: 'var(--space-8)',
-          gap: 'var(--space-8)',
+          // space-7, not space-8: the fine-print bar carries its own
+          // paddingTop above the hairline, so a space-8 gap here stacked with
+          // it into ~112px of empty column below the nav.
+          gap: 'var(--space-7)',
         }}
       >
         {/* Top: lockup + nav/social */}
@@ -77,7 +80,12 @@ export function Footer() {
            * the wordmark rather than off the mark. Aligning it to the mark
            * instead would read as a third element in the lockup rather than a
            * subtitle to the name. */}
-          <div className="flex flex-col" style={{ gap: 'var(--space-7)' }}>
+          {/* md:flex-1 — the left column grows to fill whatever the contact
+           * column does not use. Without it the column is content-sized, the
+           * nav hugs the left edge, and `justify-between` dumps the remainder
+           * into a single void in the middle. Growing the column lets the nav
+           * grid distribute across it instead. */}
+          <div className="flex flex-col md:min-w-0 md:flex-1" style={{ gap: 'var(--space-6)' }}>
             <div className="flex flex-col" style={{ gap: 'var(--space-2)' }}>
               <div className="flex items-center" style={{ gap: 'var(--space-3)' }}>
                 <Logo height={28} />
@@ -109,16 +117,29 @@ export function Footer() {
              *     address, and the platforms. A visitor scanning the footer is
              *     doing one of those two things, not both.
              *
-             * The grid stays two columns so the seven links read as a block
-             * under the wordmark rather than a seven-item ladder. */}
+             * ## Why the column count changes at lg
+             *
+             * Two columns held the seven links in four rows and roughly 350px
+             * of a 1280px container. That is what produced both desktop
+             * complaints at once: `justify-between` had ~490px of nothing to
+             * distribute between the columns, and the left block was 100px
+             * taller than it needed to be.
+             *
+             * Four columns at lg lays the same links out in two rows and about
+             * 600px, which absorbs most of the gap and shortens the footer.
+             * Reading order is unchanged — the grid flows by row, so it still
+             * reads Experience → Projects → Products → Writing, then
+             * Consulting → About → Let's Talk.
+             *
+             * At lg the columns are `1fr` and the parent grows (md:flex-1), so
+             * the nav distributes across the column rather than hugging its
+             * left edge — which is what closes the middle void. Mobile keeps
+             * two `max-content` columns so the links stay paired tightly
+             * instead of stretching across a phone screen. */}
             <nav aria-label="Footer">
               <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                  gap: 'var(--space-3) var(--space-8)',
-                  maxWidth: '22rem',
-                }}
+                className="grid grid-cols-[repeat(2,max-content)] lg:grid-cols-4"
+                style={{ gap: 'var(--space-4) var(--space-8)', maxWidth: '46rem' }}
               >
                 {FOOTER_NAV_LINKS.map((link) => (
                   <Link key={link.href} href={link.href} className="nav-link type-body-sm">

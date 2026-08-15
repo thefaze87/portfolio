@@ -70,6 +70,27 @@ export const PROJECTS_LINK: NavLink = {
 export const PRIMARY_NAV: readonly NavLink[] = PRIMARY_NAV_TARGET.filter((link) => link.published);
 
 /**
+ * Whether a nav entry represents the page currently being viewed.
+ *
+ * Section-aware rather than exact-match: /products/project-atlas keeps
+ * "Products" marked, and /writing/some-essay keeps "Writing" marked. A visitor
+ * three levels into a section has not left it, and a nav that forgets where
+ * they are is worse than one with no active state at all.
+ *
+ * The trailing slash in the prefix test is load-bearing — a bare
+ * `startsWith('/product')` would mark Products active on a hypothetical
+ * /production route. Root is exact-only for the same reason: every path
+ * starts with '/'.
+ *
+ * Shared by the desktop nav and the mobile drawer so the two can never
+ * disagree about which section you are in.
+ */
+export function isActivePath(pathname: string, href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/**
  * Footer nav — the site index. Carries the CTA route the header renders as a
  * button rather than a link.
  */

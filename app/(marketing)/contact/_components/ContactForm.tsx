@@ -185,10 +185,31 @@ export function ContactForm() {
            *
            * Every list ends with a genuine uncertainty option, so requiring an
            * answer never forces an invented one. See lib/schemas/contact.ts. */}
+          {/* Helper text on all three qualification fields, not just the one
+           * that needs it most.
+           *
+           * Budget is the field that loses submissions: a visitor who has not
+           * priced the work reads a required budget selector as a filter they
+           * fail, and closes the tab. Saying "'Not sure' is a real answer"
+           * out loud is worth more than the option existing quietly at the
+           * bottom of the list.
+           *
+           * Project type carries a description mainly so the row stays
+           * aligned — these two share a grid row, and a description on only
+           * one would offset its control against its neighbour. It earns its
+           * place regardless: "closest fit" pre-empts the visitor who cannot
+           * find their exact category and stalls.
+           *
+           * Both strings are kept short and near-equal in length on purpose.
+           * They are the same number of rendered lines at any realistic
+           * column width, which is what keeps the two selects on a shared
+           * baseline; a longer budget hint wrapped to two lines and pushed
+           * its control 22px below its neighbour. */}
           <Field
             name="projectType"
             label="Project type"
             required
+            description="Closest fit is fine."
             error={errors.projectType?.message}
           >
             {(p) => (
@@ -205,7 +226,13 @@ export function ContactForm() {
             )}
           </Field>
 
-          <Field name="budget" label="Budget range" required error={errors.budget?.message}>
+          <Field
+            name="budget"
+            label="Budget range"
+            required
+            description="“Not sure” is a real answer."
+            error={errors.budget?.message}
+          >
             {(p) => (
               <Select {...p} {...register('budget')}>
                 <option value="" disabled>
@@ -220,7 +247,13 @@ export function ContactForm() {
             )}
           </Field>
 
-          <Field name="timeline" label="Timeline" required error={errors.timeline?.message}>
+          <Field
+            name="timeline"
+            label="Timeline"
+            required
+            description="When you'd want to start, not when it must be done."
+            error={errors.timeline?.message}
+          >
             {(p) => (
               <Select {...p} {...register('timeline')}>
                 <option value="" disabled>

@@ -3,37 +3,44 @@
     {
       "org": "Life Surge",
       "role": "Solutions Architect",
-      "dates": "Oct 2025–Present"
+      "dates": "Oct 2025–Present",
+      "highlights": ["Enterprise CRM architecture", "5–7 engineers", "WCAG 2.2 governance"]
     },
     {
       "org": "Roghnu",
       "role": "Senior Software Developer",
-      "dates": "Jan 2025–Oct 2025"
+      "dates": "Jan 2025–Oct 2025",
+      "highlights": ["5+ platform integrations", "Millions of records synchronized"]
     },
     {
       "org": "Scorpion",
       "role": "Senior Front-end Product Developer",
-      "dates": "Nov 2020–Oct 2024"
+      "dates": "Nov 2020–Oct 2024",
+      "highlights": ["Launches: 3 months → 3 weeks", "40% fewer defects", "30–40% faster delivery"]
     },
     {
       "org": "Publix Super Markets",
       "role": "Software Engineer",
-      "dates": "Apr 2019–Nov 2020"
+      "dates": "Apr 2019–Nov 2020",
+      "highlights": ["20%+ online revenue", "WCAG: 70% → 90%"]
     },
     {
       "org": "Ramsey Solutions",
       "role": "Front-end Developer",
-      "dates": "Jun 2018–Jan 2019"
+      "dates": "Jun 2018–Jan 2019",
+      "highlights": ["Products serving millions", "Enterprise design system"]
     },
     {
       "org": "Johns Hopkins All Children's Hospital",
       "role": "Senior Software Developer",
-      "dates": "Aug 2014–Jun 2018"
+      "dates": "Aug 2014–Jun 2018",
+      "highlights": ["12,000+ pages migrated in six weeks", "3,000+ employee intranet"]
     },
     {
       "org": "LawLytics",
       "role": "Senior Front-End Developer → Creative Director",
-      "dates": "Jun 2012–Jul 2014"
+      "dates": "Jun 2012–Jul 2014",
+      "highlights": ["Multi-tenant legal platform", "Frontend and UX standards"]
     }
   ],
   "parallel": {

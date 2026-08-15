@@ -20,7 +20,9 @@ interface TimelineEntry {
   org: string;
   role: string;
   dates?: string;
-  /** Optional — kept editorial; entries currently render org/role/dates only. */
+  /** Verified outcomes for the role, rendered as a dot-separated row. Keep to
+   *  two or three: this is the homepage, and the entry is a headline, not the
+   *  case study. Every value must trace to content/experience/career.json. */
   highlights?: string[];
 }
 
@@ -61,12 +63,16 @@ export function ExperienceTimeline() {
             From enterprise healthcare and ecommerce to architecture leadership, AI initiatives, and
             large-scale business systems.
           </p>
+          {/* Was: "helping organizations make better technical decisions and
+           * build systems that endure" — the same claim the hero made two
+           * sections earlier, in almost the same words. Replaced with what
+           * the timeline entries below now actually evidence. */}
           <p
             className="type-body-lg"
             style={{ marginTop: 'var(--space-3)', color: 'var(--color-text-muted)' }}
           >
-            My work has focused on helping organizations make better technical decisions and build
-            systems that endure.
+            The pattern across all of it: faster delivery, fewer defects, and systems the next team
+            can still change.
           </p>
         </div>
 
@@ -86,6 +92,10 @@ export function ExperienceTimeline() {
 
           {TIMELINE.map((entry, i) => {
             const active = i === 0;
+            // Bound to a local so the `.length > 0` guard below narrows inside
+            // the map callback — TypeScript drops narrowing on a property
+            // access once it crosses a function boundary.
+            const highlights = entry.highlights ?? [];
             const side = i % 2 === 0 ? 'left' : 'right';
             return (
               <li key={entry.org} className={cn('exp-entry', `exp-entry--${side}`)}>
@@ -123,7 +133,7 @@ export function ExperienceTimeline() {
                     {entry.role}
                   </p>
 
-                  {entry.highlights && entry.highlights.length > 0 && (
+                  {highlights.length > 0 && (
                     <ul
                       className="flex flex-wrap"
                       style={{
@@ -134,7 +144,18 @@ export function ExperienceTimeline() {
                         gap: '0 var(--space-3)',
                       }}
                     >
-                      {entry.highlights.map((highlight, h) => (
+                      {/* The separator TRAILS each item rather than leading
+                       * the next one. This list had never been given data, so
+                       * the flaw was invisible: with the dot rendered before
+                       * the item, any wrap put a "·" at the start of the new
+                       * line. Trailing it means the dot always rides at the
+                       * end of a line and never opens one — the same rule
+                       * RoleLine enforces for the footer role line.
+                       *
+                       * The item text is deliberately left wrappable; only
+                       * the separator is pinned to its item, so a long
+                       * outcome can still break internally on a phone. */}
+                      {highlights.map((highlight, h) => (
                         <li
                           key={highlight}
                           className="type-body-sm"
@@ -145,12 +166,12 @@ export function ExperienceTimeline() {
                             gap: 'var(--space-3)',
                           }}
                         >
-                          {h > 0 && (
-                            <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
+                          {highlight}
+                          {h < highlights.length - 1 && (
+                            <span aria-hidden="true" style={{ color: 'var(--color-text-dim)' }}>
                               ·
                             </span>
                           )}
-                          {highlight}
                         </li>
                       ))}
                     </ul>

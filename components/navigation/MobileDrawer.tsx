@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { Submark } from '@/components/brand/Submark';
 import { RoleLine } from '@/components/navigation/RoleLine';
-import { PRIMARY_CTA, type NavLink } from '@/lib/nav';
+import { PRIMARY_CTA, isActivePath, type NavLink } from '@/lib/nav';
 
 /**
  * MobileDrawer — hamburger trigger + full-screen navigation dialog.
@@ -31,6 +32,7 @@ interface MobileDrawerProps {
 
 export function MobileDrawer({ links, className }: MobileDrawerProps) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -158,29 +160,53 @@ export function MobileDrawer({ links, className }: MobileDrawerProps) {
               className="flex flex-1 flex-col justify-center"
               style={{ gap: 'var(--space-5)' }}
             >
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: 22,
-                    fontWeight: 500,
-                    color: 'var(--color-text)',
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {/* Active state mirrors the desktop nav: aria-current for
+               * assistive tech, plus an underline. The drawer's links are
+               * already full-strength text, so colour cannot carry it here at
+               * all — the underline is the only visual difference available,
+               * which is exactly why the state is not conveyed by styling
+               * alone. Uses the same isActivePath as the header so the two
+               * surfaces can never disagree about the current section. */}
+              {links.map((link) => {
+                const active = isActivePath(pathname, link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={active ? 'page' : undefined}
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: 22,
+                      fontWeight: 500,
+                      color: 'var(--color-text)',
+                      ...(active
+                        ? {
+                            textDecoration: 'underline',
+                            textDecorationColor: 'var(--color-text-muted)',
+                            textUnderlineOffset: '0.3em',
+                          }
+                        : {}),
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
 
               {/* The drawer previously had no conversion action at all —
-               * mobile visitors could navigate but never convert. */}
+               * mobile visitors could navigate but never convert.
+               *
+               * `aria-current` only, with no visual change: this is already a
+               * filled orange button and the loudest element in the panel, so
+               * there is no quieter-to-louder move left to make. The state
+               * still needs stating for assistive tech. */}
               <Button
                 href={PRIMARY_CTA.href}
                 variant="primary"
                 size="lg"
                 onClick={() => setOpen(false)}
+                aria-current={isActivePath(pathname, PRIMARY_CTA.href) ? 'page' : undefined}
                 style={{ marginTop: 'var(--space-4)', alignSelf: 'flex-start' }}
               >
                 {PRIMARY_CTA.label}

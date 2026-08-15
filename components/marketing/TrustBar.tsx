@@ -12,8 +12,19 @@ import { EyebrowLabel } from '@/components/brand/EyebrowLabel';
  * contentinfo).
  */
 
+/**
+ * Curated, not derived from career.json — LawLytics and Roghnu are real roles
+ * but carry no recognition for a visitor scanning for five seconds, and a
+ * trust bar that lists everything stops being a trust bar.
+ *
+ * Names must match the career record exactly. "LifeSurge" was written here as
+ * one word while every other surface — career.json, the timeline, the résumé,
+ * the Person entity's `worksFor` — says "Life Surge". A visitor comparing the
+ * homepage to the résumé would have found two spellings of the current
+ * employer.
+ */
 const TRUST_ORGS = [
-  'LifeSurge',
+  'Life Surge',
   'Ramsey Solutions',
   "Johns Hopkins All Children's Hospital",
   'Publix',
@@ -32,7 +43,11 @@ export function TrustBar() {
           borderTop: 'var(--stroke-hairline) solid var(--color-border)',
         }}
       >
-        <EyebrowLabel accent={false}>Trusted by organizations including</EyebrowLabel>
+        {/* "Trusted by organizations including" implied these were clients.
+         * They are employers — the work is real, the framing was not. Naming
+         * it accurately costs nothing in credibility and removes a claim that
+         * would not survive a recruiter cross-checking it against the résumé. */}
+        <EyebrowLabel accent={false}>Systems and platforms built for</EyebrowLabel>
 
         <ul
           className="flex flex-wrap"

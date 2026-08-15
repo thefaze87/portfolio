@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
-import { Button } from '@/components/ui/Button';
 import { MobileDrawer } from '@/components/navigation/MobileDrawer';
+import { HeaderCta, PrimaryNav } from '@/components/navigation/HeaderNav';
 import { PRIMARY_CTA, PRIMARY_NAV } from '@/lib/nav';
 
 /**
@@ -50,27 +50,17 @@ export function Header() {
           <Logo height={28} />
         </Link>
 
-        <nav
-          aria-label="Primary"
-          className="hidden items-center md:flex"
-          style={{ gap: 'var(--space-6)' }}
-        >
-          {PRIMARY_NAV.map((link) => (
-            <Link key={link.href} href={link.href} className="nav-link type-body-sm">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        {/* The links are an island (PrimaryNav) purely because marking the
+         * current section needs the pathname, which only exists on the
+         * client. Everything else in this header stays server-rendered. */}
+        <PrimaryNav links={PRIMARY_NAV} />
 
         <div className="flex items-center" style={{ gap: 'var(--space-4)' }}>
-          <Button
+          <HeaderCta
             href={PRIMARY_CTA.href}
-            variant="ghost"
-            size="sm"
+            label={PRIMARY_CTA.label}
             className="hidden md:inline-flex"
-          >
-            {PRIMARY_CTA.label}
-          </Button>
+          />
           <MobileDrawer links={PRIMARY_NAV} className="md:hidden" />
         </div>
       </div>

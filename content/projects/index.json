@@ -18,6 +18,7 @@
         "XLS processing"
       ],
       "highlights": [
+        "Held up when live volume exceeded the original scope by hundreds of thousands of records",
         "Visual field mapping replacing manual spreadsheet mapping",
         "Queue-backed import/export so large jobs never block a request",
         "Frontend completion notifications for asynchronous work",
@@ -43,6 +44,7 @@
         "Accessibility"
       ],
       "highlights": [
+        "30–40% faster frontend development across adopting teams",
         "Framework-agnostic CSS foundation consumed by React and Angular",
         "Design tokens and reusable UI primitives",
         "Accessibility as a property of the components, not a checklist",

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
 import { SectionLabel } from '@/components/brand/SectionLabel';
@@ -23,19 +24,34 @@ import { NEWSLETTER } from '@/lib/nav';
  * Server Component.
  */
 
-/** Three routes into the site, for a reader who wants evidence before contact. */
+/**
+ * Three routes into the site, for a reader who wants evidence before contact.
+ *
+ * `kicker` names the destination; the heading stays the editorial label. All
+ * three cards previously carried the same word — "Explore" — which told a
+ * reader nothing and made the row read as one repeated control rather than
+ * three distinct destinations.
+ *
+ * "The work" also described the wrong thing: it advertised commerce and
+ * location-based experiences, which moved to /products when the ownership
+ * line was drawn, while linking to /projects. Its body now describes the
+ * client engagements actually on that page, led by what they produced.
+ */
 const PATHS = [
   {
+    kicker: 'Projects',
     label: 'The work',
     href: '/projects',
-    body: 'Platforms architected end to end — commerce, location-based experiences, and enterprise data tooling.',
+    body: 'Client platforms end to end — ERP import rebuilt as a product, a design system two frameworks share, and financial systems taught to agree.',
   },
   {
+    kicker: 'Experience',
     label: 'The record',
     href: '/experience',
-    body: 'Twenty years across healthcare, retail, media, and enterprise platforms, role by role.',
+    body: 'Twenty years across healthcare, retail, media, and enterprise platforms — role by role, with the outcomes attached.',
   },
   {
+    kicker: 'Writing',
     label: 'The thinking',
     href: '/writing',
     body: 'Essays on architecture, AI, and the systems thinking underneath both.',
@@ -51,7 +67,29 @@ export function HomeClosing() {
         title="Start with the problem."
         titleMaxCh={20}
         leadMaxCh={56}
-        lead="If something here matches what you're dealing with, describe it and the outcome you need. If I'm not the right person, I'll say so and point you somewhere better."
+        lead={
+          <>
+            <p className="type-body-lg" style={{ color: 'var(--color-text-muted)' }}>
+              If something here matches what you&apos;re dealing with, describe it and the outcome
+              you need. If I&apos;m not the right person, I&apos;ll say so and point you somewhere
+              better.
+            </p>
+            {/* The homepage's only route to /consulting. It was reachable
+             * from the nav and nowhere else on this page, so a founder or CTO
+             * reading top to bottom never saw how engagements actually work —
+             * the one thing a buyer wants before sending a message. */}
+            <p
+              className="type-body-lg"
+              style={{ marginTop: 'var(--space-4)', color: 'var(--color-text-muted)' }}
+            >
+              If you&apos;d rather see how engagements are structured first, that is on{' '}
+              <Link href="/consulting" className="prose-link">
+                Consulting
+              </Link>
+              .
+            </p>
+          </>
+        }
       />
 
       <div
@@ -73,11 +111,15 @@ export function HomeClosing() {
       >
         {PATHS.map((path) => (
           <Card key={path.href} interactive>
-            <SectionLabel>Explore</SectionLabel>
+            <SectionLabel>{path.kicker}</SectionLabel>
+            {/* next/link, not a bare <a>. These are internal routes, and a
+             * raw anchor forced a full document request — no client-side
+             * navigation and no prefetch — on the three cards that are the
+             * homepage's main path deeper into the site. */}
             <h3 className="type-h3 card-title" style={{ marginTop: 'var(--space-4)' }}>
-              <a href={path.href} style={{ color: 'inherit' }}>
+              <Link href={path.href} style={{ color: 'inherit' }}>
                 {path.label}
-              </a>
+              </Link>
             </h3>
             <p
               className="type-body"

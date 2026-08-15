@@ -59,12 +59,27 @@ export function Hero() {
             Built to <em style={{ color: 'var(--color-accent)', fontStyle: 'italic' }}>scale</em>.
           </h1>
 
+          {/* Problem-first, not identity-first.
+           *
+           * This previously read "I help organizations design scalable
+           * systems, leverage AI effectively, and align technology with
+           * business outcomes" — three abstractions a visitor cannot match
+           * against their own situation, followed by a second paragraph that
+           * opened with "I help" again and repeated the same claim about
+           * better technical decisions that EXP.01 already made.
+           *
+           * Naming the three situations people actually arrive with lets a
+           * reader recognise themselves in the first four seconds. The
+           * capability vocabulary (modernization, AI, architecture, frontend
+           * systems, leadership, accessibility) is carried by the sentences
+           * rather than listed as services. */}
           <p
             className="type-body-lg"
-            style={{ marginTop: 'var(--space-6)', maxWidth: '50ch', color: 'var(--color-text)' }}
+            style={{ marginTop: 'var(--space-6)', maxWidth: '52ch', color: 'var(--color-text)' }}
           >
-            I help organizations design scalable systems, leverage AI effectively, and align
-            technology with business outcomes.
+            Platforms that have grown expensive to change. AI programs that need a decision before a
+            budget. Architecture that several teams have to agree on. That is the work I get called
+            for.
           </p>
           <p
             className="type-body"
@@ -74,8 +89,9 @@ export function Hero() {
               color: 'var(--color-text-muted)',
             }}
           >
-            With 20+ years across enterprise software, architecture, UX, and product strategy, I
-            help teams make better technical decisions that stand the test of time.
+            Twenty years of it — enterprise architecture, platform modernization, frontend systems,
+            technical leadership, and accessibility — across healthcare, retail, media, education,
+            and SaaS.
           </p>
 
           <div
